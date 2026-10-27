@@ -66,7 +66,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 
 @media (max-width:980px){
   .burger{display:inline-flex}
-  .nav{position:fixed;inset:var(--hdr) 0 auto 0;max-height:calc(100dvh - var(--hdr));overflow:auto;flex-direction:column;align-items:stretch;gap:0;background:var(--paper);padding:10px var(--gut) 24px;border-bottom:1px solid var(--line2);box-shadow:var(--sh2);display:none;margin:0}
+  .nav{position:fixed;inset:var(--hdr) 0 auto 0;max-height:calc(100vh - var(--hdr));max-height:calc(100dvh - var(--hdr));overflow:auto;flex-direction:column;align-items:stretch;gap:0;background:var(--paper);padding:10px var(--gut) 24px;border-bottom:1px solid var(--line2);box-shadow:var(--sh2);display:none;margin:0}
   .nav-open .nav{display:flex}
   .nav>a,.nav .dd>button{padding:14px 10px;border-radius:12px;font-size:16px;width:100%;justify-content:space-between}
   .nav .nav-wiz{margin:8px 0 0;justify-content:center}

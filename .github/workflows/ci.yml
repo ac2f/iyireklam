@@ -1,0 +1,37 @@
+name: Denetim
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  build-and-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Derle
+        run: npm run build
+      - name: Derlenmiş dosyalar güncel mi? (sitemap tarihi hariç)
+        run: git diff --exit-code -- . ':!sitemap.xml'
+      - name: Statik denetim (bağlantılar, SEO, JSON-LD)
+        run: node tests/check-site.mjs
+
+  e2e:
+    runs-on: ubuntu-latest
+    needs: build-and-check
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm i --no-save playwright && npx playwright install --with-deps chromium
+      - name: Uçtan uca testler
+        run: node tests/e2e.mjs

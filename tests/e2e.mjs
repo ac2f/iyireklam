@@ -302,6 +302,37 @@ await test('Ölçü doğrulama: aralık dışı değer uyarı verir, tamamlanın
   await page.context().close();
 });
 
+await test('Uç ölçüler ve uzun metinler önizlemeyi bozmaz (tüm ürünler, gündüz+gece)', async () => {
+  const page = await newPage();
+  const sizes = {
+    cephe: [[1500, 10], [30, 500], [1500, 500], [30, 10], [300, 80]],
+    totem: [[400, 100], [40, 1000], [40, 100], [400, 1000]],
+    kapi: [[8, 5], [150, 100], [8, 100], [150, 5]],
+    germe: [[1000, 20], [30, 500], [30, 20], [1000, 500]],
+  };
+  const long = 'Çok Uzun Bir Firma Adı Anonim Şirketi Ticaret ve Sanayi Limited';
+  for (const [product, list] of Object.entries(sizes)) {
+    await openWizard(page, `?urun=${product}`);
+    await goStep(page, 'olcu');
+    await page.locator('input[data-k="L.0.t"]').fill(long);
+    await page.locator('input[data-k="L.1.t"]').fill('Alt başlık metni de oldukça uzun olabilir burada');
+    await page.locator('input[data-k="L.2.t"]').fill('0312 000 00 00 · www.ornek.com.tr · Ankara');
+    for (const night of [false, true]) {
+      await page.locator(`input[name=view][value=${night ? 'night' : 'day'}]`).check({ force: true });
+      for (const [w, h] of list) {
+        await page.locator('input[data-k="w"]').fill(String(w));
+        await page.locator('input[data-k="h"]').fill(String(h));
+        await page.waitForTimeout(60);
+        await checkSvg(page, `${product} ${w}x${h}${night ? ' gece' : ''}`);
+        const st = await state(page);
+        assert(st.w === w && st.h === h, `${product}: ölçü uygulanmadı ${st.w}x${st.h}`);
+      }
+    }
+  }
+  noErrs(page);
+  await page.context().close();
+});
+
 await test('Metin: Türkçe karakterler, büyük harf, satır boyutu, yazı tipleri, logo alanı', async () => {
   const page = await newPage();
   await openWizard(page);
@@ -602,8 +633,11 @@ await test('Yazdırma: baskı kökü yalnızca şartnameyi gösterir', async () 
   const page = await newPage();
   await openWizard(page);
   await goStep(page, 'ozet');
+  await page.evaluate(() => { window.__printed = 0; window.print = () => { window.__printed++; }; });
   await page.locator('[data-act="print"]').click();
   await page.waitForSelector('#print-root .spec', { state: 'attached' });
+  await page.waitForTimeout(200);
+  assert((await page.evaluate(() => window.__printed)) === 1, 'window.print çağrılmalı');
   await page.emulateMedia({ media: 'print' });
   const vis = await page.evaluate(() => {
     const out = [];

@@ -1,0 +1,13 @@
+Bu dizindeki yazı tipi dosyaları, aşağıdaki açık kaynaklı yazı tiplerinin Türkçe karakterlere göre
+altkümelenmiş (subset) kopyalarıdır. Tümü SIL Open Font License, Version 1.1 kapsamındadır
+(https://openfontlicense.org). Kopyalama, kullanım, gömme ve dağıtım serbesttir; yazı tipleri tek başına satılamaz.
+
+- Inter — Copyright © The Inter Project Authors
+- Cormorant Garamond — Copyright © The Cormorant Project Authors
+- Montserrat — Copyright © The Montserrat Project Authors
+- Playfair Display — Copyright © The Playfair Display Project Authors
+- Oswald — Copyright © The Oswald Project Authors
+- Nunito — Copyright © The Nunito Project Authors
+- Dancing Script — Copyright © The Dancing Script Project Authors
+
+Kaynak paketler: fontsource (npm). Üretim betiği: scripts/make-fonts.py
