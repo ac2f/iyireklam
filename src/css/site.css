@@ -10,10 +10,10 @@
   --ink:#0e1116;--ink2:#161b24;--ink3:#222a37;
   --paper:#f7f4ee;--paper2:#efe9dc;--card:#fff;
   --line:#e6dfcf;--line2:#d6cdb8;
-  --text:#1a1e26;--muted:#5a6270;--muted2:#8a93a1;
-  --gold:#b8913a;--gold2:#e7c878;--gold3:#8a6b22;--glow:#ffd88a;
+  --text:#1a1e26;--muted:#5a6270;--muted2:#5d6675;
+  --gold:#b8913a;--gold2:#e7c878;--gold3:#745816;--glow:#ffd88a;
   --ok:#17803f;--warn:#a85208;--bad:#b4231f;
-  --wa:#1fa855;--wa2:#168a45;
+  --wa:#0f7a3b;--wa2:#0b6530;
   --r:14px;--r2:22px;--gut:20px;--hdr:64px;
   --sh:0 1px 2px rgba(14,17,22,.05),0 10px 34px rgba(14,17,22,.08);
   --sh2:0 2px 4px rgba(14,17,22,.06),0 22px 60px rgba(14,17,22,.16);
@@ -149,7 +149,7 @@ button,input,select,textarea{font:inherit;color:inherit}
 .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r2);padding:26px;position:relative;box-shadow:0 1px 0 rgba(14,17,22,.02);transition:transform .25s,box-shadow .25s,border-color .25s}
 a.card{text-decoration:none;display:block}
 a.card:hover{transform:translateY(-4px);box-shadow:var(--sh);border-color:var(--line2)}
-.card h3{font-size:19px;font-weight:650;font-family:var(--f-body);letter-spacing:-.01em;margin:14px 0 8px}
+.card h3,.card h2{font-size:19px;font-weight:650;font-family:var(--f-body);letter-spacing:-.01em;margin:14px 0 8px}
 .card p{color:var(--muted);font-size:15px;margin:0}
 .card .more{display:inline-flex;align-items:center;gap:6px;margin-top:16px;font-size:14px;font-weight:600;color:var(--gold3)}
 .more svg{width:16px;height:16px;transition:transform .2s}

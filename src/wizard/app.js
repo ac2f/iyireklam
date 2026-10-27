@@ -51,7 +51,7 @@ export function mountWizard(root) {
     if (st) { app.st = st; banner = 'restored'; }
   }
   const urun = params.get('urun');
-  if (!hash && urun && getProduct(urun).id === urun) {
+  if (!hash && urun && getProduct(urun).id === urun && urun !== app.st.p) {
     app.st = switchProduct(app.st, urun);
     banner = '';
   }

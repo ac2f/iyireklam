@@ -104,6 +104,7 @@ export function homePage(ctx) {
   <div class="sec-head"><span class="eyebrow">Hizmetlerimiz</span><h2 class="h2">Tabeladan kesime, <em>her şey</em> tek atölyede</h2>
   <p class="lead">Işıklı veya ışıksız her türlü tabelayı; makinalarımız ve ${cfg.experienceYears} deneyimimizle en uygun ve kaliteli malzeme seçimiyle üretiyoruz.</p></div>
   <div class="grid g5">${svcCards}</div>
+  <p style="margin-top:24px"><a class="btn btn-ghost" href="${a('isikli-tabela')}">Işıklı tabela çeşitlerini karşılaştırın ${icon('arrow')}</a></p>
 </div></section>
 
 <section class="sec dark" id="sihirbaz"><div class="wrap split">
@@ -132,7 +133,7 @@ export function homePage(ctx) {
   <p class="lead">Sihirbazda gördüğünüz seçeneklerin tamamı atölyemizde karşılığı olan gerçek seçeneklerdir. Farklı bir isteğiniz varsa not olarak ekleyebilirsiniz.</p></div>
   <div class="grid g3">
     <div class="card"><h3>Pleksi (Akpolimer paleti)</h3><p>Her renkte; kutu harf ön yüzü ve düz harf için.</p><div class="chips-row" style="margin-top:14px">${chips(THICKNESS.pleksi.map((t) => fmtMm(t.v)))}</div><p style="margin-top:12px;font-size:13.5px">Kalın pleksi fiyatı oldukça artırır; en uygun seçenek 2,8 mm.</p></div>
-    <div class="card"><h3>Dekota & aynalı dekota</h3><p>Düz dekota ve gümüş/gold aynalı dekota.</p><div class="chips-row" style="margin-top:14px">${chips(THICKNESS.dekota.map((t) => 'Dekota ' + fmtMm(t.v)))}${chips(THICKNESS.aynali.map((t) => 'Aynalı ' + fmtMm(t.v)))}</div></div>
+    <div class="card"><h3>Dekota &amp; aynalı dekota</h3><p>Düz dekota ve gümüş/gold aynalı dekota.</p><div class="chips-row" style="margin-top:14px">${chips(THICKNESS.dekota.map((t) => 'Dekota ' + fmtMm(t.v)))}${chips(THICKNESS.aynali.map((t) => 'Aynalı ' + fmtMm(t.v)))}</div></div>
     <div class="card"><h3>Alüminyum kompozit (Sistem)</h3><p>Düz, metalik, aynalı gold/gümüş, fırçalı, ahşap ve taş desen paleti.</p><div class="chips-row" style="margin-top:14px">${chips(['Aynalı gold', 'Aynalı gümüş', 'Ahşap desenler', 'Mermer & taş', 'Metalik', 'Fırçalı'])}</div></div>
     <div class="card"><h3>Yan yüzey ve derinlik</h3><p>Işıksız yan bant veya pleksi ışıklı bant.</p><div class="chips-row" style="margin-top:14px">${chips(SIDE_COLORS.map((c) => c.name))}${chips(DEPTHS.map((d) => d.v + ' cm'))}</div></div>
     <div class="card"><h3>LED markası ve rengi</h3><p>Standart, Epistar ve Samsung. Standart dışı tercihlerde fiyat yukarı yönlü değişebilir.</p><div class="chips-row" style="margin-top:14px">${chips(LED_BRANDS.map((b) => b.name))}${chips(LED_COLORS.map((c) => c.name))}</div></div>
@@ -193,7 +194,7 @@ export function homePage(ctx) {
     <span class="eyebrow">Atölyemiz</span>
     <h2 class="h2">İskitler’de <em>sizi bekliyoruz</em></h2>
     <address class="addr lead" style="font-style:normal;color:var(--text)">${esc(cfg.address.street)}<br>${esc(cfg.address.neighborhood)}, ${esc(cfg.address.district)} / ${esc(cfg.address.city)}</address>
-    <p style="margin-top:20px;display:flex;flex-wrap:wrap;gap:10px"><a class="btn btn-primary" href="tel:${cfg.phone}">${icon('phone')}${cfg.phoneDisplay}</a><a class="btn btn-wa" href="https://wa.me/${cfg.whatsapp}" rel="noopener">${icon('whatsapp')}WhatsApp</a></p>
+    <p style="margin-top:20px;display:flex;flex-wrap:wrap;gap:10px"><a class="btn btn-primary" href="tel:${cfg.phone}">${icon('phone')}${cfg.phoneHtml}</a><a class="btn btn-wa" href="https://wa.me/${cfg.whatsapp}" rel="noopener">${icon('whatsapp')}WhatsApp</a></p>
   </div>
   ${mapBlock(ctx)}
 </div></section>

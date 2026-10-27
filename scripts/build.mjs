@@ -9,7 +9,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 import cfg from '../src/site.config.mjs';
-import { services } from '../src/data/services.mjs';
+import { services, hubs } from '../src/data/services.mjs';
 import { guides } from '../src/data/guides.mjs';
 import { makeCtx, renderPage, links } from '../src/lib/layout.mjs';
 import { allPages, notFoundPage, WIZARD_FAQ } from '../src/pages/pages.mjs';
@@ -114,7 +114,7 @@ async function main() {
     `> ${cfg.brand}, Ankara Altındağ İskitler’de (${a.street}) ${cfg.experienceYears} deneyimle kendi atölyesinde tabela imalatı yapan bir reklam atölyesidir: ışıklı ve ışıksız pleksi kutu harf, krom harf, germe tabela, totem tabela, kapı ve ofis tabelaları, CNC router kesim, CNC lazer kesim, dijital baskı, tabela montajı ve reklamcılara fason imalat. Ücretsiz çevrimiçi tabela sihirbazıyla ürün, ölçü, malzeme, renk ve LED seçilip paylaşılabilir şartname oluşturulur.`,
     '',
     '## Hizmetler',
-    ...services.map((s) => `- [${s.name}](${abs(s.slug)}): ${T(s.tldr).slice(0, 220)}…`),
+    ...[...hubs, ...services].map((s) => `- [${s.name}](${abs(s.slug)}): ${T(s.tldr).slice(0, 220)}…`),
     '',
     '## Araçlar',
     `- [Tabela Sihirbazı](${abs('tabela-sihirbazi')}): Cephe tabelası, totem, kapı tabelası ve germe tabela için önizlemeli, gündüz/gece görünümlü, fiyat etkisi gösteren ve WhatsApp/PNG/PDF olarak paylaşılabilen ücretsiz tasarım sihirbazı.`,
@@ -145,7 +145,7 @@ async function main() {
   await put('llms.txt', llms);
 
   const full = [`# ${cfg.brand} — tam içerik özeti`, '', llms.split('\n').slice(2, 3).join('\n'), ''];
-  for (const s of services) {
+  for (const s of [...hubs, ...services]) {
     full.push(`## ${s.name}`, `URL: ${abs(s.slug)}`, '', T(s.tldr), '', ...s.facts.map(([k, v]) => `- ${k}: ${v}`), '');
     for (const sec of s.sections) full.push(`### ${sec.h}`, T(sec.html), '');
     full.push('### Sık sorulan sorular');

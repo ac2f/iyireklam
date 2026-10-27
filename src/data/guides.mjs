@@ -3,7 +3,7 @@
 export const guides = [
   {
     slug: 'pleksi-kalinlik-secimi',
-    title: 'Kutu Harf İçin Pleksi Kalınlığı Nasıl Seçilir? (2,8–18 mm)',
+    title: 'Kutu Harf Pleksi Kalınlığı Nasıl Seçilir? (2,8–18 mm)',
     desc: 'Kutu harf ön yüzü için 2,8, 4,5, 5,8, 7,8, 9,8, 12, 14 ve 18 mm pleksi kalınlıklarının farkı, fiyata etkisi ve doğru seçim için pratik öneriler.',
     h1: 'Kutu Harf İçin Pleksi Kalınlığı <em>Nasıl Seçilir?</em>',
     lead: 'Pleksi kalınlığı; görünümü, dayanıklılığı ve fiyatı doğrudan etkiler. İşte kalınlıkların kısa karşılaştırması.',
@@ -34,7 +34,7 @@ export const guides = [
   },
   {
     slug: 'led-secimi-samsung-epistar',
-    title: 'Kutu Harf LED Seçimi: Standart, Epistar ve Samsung Farkı',
+    title: 'Kutu Harf LED Seçimi: Standart, Epistar ve Samsung',
     desc: 'Işıklı kutu harfte standart LED modül, Epistar ve Samsung LED seçenekleri; ışık rengi (beyaz, günışığı, amber, kırmızı, mavi, yeşil) ve fiyata etkisi.',
     h1: 'Kutu Harf LED Seçimi: <em>Standart, Epistar, Samsung</em>',
     lead: 'LED markası ve ışık rengi, ışıklı kutu harfin görünümünü ve maliyetini etkiler. Seçeneklere kısa bir bakış.',
@@ -64,7 +64,7 @@ export const guides = [
   },
   {
     slug: 'dekota-aynali-dekota-kompozit',
-    title: 'Tabela Zemin Malzemesi: Kompozit, Dekota ve Aynalı Dekota',
+    title: 'Tabela Zemin Malzemesi: Kompozit, Dekota, Aynalı Dekota',
     desc: 'Tabela zemini için alüminyum kompozit, dekota ve aynalı dekota karşılaştırması: kalınlıklar, renk seçenekleri, kullanım yerleri ve fiyata etkisi.',
     h1: 'Tabela Zemin Malzemesi: <em>Kompozit, Dekota, Aynalı Dekota</em>',
     lead: 'Zemin, tabelanın yüzüdür. Hangi malzeme hangi iş için uygun? Kalınlık ve renk seçenekleriyle kısa bir rehber.',
@@ -91,7 +91,7 @@ export const guides = [
   },
   {
     slug: 'kutu-harf-yan-bant-secimi',
-    title: 'Kutu Harf Yan Yüzey ve Derinlik: 6, 7, 8, 10 cm ve Bant Renkleri',
+    title: 'Kutu Harf Yan Yüzey ve Derinlik: 6, 7, 8, 10 cm',
     desc: 'Kutu harf yan bant seçimi: pleksi ışıklı bant mı, ışıksız renkli yan mı? 6, 7, 8 ve 10 cm derinlik farkları, antrasit, siyah, beyaz, altın ve gümüş yan renkleri.',
     h1: 'Kutu Harf Yan Yüzey ve <em>Derinlik Seçimi</em>',
     lead: 'Harfin yanları görünümü büyük ölçüde değiştirir. Yan bant tipi, rengi ve derinliğini nasıl seçmelisiniz?',
@@ -119,7 +119,7 @@ export const guides = [
   },
   {
     slug: 'isikli-tabela-fiyati',
-    title: 'Işıklı Tabela Fiyatı Neye Göre Belirlenir? Fiyatı Etkileyen 8 Etken',
+    title: 'Işıklı Tabela Fiyatı Neye Göre Belirlenir?',
     desc: 'Işıklı tabela ve kutu harf fiyatını etkileyen etkenler: ölçü, pleksi kalınlığı, yan yüzey, derinlik, LED markası, zemin malzemesi, montaj ve daha fazlası.',
     h1: 'Işıklı Tabela Fiyatı <em>Neye Göre Belirlenir?</em>',
     lead: 'Aynı ölçüdeki iki tabelanın fiyatı neden farklı olabilir? Fiyatı belirleyen başlıca etkenler ve tasarruf yolları.',
@@ -150,7 +150,7 @@ export const guides = [
   },
   {
     slug: 'tabela-yaptirirken-dikkat',
-    title: 'Tabela Yaptırırken Dikkat Edilmesi Gerekenler: 10 Maddelik Kontrol Listesi',
+    title: 'Tabela Yaptırırken Dikkat Edilecekler: 10 Madde',
     desc: 'Tabela yaptırmadan önce bilmeniz gerekenler: ölçü, izin, malzeme, LED, montaj, şartname ve teslimat. Hatalı sipariş riskini azaltan 10 maddelik kontrol listesi.',
     h1: 'Tabela Yaptırırken <em>Dikkat Edilmesi Gerekenler</em>',
     lead: 'Doğru planlanmış bir tabela yıllarca işinize yarar. İşte siparişten önce kontrol etmeniz gereken noktalar.',

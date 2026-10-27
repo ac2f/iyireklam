@@ -1,5 +1,5 @@
 import cfg from '../site.config.mjs';
-import { services, serviceBySlug } from '../data/services.mjs';
+import { services, hubs, serviceBySlug } from '../data/services.mjs';
 import { guides, guideBySlug } from '../data/guides.mjs';
 import { PRODUCTS, THICKNESS, DEPTHS, fmtMm } from '../data/catalog.mjs';
 import { icon } from '../lib/icons.mjs';
@@ -7,7 +7,7 @@ import { esc, links, breadcrumbs, ctaBand, faqHTML, faqLD } from '../lib/layout.
 import { homePage, HOME_FAQ, mapBlock } from './home.mjs';
 
 const BIZ = { '@id': `${cfg.siteUrl}/#business` };
-const phoneLink = () => `<a href="tel:${cfg.phone}"><strong>${cfg.phoneDisplay}</strong></a>`;
+const phoneLink = () => `<a href="tel:${cfg.phone}"><strong>${cfg.phoneHtml}</strong></a>`;
 
 function webPageLD(ctx, name, desc, type = 'WebPage') {
   return {
@@ -130,7 +130,7 @@ ${ctaBand(ctx, { title: 'Seçimlerinizi önizlemede görün', text: 'Tabela sihi
 function guideIndex(ctx) {
   const bc = breadcrumbs(ctx, [{ name: 'Rehber', slug: 'rehber' }]);
   const cards = guides
-    .map((g) => `<a class="card" href="${ctx.href('rehber/' + g.slug)}"><span class="ico">${icon('book')}</span><h3>${esc(g.title)}</h3><p>${esc(g.desc)}</p><span class="more">Oku ${icon('arrow')}</span></a>`)
+    .map((g) => `<a class="card" href="${ctx.href('rehber/' + g.slug)}"><span class="ico">${icon('book')}</span><h2>${esc(g.title)}</h2><p>${esc(g.desc)}</p><span class="more">Oku ${icon('arrow')}</span></a>`)
     .join('');
   const title = 'Tabela Rehberi | Kutu Harf, Pleksi, LED ve Malzeme Seçimi – İyi Reklam';
   const desc = 'Pleksi kalınlığı, LED seçimi, zemin malzemesi, yan bant ve fiyat etkenleri: Ankara tabela atölyesinden pratik, anlaşılır tabela rehberleri.';
@@ -170,7 +170,7 @@ function wizardPage(ctx) {
   const body = `${bc.html}
 <header class="phead"><div class="wrap"><h1 class="h1">Online Tabela <em>Tasarım Sihirbazı</em></h1><p class="lead">Ürünü seçin, ölçüyü girin, zemin ve harf sistemini, pleksi rengi ve kalınlığını, yan yüzeyi ve LED’i belirleyin. Gündüz ve gece önizlemeyi görün; şartnameyi paylaşın.</p></div></header>
 <div class="wrap"><div id="wizard" data-base="${ctx.up}assets/"><p class="wz-loading">Sihirbaz yükleniyor…</p>
-<noscript><div class="noscript">Tabela sihirbazı için JavaScript gereklidir. Dilerseniz bizi arayın: <a href="tel:${cfg.phone}">${cfg.phoneDisplay}</a> veya <a href="https://wa.me/${cfg.whatsapp}">WhatsApp</a>’tan yazın.</div></noscript></div></div>
+<noscript><div class="noscript">Tabela sihirbazı için JavaScript gereklidir. Dilerseniz bizi arayın: <a href="tel:${cfg.phone}">${cfg.phoneHtml}</a> veya <a href="https://wa.me/${cfg.whatsapp}">WhatsApp</a>’tan yazın.</div></noscript></div></div>
 
 <section class="sec"><div class="wrap">
 <div class="sec-head"><span class="eyebrow">Sihirbazla neler yapabilirsiniz?</span><h2 class="h2">Dört ürün, <em>yüzlerce kombinasyon</em></h2></div>
@@ -198,8 +198,8 @@ ${faqHTML(WIZARD_FAQ, ctx)}
 </article></div></section>
 ${ctaBand(ctx, { title: 'Takıldığınız yer mi var?', text: 'Sihirbazı kullanırken yardım ister ya da listede olmayan bir ürün sormak isterseniz bizi arayın.' })}`;
 
-  const title = 'Online Tabela Tasarım Sihirbazı | Kutu Harf, Totem, Kapı Tabelası – İyi Reklam';
-  const desc = 'Tabelanızı online tasarlayın: kutu harf, krom harf, totem, germe ve kapı tabelası. Pleksi kalınlığı, renk, LED, zemin seçin; gündüz/gece önizleyin, şartnameyi WhatsApp’tan paylaşın.';
+  const title = 'Online Tabela Tasarım Sihirbazı | İyi Reklam Ankara';
+  const desc = 'Tabelanızı online tasarlayın: kutu harf, krom harf, totem, germe, kapı tabelası. Pleksi, renk, LED, zemin seçin; gündüz/gece önizleyin, şartnameyi paylaşın.';
   return {
     title,
     desc,
@@ -287,9 +287,9 @@ function contactPage(ctx) {
 <div class="sec" style="padding-top:10px"><div class="wrap split">
 <div>
 <div class="grid" style="gap:14px">
-<div class="card"><span class="ico">${icon('phone')}</span><h3>Telefon & WhatsApp</h3><p style="font-size:20px;color:var(--text)">${phoneLink()}</p><p style="margin-top:14px;display:flex;flex-wrap:wrap;gap:10px"><a class="btn btn-primary btn-sm" href="tel:${cfg.phone}">Ara</a><a class="btn btn-wa btn-sm" href="https://wa.me/${cfg.whatsapp}" rel="noopener">WhatsApp</a></p></div>
-<div class="card"><span class="ico">${icon('pin')}</span><h3>Adres</h3><address class="addr" style="font-style:normal;color:var(--text)">${esc(cfg.address.street)}<br>${esc(cfg.address.neighborhood)}, ${esc(cfg.address.district)} / ${esc(cfg.address.city)}</address></div>
-<div class="card"><span class="ico">${icon('spark')}</span><h3>Fiyat teklifi için</h3><p>Ölçü, fotoğraf ve istediğiniz malzemeyi bize iletin. En hızlı yol: <a href="${ctx.href('tabela-sihirbazi')}" style="color:var(--gold3);font-weight:600">tabela sihirbazı</a> ile şartname oluşturup WhatsApp’tan göndermek.</p></div>
+<div class="card"><span class="ico">${icon('phone')}</span><h2>Telefon &amp; WhatsApp</h2><p style="font-size:20px;color:var(--text)">${phoneLink()}</p><p style="margin-top:14px;display:flex;flex-wrap:wrap;gap:10px"><a class="btn btn-primary btn-sm" href="tel:${cfg.phone}">Ara</a><a class="btn btn-wa btn-sm" href="https://wa.me/${cfg.whatsapp}" rel="noopener">WhatsApp</a></p></div>
+<div class="card"><span class="ico">${icon('pin')}</span><h2>Adres</h2><address class="addr" style="font-style:normal;color:var(--text)">${esc(cfg.address.street)}<br>${esc(cfg.address.neighborhood)}, ${esc(cfg.address.district)} / ${esc(cfg.address.city)}</address></div>
+<div class="card"><span class="ico">${icon('spark')}</span><h2>Fiyat teklifi için</h2><p>Ölçü, fotoğraf ve istediğiniz malzemeyi bize iletin. En hızlı yol: <a href="${ctx.href('tabela-sihirbazi')}" style="color:var(--gold3);font-weight:600">tabela sihirbazı</a> ile şartname oluşturup WhatsApp’tan göndermek.</p></div>
 </div></div>
 ${mapBlock(ctx)}
 </div></div>
@@ -310,13 +310,13 @@ function faqPage(ctx) {
   const bc = breadcrumbs(ctx, [{ name: 'Sık Sorulan Sorular', slug: 'sss' }]);
   const title = 'Sık Sorulan Sorular | Tabela, Kutu Harf, CNC Kesim – İyi Reklam';
   const desc = 'Tabela imalatı, kutu harf, pleksi kalınlığı, LED, zemin malzemesi, CNC router/lazer kesim, montaj ve fason üretim hakkında sık sorulan sorular ve yanıtları.';
-  const groups = [{ name: 'Genel', items: HOME_FAQ }, { name: 'Tabela sihirbazı', items: WIZARD_FAQ }, ...services.map((s) => ({ name: s.name, items: s.faq }))];
+  const groups = [{ name: 'Genel', items: HOME_FAQ }, { name: 'Tabela sihirbazı', items: WIZARD_FAQ }, ...[...hubs, ...services].map((s) => ({ name: s.name, items: s.faq }))];
   const all = groups.flatMap((g) => g.items);
   return {
     title, desc,
     body: `${bc.html}<header class="phead"><div class="wrap"><h1 class="h1">Sık Sorulan <em>Sorular</em></h1><p class="lead">Tabela, malzeme, fiyat, montaj ve fason üretim hakkında en çok sorulanlar.</p></div></header>
 <div class="sec" style="padding-top:10px"><div class="wrap narrow">${groups.map((g) => `<h2 class="h2" style="font-size:30px;margin:38px 0 16px">${esc(g.name)}</h2>${faqHTML(g.items, ctx)}`).join('')}</div></div>${ctaBand(ctx, { title: 'Aradığınız yanıt yok mu?', text: 'Bize telefondan veya WhatsApp’tan sorun; ölçü ve ihtiyacınıza göre yönlendirelim.' })}`,
-    ld: [webPageLD(ctx, title, desc, 'FAQPage'), bc.ld, faqLD(all, ctx, ctx.slug)],
+    ld: [webPageLD(ctx, title, desc), bc.ld, faqLD(all, ctx, ctx.slug)],
   };
 }
 
@@ -367,7 +367,7 @@ function iskitlerPage(ctx) {
 <p>İskitler, Ankara’da tabela ve reklam atölyelerinin bulunduğu bilinen bir bölgedir. Gelmeden önce ${phoneLink()} numarasını arayarak randevu alırsanız malzeme numunelerini ve kartelaları birlikte inceleyebiliriz.</p>
 <h2>İskitler’de neler yapıyoruz?</h2>
 <ul>
-${services.map((s) => `<li><a href="${ctx.href(s.slug)}">${esc(s.name)}</a> — ${esc(s.navDesc)}</li>`).join('')}
+${[...hubs, ...services].map((s) => `<li><a href="${ctx.href(s.slug)}">${esc(s.name)}</a> — ${esc(s.navDesc)}</li>`).join('')}
 </ul>
 <h2>Atölyeye gelirken yanınızda olsun</h2>
 <ul>
@@ -389,7 +389,7 @@ export function notFoundPage(ctx) {
     title: 'Sayfa bulunamadı | İyi Reklam',
     desc: 'Aradığınız sayfa bulunamadı. Ana sayfaya dönebilir veya tabela sihirbazını kullanabilirsiniz.',
     noindex: true,
-    body: `<section class="sec"><div class="wrap narrow" style="text-align:center"><span class="eyebrow">404</span><h1 class="h2">Bu sayfa <em>bulunamadı</em></h1><p class="lead" style="margin-inline:auto">Adres değişmiş ya da yanlış yazılmış olabilir. Ana sayfaya dönebilir veya doğrudan tabelanızı tasarlamaya başlayabilirsiniz.</p><p style="margin-top:26px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center"><a class="btn btn-primary" href="${ctx.href('')}">Ana Sayfa</a><a class="btn btn-gold" href="${ctx.href('tabela-sihirbazi')}">Tabela Sihirbazı</a><a class="btn btn-ghost" href="tel:${cfg.phone}">${cfg.phoneDisplay}</a></p></div></section>`,
+    body: `<section class="sec"><div class="wrap narrow" style="text-align:center"><span class="eyebrow">404</span><h1 class="h2">Bu sayfa <em>bulunamadı</em></h1><p class="lead" style="margin-inline:auto">Adres değişmiş ya da yanlış yazılmış olabilir. Ana sayfaya dönebilir veya doğrudan tabelanızı tasarlamaya başlayabilirsiniz.</p><p style="margin-top:26px;display:flex;flex-wrap:wrap;gap:10px;justify-content:center"><a class="btn btn-primary" href="${ctx.href('')}">Ana Sayfa</a><a class="btn btn-gold" href="${ctx.href('tabela-sihirbazi')}">Tabela Sihirbazı</a><a class="btn btn-ghost" href="tel:${cfg.phone}">${cfg.phoneHtml}</a></p></div></section>`,
     ld: [],
   };
 }
@@ -399,7 +399,7 @@ export function allPages() {
   const list = [
     { slug: '', build: homePage, priority: '1.0', freq: 'weekly' },
     { slug: 'tabela-sihirbazi', build: wizardPage, priority: '0.9', freq: 'monthly' },
-    ...services.map((s) => ({ slug: s.slug, build: (ctx) => servicePage(s, ctx), priority: '0.9', freq: 'monthly' })),
+    ...[...hubs, ...services].map((s) => ({ slug: s.slug, build: (ctx) => servicePage(s, ctx), priority: '0.9', freq: 'monthly' })),
     { slug: 'iskitler-tabela', build: iskitlerPage, priority: '0.8', freq: 'monthly' },
     { slug: 'rehber', build: guideIndex, priority: '0.7', freq: 'weekly' },
     ...guides.map((g) => ({ slug: 'rehber/' + g.slug, build: (ctx) => guidePage(g, ctx), priority: '0.7', freq: 'monthly' })),

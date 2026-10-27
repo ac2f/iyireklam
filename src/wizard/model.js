@@ -22,6 +22,15 @@ export function cheapest(list) {
 
 export const upper = (s) => s.toLocaleUpperCase('tr-TR');
 
+/** Palet öğesinin fiyat etkisi: düz renk en uygun; aynalı/desenli/metalik yüzeyler daha pahalı */
+export function itemCost(it) {
+  if (!it) return 0;
+  if (it.mirror) return 2;
+  if (['wood', 'marble', 'stone', 'brushed', 'metal'].includes(it.pat)) return 1;
+  return 0;
+}
+const PAL_BEST = 'düz renkli bir seçenek';
+
 export function lineText(st, i) {
   const t = (st.L[i]?.t || '').trim();
   return st.up ? upper(t) : t;
@@ -131,7 +140,7 @@ export function buildRows(st, meta) {
     add({ g: 'Zemin', k: 'zemin', label: 'Zemin malzemesi', value: zm.name + (zm.brand ? ` (${zm.brand})` : ''), cost: zm.cost, tipList: ZEMIN_MATERIALS, tipKey: 'name' });
     add({ g: 'Zemin', k: 'zemin_kalinlik', label: 'Zemin kalınlığı', value: fmtMm(st.zt), cost: costOf(THICKNESS[zm.thick], 'v', st.zt), tipList: THICKNESS[zm.thick].map((t) => ({ ...t, name: fmtMm(t.v) })), tipKey: 'name' });
     const zc = zeminColor(st);
-    add({ g: 'Zemin', k: 'zemin_renk', label: 'Zemin rengi / deseni', value: zc.name + (zc.grp ? ` (${zc.grp})` : '') });
+    add({ g: 'Zemin', k: 'zemin_renk', label: 'Zemin rengi / deseni', value: zc.name + (zc.grp ? ` (${zc.grp})` : ''), cost: itemCost(zc), best: itemCost(zc) >= 2 ? PAL_BEST : undefined });
     add({ g: 'Zemin', k: 'kose', label: 'Köşe', value: find(CORNERS, st.cr).name, cost: find(CORNERS, st.cr).cost, tipList: CORNERS, tipKey: 'name' });
   } else if (prod.zemin !== 'none') {
     add({ g: 'Zemin', k: 'zemin', label: 'Zemin', value: 'Zeminsiz — harfler doğrudan yüzeye monte edilir', cost: 0 });
@@ -159,7 +168,7 @@ export function buildRows(st, meta) {
     const label = st.s === 'dekupe' ? 'Arka dolgu pleksisi' : 'Ön yüz pleksisi';
     add({ g: 'Harf', k: 'on_kalinlik', label: `${label} — kalınlık`, value: fmtMm(o.pt), cost: costOf(THICKNESS.pleksi, 'v', o.pt), tipList: THICKNESS.pleksi.map((t) => ({ ...t, name: fmtMm(t.v) })), tipKey: 'name' });
     const pc = find(PLEXI_COLORS, o.pc);
-    add({ g: 'Harf', k: 'on_renk', label: `${label} — renk`, value: `${pc.name} (Akpolimer)` });
+    add({ g: 'Harf', k: 'on_renk', label: `${label} — renk`, value: `${pc.name} (Akpolimer)`, cost: itemCost(pc), best: itemCost(pc) >= 2 ? PAL_BEST : undefined });
   }
 
   if (v.sides) {
@@ -191,7 +200,8 @@ export function buildRows(st, meta) {
     const km = kabartmaMat(st);
     add({ g: 'Harf', k: 'kabartma_mal', label: 'Harf malzemesi', value: km.name + (km.brand ? ` (${km.brand})` : ''), cost: { pleksi: 1, dekota: 0, aynali: 2, kompozit: 1 }[o.km], tipList: Object.entries(LETTER_MATS).map(([id, m]) => ({ name: m.name, cost: { pleksi: 1, dekota: 0, aynali: 2, kompozit: 1 }[id] })), tipKey: 'name' });
     add({ g: 'Harf', k: 'kabartma_kalinlik', label: 'Harf kalınlığı', value: fmtMm(o.kk), cost: costOf(THICKNESS[km.thick], 'v', o.kk), tipList: THICKNESS[km.thick].map((t) => ({ ...t, name: fmtMm(t.v) })), tipKey: 'name' });
-    add({ g: 'Harf', k: 'kabartma_renk', label: 'Harf rengi', value: kabartmaColor(st).name });
+    const kc = kabartmaColor(st);
+    add({ g: 'Harf', k: 'kabartma_renk', label: 'Harf rengi', value: kc.name, cost: itemCost(kc), best: itemCost(kc) >= 2 ? PAL_BEST : undefined });
   }
 
   if (v.dekupe) {
@@ -202,11 +212,13 @@ export function buildRows(st, meta) {
     const lm = find(LASER_MATERIALS, o.lm);
     add({ g: 'Harf', k: 'lazer_mal', label: 'Metal cinsi', value: lm.name, cost: lm.cost, tipList: LASER_MATERIALS, tipKey: 'name' });
     add({ g: 'Harf', k: 'lazer_kalinlik', label: 'Metal kalınlığı', value: fmtMm(o.lk), cost: costOf(THICKNESS.metal, 'v', o.lk), tipList: THICKNESS.metal.map((t) => ({ ...t, name: fmtMm(t.v) })), tipKey: 'name' });
-    add({ g: 'Harf', k: 'lazer_yuzey', label: 'Yüzey / renk', value: find(LASER_FINISH, o.lf).name });
+    const lf = find(LASER_FINISH, o.lf);
+    add({ g: 'Harf', k: 'lazer_yuzey', label: 'Yüzey / renk', value: lf.name, cost: itemCost(lf), best: itemCost(lf) >= 2 ? PAL_BEST : undefined });
   }
 
   if (v.baski) {
-    add({ g: 'Harf', k: 'baski_renk', label: 'Folyo / baskı rengi', value: `${find(FOIL_COLORS, o.fc).name} — ${o.fm === 'folyo' ? 'kesim folyo' : 'dijital baskı'}` });
+    const fc = find(FOIL_COLORS, o.fc);
+    add({ g: 'Harf', k: 'baski_renk', label: 'Folyo / baskı rengi', value: `${fc.name} — ${o.fm === 'folyo' ? 'kesim folyo' : 'dijital baskı'}`, cost: Math.max(itemCost(fc), o.fm === 'baski' ? 1 : 0) });
   }
 
   // --- Aydınlatma
@@ -226,7 +238,7 @@ export function buildRows(st, meta) {
 
   // İpucu: aynı gruptaki en uygun seçenek
   for (const r of rows) {
-    if (r.tipList && typeof r.cost === 'number' && r.cost > 0) {
+    if (!r.best && r.tipList && typeof r.cost === 'number' && r.cost > 0) {
       const best = cheapest(r.tipList);
       if ((best.cost ?? 0) < r.cost) r.best = best[r.tipKey];
     }

@@ -74,7 +74,7 @@ export const services = [
       ['Samsung veya Epistar LED seçmek şart mı?', 'Şart değildir. Standart LED modül en uygun seçenektir. Samsung veya Epistar gibi marka tercihleri fiyatı yukarı taşıyabilir; marka istiyorsanız sihirbazdan seçebilirsiniz.'],
       ['Kutu harf fiyatı nasıl belirlenir?', 'Fiyat; harf ölçüsü, pleksi kalınlığı, yan yüzey ve derinlik, LED markası ve montaj koşullarına bağlıdır. Sihirbaz sonunda oluşan şartnameyi WhatsApp’tan gönderirseniz fiyatı netleştiririz.'],
     ],
-    related: ['krom-harf-tabela', 'totem-tabela', 'cnc-router-kesim', 'tabela-montaj'],
+    related: ['isikli-tabela', 'krom-harf-tabela', 'totem-tabela', 'cnc-router-kesim'],
   },
 
   // ---------------------------------------------------------------------------
@@ -126,7 +126,7 @@ export const services = [
       ['Yan yüzey için hangi renkler var?', 'Gümüş (parlak krom) ve altın (gold) yan yüzey seçenekleri sunulur. Farklı bir renk talebiniz varsa sihirbazdaki not alanına yazabilirsiniz.'],
       ['Krom harf fiyatı neye göre değişir?', 'Model (fileli/filesiz/tam), yan rengi, harf ölçüsü ve derinliği, pleksi kalınlığı ile LED seçimi fiyatı etkiler. En doğru fiyat için şartnamenizi WhatsApp’tan gönderin.'],
     ],
-    related: ['kutu-harf-tabela', 'kapi-tabelasi', 'cnc-lazer-kesim', 'tabela-montaj'],
+    related: ['isikli-tabela', 'kutu-harf-tabela', 'kapi-tabelasi', 'cnc-lazer-kesim'],
   },
 
   // ---------------------------------------------------------------------------
@@ -179,7 +179,7 @@ export const services = [
       ['Çift yüzlü germe tabela yapılıyor mu?', 'Evet, tek ve çift yüzlü seçenekler mevcuttur. Çift yüzlü yapıda maliyet yukarı yönlü değişir.'],
       ['Hangi boyutlarda üretilir?', 'Sihirbazda 30 cm ile 1000 cm genişlik aralığında tasarım yapabilirsiniz; daha büyük ölçüler için bizi arayın.'],
     ],
-    related: ['dijital-baski', 'totem-tabela', 'kutu-harf-tabela', 'tabela-montaj'],
+    related: ['isikli-tabela', 'dijital-baski', 'totem-tabela', 'kutu-harf-tabela'],
   },
 
   // ---------------------------------------------------------------------------
@@ -233,7 +233,7 @@ export const services = [
       ['Hangi ölçülerde üretiliyor?', 'Sihirbazda 40–400 cm genişlik ve 100–1000 cm yükseklikte tasarım yapabilirsiniz. Projeye özel ölçüler için bizi arayın.'],
       ['Totem tabela için izin gerekir mi?', 'Çoğu bölgede belediye reklam/tabela düzenlemeleri geçerlidir. İlgili belediyeye başvurarak ölçü ve konum şartlarını teyit etmenizi öneririz.'],
     ],
-    related: ['kutu-harf-tabela', 'germe-tabela', 'cnc-router-kesim', 'tabela-montaj'],
+    related: ['isikli-tabela', 'kutu-harf-tabela', 'germe-tabela', 'tabela-montaj'],
   },
 
   // ---------------------------------------------------------------------------
@@ -542,4 +542,72 @@ export const services = [
   },
 ];
 
-export const serviceBySlug = Object.fromEntries(services.map((s) => [s.slug, s]));
+// Hizmet sayfası şablonuyla üretilen, ana sayfa hizmet ızgarasında yer almayan "hub" sayfaları
+export const hubs = [
+  {
+    slug: 'isikli-tabela',
+    name: 'Işıklı Tabela',
+    nav: 'Işıklı Tabela (tüm çeşitler)',
+    navDesc: 'Kutu harf, krom, germe, dekupe LED',
+    icon: 'lightbox',
+    wizard: 'cephe',
+    title: 'Işıklı Tabela Ankara | Kutu Harf, Germe, Krom ve LED Dekupe',
+    desc: 'Ankara’da ışıklı tabela çeşitleri ve imalatı: ışıklı kutu harf, krom harf, germe tabela, LED’li dekupe ve ışıklı totem. Karşılaştırın, sihirbazla tasarlayın.',
+    h1: 'Ankara Işıklı Tabela <em>Çeşitleri ve İmalatı</em>',
+    lead: 'Işıklı tabela tek bir ürün değildir: kutu harftan germe kumaşa, LED’li dekupeden ışıklı totem’e birçok yöntem vardır. İşletmenize uygun olanı seçmeniz için karşılaştırdık.',
+    tldr: 'Işıklı tabela; içine LED yerleştirilerek gece de okunabilen tabelalara denir. İyi Reklam Ankara İskitler atölyesinde başlıca dört ışıklı yöntem üretir: ışıklı pleksi kutu harf, ışıklı krom harf, germe tabela (ışıklı kutu) ve LED’li dekupe; ışıklı totem bu yöntemlerle yapılır. Maliyet; ölçü, pleksi kalınlığı, yan yüzey, LED markası ve montaj koşullarına göre değişir.',
+    facts: [
+      ['Yöntemler', 'Işıklı kutu harf · Krom harf · Germe · LED’li dekupe'],
+      ['LED markası', 'Standart · Epistar · Samsung'],
+      ['LED rengi', 'Beyaz, günışığı, amber, kırmızı, mavi, yeşil'],
+      ['Işık verişi', 'Ön yüz pleksi, pleksi yan bant veya arkadan germe kumaş'],
+      ['Önizleme', 'Sihirbazda gündüz ve gece görünümü'],
+      ['Montaj', 'Ankara içi keşif ve montaj'],
+    ],
+    sections: [
+      {
+        h: 'Işıklı tabela türleri karşılaştırması',
+        html: `<div class="tbl"><table>
+<thead><tr><th>Tür</th><th>Işık nasıl verilir?</th><th>Fiyat etkisi</th><th>Uygun yerler</th></tr></thead>
+<tbody>
+<tr><td>{{l:kutu-harf-tabela|Işıklı pleksi kutu harf}}</td><td>Harfin pleksi ön yüzünden (isteğe bağlı pleksi yan bantla yanlardan da)</td><td>Fiyatı artırır; pleksi kalınlığına ve derinliğe bağlı</td><td>Mağaza, işyeri, bina cephesi</td></tr>
+<tr><td>{{l:krom-harf-tabela|Işıklı krom harf}}</td><td>Pleksi ön yüzden; yan yüzey krom (gümüş/altın)</td><td>Belirgin artış</td><td>Kuyumcu, otel, banka, prestijli işletmeler</td></tr>
+<tr><td>{{l:germe-tabela|Germe tabela}}</td><td>Baskılı kumaşın arkadan aydınlatılması</td><td>Ölçü ve yüz sayısına bağlı</td><td>Market, eczane, restoran, geniş yüzeyler</td></tr>
+<tr><td>LED’li dekupe</td><td>Zeminden oyulan harflerin arkasından pleksi + LED</td><td>Belirgin artış</td><td>Klinik, ofis, mimari uygulamalar</td></tr>
+<tr><td>{{l:totem-tabela|Işıklı totem}}</td><td>Kutu harf, LED’li dekupe veya dikey germe sistemi</td><td>Seçilen yönteme bağlı</td><td>Site, iş merkezi, yol kenarı</td></tr>
+</tbody></table></div>
+<p>Fiyat etkileri göreceli bilgi amaçlıdır; kesin fiyat ölçü ve malzeme seçiminize göre verilir.</p>`,
+      },
+      {
+        h: 'Hangi işletme için hangi yöntem?',
+        html: `<ul>
+<li><strong>Mağaza ve işyeri cepheleri:</strong> ışıklı pleksi kutu harf veya geniş yüzeylerde germe tabela.</li>
+<li><strong>Kuyumcu, otel, banka:</strong> altın ya da gümüş yanlı krom harf; pleksi ön yüz rengi marka rengine uyarlanabilir.</li>
+<li><strong>Klinik, ofis, plaza girişi:</strong> LED’li dekupe veya şık {{l:kapi-tabelasi|kapı tabelası}} çözümleri.</li>
+<li><strong>Site ve iş merkezleri:</strong> uzaktan fark edilen ışıklı totem.</li>
+</ul>`,
+      },
+      {
+        h: 'Işık rengi ve LED markası',
+        html: `<p>Işıklı tabelalarda LED markası olarak <strong>standart</strong>, <strong>Epistar</strong> veya <strong>Samsung</strong> seçilebilir; standart dışı tercihlerde fiyat yukarı yönlü değişebilir. Işık rengi beyaz, günışığı, amber, kırmızı, mavi ya da yeşil olabilir. Pleksi rengi ile LED rengi birlikte nihai ışık tonunu belirler. Ayrıntılar için {{l:rehber/led-secimi-samsung-epistar|LED seçim rehberine}} bakın.</p>`,
+      },
+      {
+        h: 'Gündüz ve gece nasıl görünür?',
+        html: `<p>Işıklı tabelanın gündüz ve gece görünümü farklıdır. {{l:tabela-sihirbazi|Tabela sihirbazında}} “Gündüz / Gece” anahtarıyla seçimlerinizin her iki durumda nasıl görüneceğini önceden görebilir; şartnamede iki görünümü birlikte paylaşabilirsiniz.</p>`,
+      },
+      {
+        h: 'Montaj ve elektrik',
+        html: `<p>Işıklı tabelalarda trafo yeri ve elektrik bağlantı noktası keşifte belirlenir. {{l:tabela-montaj|Montaj hizmetimiz}} ile üretimden montaja tek elden ilerleyebilirsiniz.</p>`,
+      },
+    ],
+    faq: [
+      ['Işıklı tabela nedir?', 'İçine LED aydınlatma yerleştirilmiş, gece de okunabilen tabelalara ışıklı tabela denir. Kutu harf, krom harf, germe tabela ve LED’li dekupe en yaygın türlerdir.'],
+      ['Işıklı tabela mı ışıksız tabela mı seçmeliyim?', 'Gece açık olan veya yoldan uzaktan fark edilmesi gereken işletmelerde ışıklı tabela tercih edilir. Aydınlatmanın gerekmediği yerlerde ışıksız kutu harf veya kabartma harf daha ekonomiktir.'],
+      ['Işıklı tabela çok elektrik harcar mı?', 'LED sistemler düşük güç harcar; tüketim harf ölçüsüne ve LED sayısına göre değişir.'],
+      ['Işıklı tabelanın gece görünümünü önceden görebilir miyim?', 'Evet. Tabela sihirbazındaki Gündüz/Gece anahtarıyla seçimlerinizin her iki görünümünü önizleyebilirsiniz.'],
+    ],
+    related: ['kutu-harf-tabela', 'krom-harf-tabela', 'germe-tabela', 'totem-tabela'],
+  },
+];
+
+export const serviceBySlug = Object.fromEntries([...services, ...hubs].map((s) => [s.slug, s]));

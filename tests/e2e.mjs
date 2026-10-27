@@ -506,6 +506,34 @@ await test('localStorage ile devam: yenileyince tasarım korunur, Sıfırla temi
   await page.context().close();
 });
 
+for (const [label, opts] of [['masaüstü', {}], ['mobil', { viewport: { width: 375, height: 700 }, mobile: true }]]) {
+  await test(`Gerçek tıklamayla her seçeneğe ulaşılır; yapışkan çubuklar engellemez (${label})`, async () => {
+    const page = await newPage(opts);
+    await openWizard(page, '?urun=cephe');
+    let n = 0;
+    const clickAll = async () => {
+      const pairs = await page.$$eval('#wz-step input[type=radio][data-k]', (els) => els.map((e) => [e.name, e.value]));
+      for (const [name, value] of pairs) {
+        const loc = page.locator(`#wz-step input[type=radio][name="${name}"][value="${value}"]`);
+        if ((await loc.count()) === 0) continue;
+        await loc.click({ timeout: 8000 }); // force yok: gerçek kullanıcı gibi, başka öğe üstünde kalırsa hata verir
+        n++;
+      }
+    };
+    await goStep(page, 'zemin');
+    await clickAll();
+    for (const strat of ['kutu_isikli', 'krom', 'kabartma', 'dekupe', 'lazer', 'baski']) {
+      await goStep(page, 'sistem');
+      await page.locator(`#wz-step input[name=s][value=${strat}]`).click({ timeout: 8000 });
+      await goStep(page, 'detay');
+      await clickAll();
+    }
+    assert(n > 80, 'az seçenek tıklandı: ' + n);
+    noErrs(page);
+    await page.context().close();
+  });
+}
+
 await test('Gündüz/gece, büyüt penceresi, klavye ile gezinme', async () => {
   const page = await newPage();
   await openWizard(page);

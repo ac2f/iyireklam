@@ -12,6 +12,7 @@ export default {
 
   phone: '+905315209001',
   phoneDisplay: '0531 520 90 01',
+  phoneHtml: '0531&nbsp;520&nbsp;90&nbsp;01',
   whatsapp: '905315209001',
 
   address: {

@@ -1,6 +1,6 @@
 // Ortak sayfa iskeleti: <head> (SEO, sosyal, JSON-LD), üst bar, alt bilgi, mobil çubuk.
 import cfg from '../site.config.mjs';
-import { services } from '../data/services.mjs';
+import { services, hubs } from '../data/services.mjs';
 import { icon } from './icons.mjs';
 
 export const esc = (s) =>
@@ -86,7 +86,7 @@ export function businessLD(full = true) {
     hasOfferCatalog: {
       '@type': 'OfferCatalog',
       name: 'Tabela ve kesim hizmetleri',
-      itemListElement: services.map((s) => ({
+      itemListElement: [...hubs, ...services].map((s) => ({
         '@type': 'Offer',
         itemOffered: { '@type': 'Service', name: s.name, url: `${cfg.siteUrl}/${s.slug}/` },
       })),
@@ -101,7 +101,7 @@ function navHTML(ctx) {
   const cur = ctx.slug;
   const a = (slug, text, extra = '') =>
     `<a href="${ctx.href(slug)}"${cur === slug ? ' aria-current="page"' : ''}${extra}>${text}</a>`;
-  const dd = services
+  const dd = [...hubs, ...services]
     .map((s) => `<a href="${ctx.href(s.slug)}"${cur === s.slug ? ' aria-current="page"' : ''}>${esc(s.nav)}<small>${esc(s.navDesc)}</small></a>`)
     .join('');
   return (
@@ -130,7 +130,7 @@ function header(ctx) {
 }
 
 function footer(ctx) {
-  const svc = services.map((s) => `<li><a href="${ctx.href(s.slug)}">${esc(s.name)}</a></li>`).join('');
+  const svc = [...hubs, ...services].map((s) => `<li><a href="${ctx.href(s.slug)}">${esc(s.name)}</a></li>`).join('');
   return (
     `<footer class="ftr"><div class="wrap"><div class="ftr-g">` +
     `<div><a class="brand" href="${ctx.href('')}">${logoSVG()}<span>İyi <b>Reklam</b></span></a>` +
@@ -145,7 +145,7 @@ function footer(ctx) {
     `<li><a href="${ctx.href('gizlilik')}">Gizlilik</a></li></ul></div>` +
     `<div><h2>İletişim</h2><address class="addr" style="font-style:normal">` +
     `<p>${esc(cfg.address.street)}<br>${esc(cfg.address.neighborhood)}, ${esc(cfg.address.district)} / ${esc(cfg.address.city)}</p>` +
-    `<p><a href="tel:${cfg.phone}"><strong>${cfg.phoneDisplay}</strong></a><br><a href="https://wa.me/${cfg.whatsapp}" rel="noopener">WhatsApp ile yazın</a></p></address></div>` +
+    `<p><a href="tel:${cfg.phone}"><strong>${cfg.phoneHtml}</strong></a><br><a href="https://wa.me/${cfg.whatsapp}" rel="noopener">WhatsApp ile yazın</a></p></address></div>` +
     `</div><div class="ftr-b"><span>© ${new Date().getFullYear()} ${esc(cfg.brand)}. Tüm hakları saklıdır.</span><span>Ankara · Altındağ · İskitler</span></div></div></footer>`
   );
 }
@@ -190,7 +190,7 @@ export function renderPage(ctx, page) {
   const ldJSON = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph.map((g) => ({ ...g })) }).replace(/</g, '\\u003c');
 
   const css = ['site.css', ...(page.extraCss || [])].map((n) => `<link rel="stylesheet" href="${ctx.asset(n)}">`).join('');
-  const preload = ['inter-lat', 'cormorant-600-lat']
+  const preload = ['inter-lat', 'inter-tr', 'cormorant-600-lat', 'cormorant-600-tr', 'cormorant-600i-lat', 'cormorant-600i-tr']
     .map((f) => `<link rel="preload" href="${ctx.up}assets/fonts/${f}.woff2" as="font" type="font/woff2" crossorigin>`)
     .join('');
   const js = ['site.js', ...(page.extraJs || [])].map((n) => `<script src="${ctx.asset(n)}" defer></script>`).join('');
@@ -204,7 +204,7 @@ export function renderPage(ctx, page) {
     : '';
 
   return (
-    `<!doctype html><html lang="${cfg.lang}"><head><meta charset="utf-8">` +
+    `<!DOCTYPE html><html lang="${cfg.lang}"><head><meta charset="utf-8">` +
     `<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">` +
     `<title>${esc(title)}</title>` +
     `<meta name="description" content="${esc(page.desc)}">` +
@@ -252,7 +252,7 @@ export function ctaBand(ctx, { title = 'Tabelanızı birlikte planlayalım', tex
     `<section class="sec" aria-labelledby="cta-h"><div class="wrap"><div class="cta-band"><div><h2 id="cta-h">${esc(title)}</h2><p>${esc(text)}</p></div>` +
     `<div class="btns"><a class="btn btn-gold btn-lg" href="${ctx.href('tabela-sihirbazi')}">${icon('spark')}Sihirbazı Başlat</a>` +
     `<a class="btn btn-wa btn-lg" href="https://wa.me/${cfg.whatsapp}" rel="noopener">${icon('whatsapp')}WhatsApp</a>` +
-    `<a class="btn btn-light btn-lg" href="tel:${cfg.phone}">${icon('phone')}${cfg.phoneDisplay}</a></div></div></div></section>`
+    `<a class="btn btn-light btn-lg" href="tel:${cfg.phone}">${icon('phone')}${cfg.phoneHtml}</a></div></div></div></section>`
   );
 }
 

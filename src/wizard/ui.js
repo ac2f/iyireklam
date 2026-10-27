@@ -6,7 +6,7 @@ import {
 } from '../data/catalog.mjs';
 import { getProduct, paletteFor, LETTER_MATS } from './state.js';
 import {
-  visible, hasZemin, cheapest, zeminMat, find, summarize, refNo, costLabel,
+  visible, hasZemin, cheapest, zeminMat, find, summarize, refNo, costLabel, itemCost,
 } from './model.js';
 
 export const esc = (s) =>
@@ -116,13 +116,14 @@ function swatches(k, cur, palette, label = 'Seçili') {
         .map(
           (it) =>
             `<label class="sw" title="${esc(it.name)}"><input type="radio" name="${k}" value="${esc(it.id)}" data-k="${k}"${it.id === cur ? ' checked' : ''} aria-label="${esc(it.name)}">` +
-            `<span class="sw-c" style="background:${swatchBg(it)}"></span><span class="sw-n">${esc(it.name)}</span></label>`,
+            `<span class="sw-c" style="background:${swatchBg(it)}">${itemCost(it) ? `<i class="sw-d c${itemCost(it)}" aria-hidden="true"></i>` : ''}</span><span class="sw-n">${esc(it.name)}</span></label>`,
         )
         .join('');
       return (gr.g ? `<p class="sw-g">${esc(gr.g)}</p>` : '') + `<div class="sw-grid" role="radiogroup" aria-label="${esc(gr.g || 'Renk')}">${items}</div>`;
     })
     .join('');
-  return `<div class="sw-wrap">${body}<p class="sw-sel">${label}: <b>${esc(sel.name)}</b></p></div>`;
+  const sc = itemCost(sel);
+  return `<div class="sw-wrap"><p class="sw-sel">${label}: <b>${esc(sel.name)}</b>${sc ? ` ${badge(sc)}` : ''}</p>${body}</div>`;
 }
 
 function toggle(k, on, label, desc = '') {
@@ -141,6 +142,14 @@ function costHint(items, extra = '') {
   return `<b>En uygun seçenek:</b> ${esc(cheapNames(items))}. Standart dışı tercihlerde fiyat yukarı yönlü değişebilir.${extra ? ' ' + extra : ''}`;
 }
 
+const PAL_HINT = {
+  composite: 'Düz renkler en uygun seçenektir. Metalik, fırçalı, ahşap ve taş desenler fiyatı hafif, aynalı gold/gümüş ise belirgin artırabilir. Noktalı renkler fiyatı etkiler.',
+  plexi: 'Standart renkler (opal beyaz, siyah, kırmızı vb.) en uygun seçenektir. Aynalı pleksi (ayna gümüş / altın) fiyatı yukarı taşır.',
+  dekota: 'Düz dekota renkleri en uygun seçeneklerdir.',
+  mirrorDekota: 'Aynalı dekota, düz dekotaya göre fiyatı yukarı taşır; gümüş ve gold arasında fark yoktur.',
+  foil: 'Düz renkli folyo en uygun seçenektir; altın ve gümüş folyo fiyatı artırabilir.',
+  laser: 'Boyalı yüzeyler en uygun seçenektir; ayna ve altın kaplama fiyatı yukarı taşıyabilir.',
+};
 const thickItems = (key) => THICKNESS[key].map((t) => ({ v: t.v, t: fmtMm(t.v), cost: t.cost }));
 const THICK_WARN = 'Kalın tercihler fiyatı oldukça artırır.';
 
@@ -258,7 +267,7 @@ function stepZemin(app) {
   const palLabel = zm.palette === 'composite' ? 'Sistem kompozit paleti' : zm.palette === 'plexi' ? 'Akpolimer paleti' : zm.palette === 'mirrorDekota' ? 'Aynalı dekota' : 'Dekota renkleri';
   html += group({
     id: 'zrenk', title: `Zemin rengi / deseni`, help: `${palLabel} — ekran renkleri yaklaşıktır; kesin renk kartelasından teyit edilir.`,
-    body: swatches('zc', st.zc, pal), note: 'zemin_renk', st,
+    body: swatches('zc', st.zc, pal), hint: PAL_HINT[zm.palette], note: 'zemin_renk', st,
   });
   html += group({ id: 'kose', title: 'Köşe', body: radios('cr', st.cr, CORNERS.map((c) => ({ v: c.id, t: c.name, cost: c.cost })), { kind: 'chip' }), hint: costHint(CORNERS.map((c) => ({ ...c, t: c.name }))), note: 'kose', st });
   return html;
@@ -360,7 +369,7 @@ function stepDetay(app) {
     });
     html += group({
       id: 'prenk', title: `${title} — renk`, help: 'Akpolimer pleksi paleti. Işıklı uygulamada pleksi rengi ışık rengini belirler.',
-      body: swatches('o.pc', o.pc, PLEXI_COLORS), note: 'on_renk', st,
+      body: swatches('o.pc', o.pc, PLEXI_COLORS), hint: PAL_HINT.plexi, note: 'on_renk', st,
     });
   }
 
@@ -406,7 +415,7 @@ function stepDetay(app) {
       id: 'kkal', title: `${km.name} kalınlığı`, body: radios('o.kk', o.kk, thickItems(km.thick), { kind: 'chip', num: true }),
       hint: costHint(thickItems(km.thick), THICK_WARN), note: 'kabartma_kalinlik', st,
     });
-    html += group({ id: 'krenk', title: 'Harf rengi', body: swatches('o.kr', o.kr, km.palette), note: 'kabartma_renk', st });
+    html += group({ id: 'krenk', title: 'Harf rengi', body: swatches('o.kr', o.kr, km.palette), hint: PAL_HINT[{ pleksi: 'plexi', dekota: 'dekota', aynali: 'mirrorDekota', kompozit: 'composite' }[o.km]], note: 'kabartma_renk', st });
   }
 
   // Dekupe
@@ -424,7 +433,7 @@ function stepDetay(app) {
     const lm = LASER_MATERIALS.map((m) => ({ v: m.id, t: m.name, cost: m.cost }));
     html += group({ id: 'lmal', title: 'Metal cinsi', body: radios('o.lm', o.lm, lm, { kind: 'chip' }), hint: costHint(lm), note: 'lazer_mal', st });
     html += group({ id: 'lkal', title: 'Metal kalınlığı', body: radios('o.lk', o.lk, thickItems('metal'), { kind: 'chip', num: true }), hint: costHint(thickItems('metal'), THICK_WARN), note: 'lazer_kalinlik', st });
-    html += group({ id: 'lyuz', title: 'Yüzey / renk', body: swatches('o.lf', o.lf, LASER_FINISH), note: 'lazer_yuzey', st });
+    html += group({ id: 'lyuz', title: 'Yüzey / renk', body: swatches('o.lf', o.lf, LASER_FINISH), hint: PAL_HINT.laser, note: 'lazer_yuzey', st });
   }
 
   // Baskı / folyo
@@ -434,7 +443,7 @@ function stepDetay(app) {
       body: radios('o.fm', o.fm, [{ v: 'folyo', t: 'Kesim folyo', cost: 0 }, { v: 'baski', t: 'Dijital baskı', cost: 1 }], { kind: 'chip' }),
       hint: 'Kesim folyo en ekonomik seçenektir; çok renkli tasarımlarda dijital baskı kullanılır.', note: 'baski_yontem', st,
     });
-    html += group({ id: 'brenk', title: 'Folyo / baskı rengi', body: swatches('o.fc', o.fc, FOIL_COLORS), note: 'baski_renk', st });
+    html += group({ id: 'brenk', title: 'Folyo / baskı rengi', body: swatches('o.fc', o.fc, FOIL_COLORS), hint: PAL_HINT.foil, note: 'baski_renk', st });
   }
 
   if (v.led) html += ledGroups(st);
