@@ -1,0 +1,45 @@
+# İyi Reklam
+
+> İyi Reklam, Ankara Altındağ İskitler’de (Sebze Bahçeleri Caddesi No: 107/22) 20 yılı aşkın deneyimle kendi atölyesinde tabela imalatı yapan bir reklam atölyesidir: ışıklı ve ışıksız pleksi kutu harf, krom harf, germe tabela, totem tabela, kapı ve ofis tabelaları, CNC router kesim, CNC lazer kesim, dijital baskı, tabela montajı ve reklamcılara fason imalat. Ücretsiz çevrimiçi tabela sihirbazıyla ürün, ölçü, malzeme, renk ve LED seçilip paylaşılabilir şartname oluşturulur.
+
+## Hizmetler
+- [Kutu Harf Tabela](https://ac2f.github.io/iyireklam/kutu-harf-tabela/): Kutu harf; ön yüzü pleksi, yanları metal veya pleksi bantla kapatılmış, içi LED ile aydınlatılabilen hacimli bir harftir. İyi Reklam, Ankara İskitler’deki atölyesinde ışıklı ve ışıksız pleksi kutu harf, krom kutu harf ve…
+- [Krom Harf Tabela](https://ac2f.github.io/iyireklam/krom-harf-tabela/): Krom harf; yan yüzeyi parlak krom (gümüş veya altın), ön yüzü renkli pleksi olan kutu harf türüdür. “Fileli” modelde pleksi ön yüzün çevresinde ince bir krom çizgi (file) bulunur. Krom harf ışıklı veya ışıksız yapılabili…
+- [Germe Tabela](https://ac2f.github.io/iyireklam/germe-tabela/): Germe tabela; alüminyum profil çerçeveye gerilmiş baskılı kumaş yüzeyin arkadan LED ile aydınlatıldığı ışıklı kutu tabeladır. İyi Reklam Ankara’da tek veya çift yüzlü germe tabela üretir; çerçeve rengi, kumaş baskısı ve …
+- [Totem Tabela](https://ac2f.github.io/iyireklam/totem-tabela/): Totem tabela; yol kenarı, site, iş merkezi, otel ve akaryakıt gibi alanlarda kullanılan, ayakta duran dikey tabelalardır. İyi Reklam totem gövdelerini alüminyum kompozit, dekota veya aynalı dekota gibi malzemelerle kapla…
+- [Kapı & Ofis Tabelaları](https://ac2f.github.io/iyireklam/kapi-tabelasi/): Kapı ve ofis tabelaları; doktor, avukat, muhasebe ve plaza girişlerinde kullanılan küçük ölçülü tabelalardır. İyi Reklam bu tabelaları alüminyum kompozit, aynalı dekota, dekota veya pleksi zemin üzerine kabartma düz harf…
+- [CNC Router Kesim](https://ac2f.github.io/iyireklam/cnc-router-kesim/): CNC router kesim; bilgisayar kontrollü freze ile levha malzemelerin çizim dosyasına göre hassas kesilmesidir. İyi Reklam, Ankara İskitler’deki atölyesinde pleksi, dekota, aynalı dekota, alüminyum kompozit ve ahşap malzem…
+- [CNC Lazer Kesim](https://ac2f.github.io/iyireklam/cnc-lazer-kesim/): CNC lazer kesim; yüksek enerjili lazer ışınıyla malzemenin çizim dosyasına göre çok hassas kesilmesidir. İyi Reklam, Ankara’daki atölyesinde paslanmaz çelik, alüminyum ve sac gibi metallerden harf, logo ve tabela parçala…
+- [Dijital Baskı](https://ac2f.github.io/iyireklam/dijital-baski/): Dijital baskı; tasarımın doğrudan baskı makinasıyla malzemeye aktarılmasıdır. İyi Reklam tabela işlerine bağlı olarak germe tabela kumaşı baskısı, folyo baskı ve kesim folyo uygulamaları yapar. Çok renkli tasarımlarda ba…
+- [Reklamcılara Fason İmalat](https://ac2f.github.io/iyireklam/fason-tabela-imalati/): İyi Reklam; reklam ajansları ve tabelacılar için fason kutu harf imalatı, fason tabela üretimi, CNC router ve lazer kesim ile montaj hizmeti verir. Atölye Ankara Altındağ İskitler’dedir. Siparişleri şartname usulüyle alı…
+- [Tabela Montaj](https://ac2f.github.io/iyireklam/tabela-montaj/): İyi Reklam, ürettiği tabelaların Ankara içi montajını yapar. Keşifte cephe malzemesi, yükseklik ve elektrik bağlantı noktası değerlendirilir; kutu harf, totem, germe ve kapı tabelaları uygun sabitleme yöntemiyle monte ed…
+
+## Araçlar
+- [Tabela Sihirbazı](https://ac2f.github.io/iyireklam/tabela-sihirbazi/): Cephe tabelası, totem, kapı tabelası ve germe tabela için önizlemeli, gündüz/gece görünümlü, fiyat etkisi gösteren ve WhatsApp/PNG/PDF olarak paylaşılabilen ücretsiz tasarım sihirbazı.
+
+## Rehber
+- [Kutu Harf İçin Pleksi Kalınlığı Nasıl Seçilir? (2,8–18 mm)](https://ac2f.github.io/iyireklam/rehber/pleksi-kalinlik-secimi/): Kutu harf ön yüzü için 2,8, 4,5, 5,8, 7,8, 9,8, 12, 14 ve 18 mm pleksi kalınlıklarının farkı, fiyata etkisi ve doğru seçim için pratik öneriler.
+- [Kutu Harf LED Seçimi: Standart, Epistar ve Samsung Farkı](https://ac2f.github.io/iyireklam/rehber/led-secimi-samsung-epistar/): Işıklı kutu harfte standart LED modül, Epistar ve Samsung LED seçenekleri; ışık rengi (beyaz, günışığı, amber, kırmızı, mavi, yeşil) ve fiyata etkisi.
+- [Tabela Zemin Malzemesi: Kompozit, Dekota ve Aynalı Dekota](https://ac2f.github.io/iyireklam/rehber/dekota-aynali-dekota-kompozit/): Tabela zemini için alüminyum kompozit, dekota ve aynalı dekota karşılaştırması: kalınlıklar, renk seçenekleri, kullanım yerleri ve fiyata etkisi.
+- [Kutu Harf Yan Yüzey ve Derinlik: 6, 7, 8, 10 cm ve Bant Renkleri](https://ac2f.github.io/iyireklam/rehber/kutu-harf-yan-bant-secimi/): Kutu harf yan bant seçimi: pleksi ışıklı bant mı, ışıksız renkli yan mı? 6, 7, 8 ve 10 cm derinlik farkları, antrasit, siyah, beyaz, altın ve gümüş yan renkleri.
+- [Işıklı Tabela Fiyatı Neye Göre Belirlenir? Fiyatı Etkileyen 8 Etken](https://ac2f.github.io/iyireklam/rehber/isikli-tabela-fiyati/): Işıklı tabela ve kutu harf fiyatını etkileyen etkenler: ölçü, pleksi kalınlığı, yan yüzey, derinlik, LED markası, zemin malzemesi, montaj ve daha fazlası.
+- [Tabela Yaptırırken Dikkat Edilmesi Gerekenler: 10 Maddelik Kontrol Listesi](https://ac2f.github.io/iyireklam/rehber/tabela-yaptirirken-dikkat/): Tabela yaptırmadan önce bilmeniz gerekenler: ölçü, izin, malzeme, LED, montaj, şartname ve teslimat. Hatalı sipariş riskini azaltan 10 maddelik kontrol listesi.
+
+## İletişim
+- Adres: Sebze Bahçeleri Caddesi No: 107/22, İskitler, Altındağ / Ankara
+- Telefon / WhatsApp: 0531 520 90 01 (+905315209001)
+- [İletişim sayfası](https://ac2f.github.io/iyireklam/iletisim/)
+- [İskitler tabelacı](https://ac2f.github.io/iyireklam/iskitler-tabela/)
+
+## Önemli bilgiler
+- Pleksi kalınlıkları: 2,8, 4,5, 5,8, 7,8, 9,8, 12, 14, 18 mm (2,8 mm en uygun; kalın pleksi fiyatı oldukça artırır).
+- Dekota: 4,5, 7, 8, 10, 14, 18 mm. Aynalı dekota (gümüş/gold): 4, 8, 13, 18 mm.
+- Kutu harf yan derinliği: 6, 7, 8, 10 cm. Yan bant: antrasit, siyah, beyaz, altın, gümüş veya pleksi ışıklı bant.
+- LED: Standart, Epistar, Samsung; renkler: beyaz, günışığı, amber, kırmızı, mavi, yeşil. Standart dışı tercihlerde fiyat yukarı yönlü değişebilir.
+- Pleksi paleti Akpolimer, kompozit paleti Sistem markasıdır.
+- Krom harf: fileli, filesiz veya tam krom; yanlar gümüş ya da altın.
+
+## Optional
+- [Sık sorulan sorular](https://ac2f.github.io/iyireklam/sss/)
+- [Hakkımızda](https://ac2f.github.io/iyireklam/hakkimizda/)
+- [Tam metin (llms-full.txt)](https://ac2f.github.io/iyireklam/llms-full.txt)

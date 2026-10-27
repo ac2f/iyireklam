@@ -1,0 +1,533 @@
+# İyi Reklam — tam içerik özeti
+
+> İyi Reklam, Ankara Altındağ İskitler’de (Sebze Bahçeleri Caddesi No: 107/22) 20 yılı aşkın deneyimle kendi atölyesinde tabela imalatı yapan bir reklam atölyesidir: ışıklı ve ışıksız pleksi kutu harf, krom harf, germe tabela, totem tabela, kapı ve ofis tabelaları, CNC router kesim, CNC lazer kesim, dijital baskı, tabela montajı ve reklamcılara fason imalat. Ücretsiz çevrimiçi tabela sihirbazıyla ürün, ölçü, malzeme, renk ve LED seçilip paylaşılabilir şartname oluşturulur.
+
+## Kutu Harf Tabela
+URL: https://ac2f.github.io/iyireklam/kutu-harf-tabela/
+
+Kutu harf; ön yüzü pleksi, yanları metal veya pleksi bantla kapatılmış, içi LED ile aydınlatılabilen hacimli bir harftir. İyi Reklam, Ankara İskitler’deki atölyesinde ışıklı ve ışıksız pleksi kutu harf, krom kutu harf ve fason kutu harf üretir. Pleksi kalınlığı 2,8 mm’den 18 mm’ye, yan derinlik 6–10 cm arasında seçilebilir; kalın pleksi ve Samsung/Epistar gibi standart dışı LED tercihleri fiyatı yukarı taşır.
+
+- Ön yüz: Pleksi (Akpolimer paleti)
+- Pleksi kalınlığı: 2,8 · 4,5 · 5,8 · 7,8 · 9,8 · 12 · 14 · 18 mm
+- Yan derinlik: 6 · 7 · 8 · 10 cm
+- Yan bant: Antrasit, siyah, beyaz, altın, gümüş veya pleksi ışıklı bant
+- LED markası: Standart · Epistar · Samsung
+- LED rengi: Beyaz, günışığı, amber, kırmızı, mavi, yeşil
+
+### Kutu harf çeşitleri
+Aynı yazı, farklı yöntemlerle çok farklı bir görünüm kazanır. En çok tercih edilen kutu harf türleri şunlardır:
+
+Işıklı pleksi kutu harf: Ön yüzü pleksi, içi LED aydınlatmalı klasik kutu harf. Gece gündüz en çok öne çıkan çözümdür.
+Işıksız pleksi kutu harf: LED ve trafo gerektirmez; hacimli görünüm istenen, aydınlatmanın gerekmediği yerler için ekonomik bir seçenektir.
+Yanları pleksi ışıklı bantlı kutu harf: Yan yüzeyler de pleksi olur ve ışık yanlardan da yayılır; harfler daha parlak ve gösterişli görünür.
+Krom kutu harf (fileli / filesiz): Altın veya gümüş krom yan yüzey, renkli pleksi ön yüz; prestijli işletmeler için.
+
+Hangisinin size uygun olduğuna karar vermek için tabela sihirbazını kullanabilir, seçimlerinizi gündüz ve gece görünümüyle karşılaştırabilirsiniz.
+
+### Pleksi kalınlığı fiyatı nasıl etkiler?
+Kutu harf ön yüzünde 2,8 mm ile 18 mm arasında farklı kalınlıklarda pleksi kullanılabilir. Kalınlık arttıkça malzeme maliyeti ve işleme süresi yükselir; kalın pleksi tercihleri fiyatı oldukça artırır. Çoğu cephe uygulaması için ince veya orta kalınlık yeterlidir; kalın pleksi daha çok özel tasarım ve hacimli vitrin işlerinde tercih edilir.
+
+Pleksi kalınlığıFiyat etkisiTipik kullanım
+
+2,8 mmEn uygunStandart ışıklı/ışıksız kutu harf ön yüzü
+4,5 – 5,8 mmHafif farkDaha dayanıklı ön yüz, büyük harfler
+7,8 – 9,8 mmFiyatı artırırHacimli ve özel tasarım harfler
+12 – 18 mmBelirgin artışÖzel projeler, derin kabartma görünüm
+
+Ayrıntılı bilgi için pleksi kalınlığı seçim rehberimizi okuyabilirsiniz.
+
+### Yan yüzey, derinlik ve renk seçimi
+Harfin yan yüzeyi iki şekilde yapılabilir: ışıksız yan bant (antrasit, siyah, beyaz, altın veya gümüş) ya da pleksi ışıklı bant. Yan yükseklik, yani harf derinliği 6, 7, 8 ve 10 cm olarak seçilebilir. Derinlik arttıkça harf daha hacimli görünür; aynı zamanda malzeme ve işçilik maliyeti de artar. Farklı bir derinlik veya renk istiyorsanız sihirbazdaki not alanına yazabilirsiniz.
+Ayrıntılar için yan bant ve derinlik rehberine bakın.
+
+### LED markası ve ışık rengi
+Işıklı kutu harflerde standart LED modülün yanında Epistar ve Samsung markalı LED tercihi de yapılabilir. Standart dışı marka seçimleri fiyatı yukarı yönlü değiştirebilir. Işık rengi olarak beyaz (soğuk), günışığı (sıcak), amber, kırmızı, mavi ve yeşil seçenekleri sunulur. Pleksi rengi ile LED rengi birlikte nihai ışık tonunu belirler; örneğin beyaz LED arkasında kırmızı pleksi kırmızı ışık verir.
+Karşılaştırma için LED seçim rehberimize göz atın.
+
+### Üretim süreci
+
+Tasarım ve şartname: Sihirbazla ya da telefonla ölçü, malzeme ve renkleri belirleriz.
+Keşif ve fiyat: Gerekirse yerinde ölçü alır, net fiyat veririz.
+CNC kesim ve imalat: Pleksi ve yan yüzeyler kendi CNC router ve lazer kesim makinalarımızda hazırlanır.
+Montaj hazırlığı: LED, trafo ve bağlantılar test edilir.
+Montaj: Ankara içi tabela montajı ekibimizce yapılır.
+
+
+### Sık sorulan sorular
+**Kutu harf ışıklı olmak zorunda mı?** Hayır. Işıksız pleksi kutu harf de yapılır; LED ve trafo maliyeti olmadığı için daha ekonomiktir. Gece görünürlüğü önemliyse ışıklı seçenek önerilir.
+**Hangi pleksi kalınlığını seçmeliyim?** Çoğu cephe uygulamasında ince veya orta kalınlık yeterlidir; en uygun fiyatlı seçenek 2,8 mm’dir. Kalın pleksi fiyatı belirgin biçimde artırır. Harf ölçünüze göre doğru kalınlığı birlikte belirleyebiliriz.
+**Samsung veya Epistar LED seçmek şart mı?** Şart değildir. Standart LED modül en uygun seçenektir. Samsung veya Epistar gibi marka tercihleri fiyatı yukarı taşıyabilir; marka istiyorsanız sihirbazdan seçebilirsiniz.
+**Kutu harf fiyatı nasıl belirlenir?** Fiyat; harf ölçüsü, pleksi kalınlığı, yan yüzey ve derinlik, LED markası ve montaj koşullarına bağlıdır. Sihirbaz sonunda oluşan şartnameyi WhatsApp’tan gönderirseniz fiyatı netleştiririz.
+
+## Krom Harf Tabela
+URL: https://ac2f.github.io/iyireklam/krom-harf-tabela/
+
+Krom harf; yan yüzeyi parlak krom (gümüş veya altın), ön yüzü renkli pleksi olan kutu harf türüdür. “Fileli” modelde pleksi ön yüzün çevresinde ince bir krom çizgi (file) bulunur. Krom harf ışıklı veya ışıksız yapılabilir; ön pleksi rengi ve LED rengi değiştirilebilir. İyi Reklam bu harfleri Ankara İskitler atölyesinde üretir ve monte eder.
+
+- Modeller: Fileli · Filesiz · Tam krom
+- Yan / file rengi: Gümüş (parlak krom) · Altın (gold)
+- Ön yüz: Renkli pleksi (Akpolimer paleti)
+- Aydınlatma: Işıklı (LED) veya ışıksız
+- Yan derinlik: 6 · 7 · 8 · 10 cm
+- Kullanım: Kuyumcu, otel, banka, klinik, mağaza
+
+### Fileli, filesiz ve tam krom farkı
+
+Fileli krom harf: Renkli pleksi ön yüzün çevresinde ince krom çizgi bulunur. Harf konturu belirginleşir; hem gündüz hem gece şık görünür.
+Filesiz krom harf: Ön yüz pleksi, yan yüzey krom; daha sade bir görünüm sunar ve genellikle fileliye göre daha uygun maliyetlidir.
+Tam krom harf: Ön yüz de krom olur; ışıksız uygulanır ve ayna etkisi ön plandadır.
+
+
+### Altın ve gümüş yan yüzey
+Yan yüzeyler ve file için gümüş (parlak krom) veya altın (gold) seçilebilir. Altın krom daha sıcak ve lüks bir etki yaratır; kırmızı, lacivert veya siyah pleksi ön yüzle özellikle iyi çalışır. Gümüş krom ise modern, kurumsal bir görüntü verir ve hemen her renk pleksi ile uyum sağlar. Altın seçimi genellikle gümüşe göre maliyeti yükseltir.
+
+### Ön pleksi rengi ve LED seçimi
+Ön yüzde Akpolimer pleksi paletinden dilediğiniz rengi seçebilirsiniz. Işıklı uygulamada pleksi rengi gece ışık rengini belirler; beyaz ve günışığı en yaygın tercihlerdir. LED markası olarak standart, Epistar veya Samsung seçilebilir; standart dışı seçimlerde fiyat yukarı yönlü değişebilir. Pleksi kalınlığı için pleksi kalınlığı rehberine bakın.
+
+### Bakım ve uygulama notları
+Krom yüzeyler yumuşak bez ve nötr temizleyici ile silinmelidir; aşındırıcı ürünlerden kaçının. Dış cephe uygulamalarında harflerin su geçirmez şekilde imal edilmesi ve doğru montaj yöntemi seçilmesi uzun ömür için önemlidir. Keşif sırasında cephe malzemesine uygun sabitleme yöntemini birlikte belirleriz.
+
+### Sık sorulan sorular
+**Fileli krom harf ne demektir?** Fileli krom harfte, renkli pleksi ön yüzün kenarında ince bir krom çizgi (file) bulunur. Bu çizgi harfin konturunu belirginleştirir.
+**Krom harf ışıksız yapılabilir mi?** Evet. Krom harf hem ışıklı hem ışıksız yapılabilir. Işıksız seçenek LED ve trafo maliyetini ortadan kaldırır.
+**Yan yüzey için hangi renkler var?** Gümüş (parlak krom) ve altın (gold) yan yüzey seçenekleri sunulur. Farklı bir renk talebiniz varsa sihirbazdaki not alanına yazabilirsiniz.
+**Krom harf fiyatı neye göre değişir?** Model (fileli/filesiz/tam), yan rengi, harf ölçüsü ve derinliği, pleksi kalınlığı ile LED seçimi fiyatı etkiler. En doğru fiyat için şartnamenizi WhatsApp’tan gönderin.
+
+## Germe Tabela
+URL: https://ac2f.github.io/iyireklam/germe-tabela/
+
+Germe tabela; alüminyum profil çerçeveye gerilmiş baskılı kumaş yüzeyin arkadan LED ile aydınlatıldığı ışıklı kutu tabeladır. İyi Reklam Ankara’da tek veya çift yüzlü germe tabela üretir; çerçeve rengi, kumaş baskısı ve LED seçimi müşteriye göre belirlenir. Kumaş yüzeyi, ileride tasarım değişimi gerektiğinde yenilenebilir.
+
+- Çerçeve: Alüminyum profil (beyaz, antrasit, siyah, eloksal)
+- Yüzey: Dijital baskılı germe kumaş
+- Aydınlatma: Arkadan LED (marka ve renk seçilebilir)
+- Yüz sayısı: Tek taraflı veya çift taraflı
+- Ölçü: Sihirbazda 30–1000 cm genişlik
+- Kullanım: Mağaza, market, eczane, restoran, ofis
+
+### Germe tabelanın avantajları
+
+Tam renkli baskı: Logo, fotoğraf ve gradyan içeren tasarımlar kumaşa birebir basılır.
+Homojen ışık: Arkadan aydınlatma yüzeyi eşit parlatır; gece görünürlüğü yüksektir.
+Kolay yenileme: Kampanya veya marka değişiminde yalnızca kumaş yenilenebilir.
+Hafif yapı: Büyük ölçülerde bile kutu harfe göre daha hafif bir sistemdir.
+
+
+### Tek yüz mü, çift yüz mü?
+Duvara monte edilen tabelalar genellikle tek yüzlü yapılır. Yoldan iki yönden görülmesi gereken bayrak veya askı tipi tabelalarda çift yüzlü germe tabela tercih edilir. Çift yüzde LED ve kumaş miktarı arttığı için fiyat yukarı yönlü değişir.
+
+### Dikey germe tabela (ışıklı totem)
+Germe tabela dikey ölçüyle üretildiğinde ışıklı kutu totem olarak da kullanılabilir. Yol kenarı ve site girişleri için kompozit kaplamalı klasik totem tabela ile ışıklı germe totem arasında seçim yapabilirsiniz.
+
+### Baskı ve dosya hazırlığı
+Baskı için vektörel logo dosyası (AI, PDF, SVG, CDR) en iyi sonucu verir. Dosyanız yoksa logonuzu yeniden çizmenize yardımcı oluruz. Baskı hizmeti hakkında ayrıntılı bilgi için dijital baskı sayfamıza göz atın.
+
+### Sık sorulan sorular
+**Germe tabela nedir?** Alüminyum bir çerçeveye gerilmiş, üzerine dijital baskı yapılmış kumaşın arkadan LED ile aydınlatıldığı ışıklı kutu tabeladır.
+**Germe tabela kumaşı değiştirilebilir mi?** Evet. Kumaş yüzey sökülüp yenisiyle değiştirilebilir; böylece kutu ve aydınlatma sistemi yeniden kullanılır.
+**Çift yüzlü germe tabela yapılıyor mu?** Evet, tek ve çift yüzlü seçenekler mevcuttur. Çift yüzlü yapıda maliyet yukarı yönlü değişir.
+**Hangi boyutlarda üretilir?** Sihirbazda 30 cm ile 1000 cm genişlik aralığında tasarım yapabilirsiniz; daha büyük ölçüler için bizi arayın.
+
+## Totem Tabela
+URL: https://ac2f.github.io/iyireklam/totem-tabela/
+
+Totem tabela; yol kenarı, site, iş merkezi, otel ve akaryakıt gibi alanlarda kullanılan, ayakta duran dikey tabelalardır. İyi Reklam totem gövdelerini alüminyum kompozit, dekota veya aynalı dekota gibi malzemelerle kaplar; harfleri ışıklı kutu harf, dekupe, kabartma düz harf veya baskı ile uygular. Ölçüler projeye göre belirlenir.
+
+- Gövde kaplama: Sistem kompozit, dekota, aynalı dekota, pleksi
+- Harf sistemi: Işıklı kutu harf, dekupe, kabartma, krom, lazer, baskı
+- Aydınlatma: LED (marka ve renk seçilebilir)
+- Ölçü: Sihirbazda 40–400 cm genişlik, 100–1000 cm yükseklik
+- Montaj: Keşif sonrası zemin ve sabitleme planlanır
+- Kullanım: Site girişi, iş merkezi, otel, fabrika, akaryakıt
+
+### Totem tabelada malzeme seçimi
+Totem gövdesi için en yaygın tercih alüminyum kompozit kaplamadır; düz renk, metalik, ahşap ve taş desenleri ile marka renginize uyar. Daha ekonomik çözümlerde dekota, gösterişli iç mekân ve giriş uygulamalarında aynalı dekota kullanılabilir. Malzeme ve kalınlık tercihlerini sihirbazda görerek karşılaştırabilirsiniz; ayrıntılar için zemin malzemesi rehberine bakın.
+
+### Harfler ve logo nasıl uygulanır?
+
+Işıklı kutu harf: Gece görünürlüğü en yüksek seçenek.
+Dekupe: Harfler gövdeden oyulur; arkasına pleksi veya LED eklenebilir.
+Kabartma düz harf: Pleksi, dekota veya kompozitten kesilip yapıştırılan ışıksız harfler.
+Baskı / folyo: En ekonomik yöntem.
+
+Detaylar için kutu harf ve CNC router kesim sayfalarına göz atın.
+
+### Işıklı kutu totem istiyorsanız
+Gövdesi baskılı kumaşla kaplı, tamamen aydınlatmalı bir totem için germe tabela sistemini dikey ölçüyle tercih edebilirsiniz.
+
+### İzin ve montaj
+Totem tabelalar çoğu zaman belediye reklam ve tabela düzenlemelerine tabidir. Ölçü, yükseklik ve konum kurallarını bulunduğunuz bölgenin belediyesinden teyit etmenizi öneririz. Keşif sırasında zemin durumuna göre sabitleme yöntemini planlar, montaj ve nakliye sürecini yönetiriz.
+
+### Sık sorulan sorular
+**Totem tabela nedir?** Yere sabitlenen, genellikle dikey ve yüksek tabela türüdür. Yol kenarı, site girişi, iş merkezi ve akaryakıt istasyonu gibi alanlarda yön ve marka bilgisi vermek için kullanılır.
+**Totem tabela ışıklı olur mu?** Evet. Işıklı kutu harf, arkadan LED’li dekupe veya germe kumaş sistemi ile ışıklı totem yapılabilir.
+**Hangi ölçülerde üretiliyor?** Sihirbazda 40–400 cm genişlik ve 100–1000 cm yükseklikte tasarım yapabilirsiniz. Projeye özel ölçüler için bizi arayın.
+**Totem tabela için izin gerekir mi?** Çoğu bölgede belediye reklam/tabela düzenlemeleri geçerlidir. İlgili belediyeye başvurarak ölçü ve konum şartlarını teyit etmenizi öneririz.
+
+## Kapı & Ofis Tabelaları
+URL: https://ac2f.github.io/iyireklam/kapi-tabelasi/
+
+Kapı ve ofis tabelaları; doktor, avukat, muhasebe ve plaza girişlerinde kullanılan küçük ölçülü tabelalardır. İyi Reklam bu tabelaları alüminyum kompozit, aynalı dekota, dekota veya pleksi zemin üzerine kabartma düz harf, dekupe, lazer kesim metal harf veya baskı ile üretir; sabitleme distanslı vida, güçlü bant veya gizli montajla yapılır.
+
+- Zemin: Sistem kompozit · Dekota · Aynalı dekota · Pleksi
+- Harf: Kabartma düz harf, dekupe, lazer metal harf, krom, baskı
+- Aynalı seçenekler: Gümüş ve gold
+- Sabitleme: Distanslı vida · Çift taraflı bant · Gizli montaj
+- Örnek ölçüler: 20×10, 30×20, 40×30, 60×20 cm
+- Köşe: Düz veya yuvarlatılmış
+
+### Zemin malzemeleri
+
+Alüminyum kompozit (Sistem): Düz renk, metalik, fırçalı, aynalı gold/gümüş, ahşap ve taş desen seçenekleri.
+Aynalı dekota: Gümüş ve gold ayna yüzey; 4, 8, 13 ve 18 mm kalınlık.
+Dekota: Ekonomik ve hafif; 4,5, 7, 8, 10, 14 ve 18 mm kalınlık.
+Pleksi: Akpolimer paletiyle her renkte; 2,8–18 mm.
+
+Malzeme karşılaştırması için zemin malzemesi rehberine bakabilirsiniz.
+
+### Harf ve yazı seçenekleri
+Kapı tabelalarında en yaygın yöntem kabartma düz harftir: pleksi, dekota, aynalı dekota veya kompozitten CNC ile kesilen harfler zemine yapıştırılır. Daha zarif bir görünüm için dekupe (zeminden oyma) veya lazer kesim metal harfler tercih edilebilir. En ekonomik çözüm folyo veya baskı uygulamasıdır.
+
+### Sabitleme şekilleri
+Distanslı vida tabelayı duvardan hafif açık tutarak şık bir görünüm verir. Güçlü çift taraflı bant delik açmadan, düz yüzeylerde pratik çözümdür. Gizli montaj vida görünmeyen temiz bir sonuç sağlar ve genellikle daha yüksek maliyetlidir.
+
+### Sık sorulan sorular
+**Kapı tabelası hangi ölçülerde yapılır?** Sihirbazda 8–150 cm genişlik ve 5–100 cm yükseklik aralığında tasarım yapabilirsiniz. Standart ölçüler 20×10, 30×20, 40×30 cm’dir.
+**Aynalı kapı tabelası yapılıyor mu?** Evet. Aynalı gümüş ve gold dekota ile aynalı kompozit seçenekleri bulunur.
+**Tek adet kapı tabelası üretiyor musunuz?** Evet, tek adetten itibaren üretim yapılır. Çok sayıda oda tabelası için adet bilgisini şartnamede belirtebilirsiniz.
+**Montajı siz yapıyor musunuz?** Ankara içinde montaj hizmeti veriyoruz. Dilerseniz atölyemizden teslim alabilirsiniz.
+
+## CNC Router Kesim
+URL: https://ac2f.github.io/iyireklam/cnc-router-kesim/
+
+CNC router kesim; bilgisayar kontrollü freze ile levha malzemelerin çizim dosyasına göre hassas kesilmesidir. İyi Reklam, Ankara İskitler’deki atölyesinde pleksi, dekota, aynalı dekota, alüminyum kompozit ve ahşap malzemeleri kesiyor; kutu harf, kabartma düz harf, dekupe ve fason kesim işleri yapıyor.
+
+- Malzemeler: Pleksi, dekota, aynalı dekota, kompozit, ahşap
+- Pleksi kalınlığı: 2,8 – 18 mm
+- Dekota kalınlığı: 4,5 · 7 · 8 · 10 · 14 · 18 mm
+- Aynalı dekota: Gümüş / gold · 4 · 8 · 13 · 18 mm
+- Dosya formatı: DXF, DWG, AI, PDF, SVG, CDR (vektörel)
+- Hizmet: Fason kesim ve tamamlanmış ürün imalatı
+
+### Hangi işlerde CNC router kullanılır?
+
+Kabartma düz harf ve logo kesimi (pleksi, dekota, aynalı dekota, kompozit)
+Dekupe: harflerin zeminden oyulması
+Kutu harf ön yüz ve yan yüzey parçalarının kesimi
+Kapı tabelası, ofis ve yönlendirme levhaları
+Dekoratif paneller ve ahşap işleri
+
+
+### Malzeme ve kalınlık tablosu
+
+MalzemeKalınlık seçenekleriNot
+
+Pleksi (Akpolimer)2,8 · 4,5 · 5,8 · 7,8 · 9,8 · 12 · 14 · 18 mmHer renk seçilebilir
+Düz dekota4,5 · 7 · 8 · 10 · 14 · 18 mmEkonomik düz harf
+Aynalı dekota4 · 8 · 13 · 18 mmGümüş ve gold
+Alüminyum kompozit3 · 4 mmSistem paleti: düz, metalik, ahşap, aynalı
+
+
+### Dosya hazırlığı
+En hızlı ve hatasız sonuç için vektörel (çizgi tabanlı) dosya gönderin: DXF, DWG, AI, PDF, SVG veya CDR. Metinleri eğriye çevirmeniz, ölçüleri 1:1 hazırlamanız gerekir. Dosyanız yoksa logonuzun çizimi için bizimle iletişime geçin. Fason işlerde dosya ve teslimat akışını fason üretim sayfasında bulabilirsiniz.
+
+### Sık sorulan sorular
+**CNC router ile hangi malzemeler kesilir?** Pleksi, dekota, aynalı dekota, alüminyum kompozit ve ahşap gibi levha malzemeler kesilebilir.
+**Sadece kesim yaptırabilir miyim?** Evet. Çizim dosyanızı gönderirseniz yalnızca kesim hizmeti de verilir; ayrıca tamamlanmış tabela üretimi de yapıyoruz.
+**Hangi dosya formatları kabul ediliyor?** DXF, DWG, AI, PDF, SVG ve CDR gibi vektörel dosyalar. Kesin liste için telefonla teyit edebilirsiniz.
+**CNC router ile lazer kesim farkı nedir?** Router freze ile levha malzemeleri (pleksi, dekota, kompozit, ahşap) keser; lazer ise özellikle metal ve ince malzemelerde çok hassas kesim sağlar. Ayrıntı için lazer kesim sayfasına bakın.
+
+## CNC Lazer Kesim
+URL: https://ac2f.github.io/iyireklam/cnc-lazer-kesim/
+
+CNC lazer kesim; yüksek enerjili lazer ışınıyla malzemenin çizim dosyasına göre çok hassas kesilmesidir. İyi Reklam, Ankara’daki atölyesinde paslanmaz çelik, alüminyum ve sac gibi metallerden harf, logo ve tabela parçaları kesiyor; fason lazer kesim işleri de alıyor.
+
+- Malzemeler: Paslanmaz çelik, alüminyum, sac
+- Yüzeyler: Fırçalı, ayna, altın kaplama, boyalı
+- Dosya formatı: DXF, DWG, AI, PDF, SVG
+- Kullanım: Metal harf, logo, ofis tabelası, parça kesimi
+- Hizmet: Fason kesim ve tamamlanmış imalat
+- Kalınlık kapasitesi: İş bazında teyit edilir
+
+### Lazer kesimin tabelada kullanımı
+
+Metal harf ve logo: Paslanmaz çelik veya alüminyumdan keskin kenarlı harfler.
+Kapı ve ofis tabelaları: İnce detaylı, şık metal yazılar.
+Kutu harf parçaları: Hassas yan yüzey ve arka kapak parçaları.
+Dekoratif paneller: Desenli ve delikli metal paneller.
+
+
+### Malzeme ve yüzey seçimi
+Paslanmaz çelik; fırçalı, ayna veya altın kaplama yüzeyle; alüminyum ve sac ise boyalı olarak teslim edilebilir. Kalınlık, harf ölçüsüne ve kullanım yerine göre belirlenir; kalınlık arttıkça fiyat yukarı yönlü değişir. Sihirbazda 2, 3, 4 ve 5 mm seçenekleri sunulur; farklı kalınlıklar için not düşebilirsiniz.
+
+### Router mı, lazer mi?
+Pleksi, dekota ve kompozit levhalar için genellikle CNC router tercih edilir; metal harfler ve ince, hassas detaylar için lazer kesim daha uygundur. Hangisinin projenize uygun olduğunu birlikte belirleyebiliriz.
+
+### Sık sorulan sorular
+**Lazer kesim ile hangi metaller kesilir?** Paslanmaz çelik, alüminyum ve sac gibi metaller kesilebilir. Kalınlık sınırı iş bazında teyit edilir.
+**Sadece lazer kesim yaptırabilir miyim?** Evet. Çizim dosyanızı gönderin, kesim fiyatını bildirelim. Ayrıca tamamlanmış tabela imalatı da yapıyoruz.
+**Hangi dosya formatları gerekir?** DXF, DWG, AI, PDF veya SVG gibi vektörel dosyalar uygundur.
+**Lazer kesim harfler ışıklı yapılabilir mi?** Lazer kesim metal harfler genellikle ışıksız uygulanır; ışıklı çözümler için kutu harf sistemini öneririz.
+
+## Dijital Baskı
+URL: https://ac2f.github.io/iyireklam/dijital-baski/
+
+Dijital baskı; tasarımın doğrudan baskı makinasıyla malzemeye aktarılmasıdır. İyi Reklam tabela işlerine bağlı olarak germe tabela kumaşı baskısı, folyo baskı ve kesim folyo uygulamaları yapar. Çok renkli tasarımlarda baskı, tek renk yazılarda kesim folyo daha ekonomik olabilir.
+
+- Uygulamalar: Germe tabela kumaşı, folyo baskı, kesim folyo
+- Dosya: Vektörel logo (AI, PDF, SVG, CDR) tercih edilir
+- Renk: Baskı öncesi renk onayı birlikte yapılır
+- Kullanım: Germe tabela, panolar, zemine uygulama
+- En ekonomik yöntem: Tek renkte kesim folyo
+- Çok renkli işler: Dijital baskı
+
+### Baskı mı, kesim folyo mu?
+Tek renkli yazı ve logoda kesim folyo hem ekonomik hem dayanıklıdır. Fotoğraf, gradyan ve çok renkli logolarda dijital baskı gerekir. Sihirbazda baskı/folyo harf sistemini seçerek rengi ve yöntemi belirleyebilirsiniz.
+
+### Germe tabela baskısı
+Germe tabela yüzeyi, alüminyum çerçeveye gerilen baskılı kumaştır. Baskı renkleri arkadan aydınlatma ile canlı görünür. Tasarım dosyanızı baskı öncesi birlikte kontrol ederiz.
+
+### Dosya hazırlama ipuçları
+
+Logoyu vektörel (AI, PDF, SVG, CDR) gönderin.
+Yazı tiplerini eğriye çevirin.
+Renk kodlarını (Pantone/CMYK) belirtin; ekran renkleri baskıdan farklı görünebilir.
+
+
+### Sık sorulan sorular
+**Hangi dosyaları göndermeliyim?** Vektörel logo dosyası (AI, PDF, SVG, CDR) en iyi sonucu verir. Dosyanız yoksa bize danışın.
+**Ekran rengi ile baskı rengi aynı mı olur?** Ekranlar farklı renk üretir. Baskı öncesi renk onayı alınması ve gerekirse renk kodu belirtilmesi önerilir.
+**Sadece baskı yaptırabilir miyim?** Baskı işleri genellikle tabela projesine bağlı olarak yapılır; bağımsız iş talepleriniz için bizi arayın.
+
+## Reklamcılara Fason İmalat
+URL: https://ac2f.github.io/iyireklam/fason-tabela-imalati/
+
+İyi Reklam; reklam ajansları ve tabelacılar için fason kutu harf imalatı, fason tabela üretimi, CNC router ve lazer kesim ile montaj hizmeti verir. Atölye Ankara Altındağ İskitler’dedir. Siparişleri şartname usulüyle alır; malzeme, kalınlık ve renk tercihlerini yazılı netleştirerek hatalı üretimi önler.
+
+- Kimler için: Reklam ajansları, tabelacılar, mimarlar, müteahhitler
+- Üretim: Kutu harf, krom harf, germe, totem, kapı tabelası
+- Kesim: CNC router ve lazer kesim
+- Montaj: Ankara içi tabela montajı
+- Sipariş yöntemi: Şartname (sihirbaz) + dosya + WhatsApp
+- Konum: Sebze Bahçeleri Cad. No: 107/22 İskitler, Altındağ / Ankara
+
+### Fason çalışmada neler yapıyoruz?
+
+Fason kutu harf imalatı: Işıklı/ışıksız pleksi kutu harf, krom harf; ölçü ve detaylarınıza göre.
+Fason kesim: CNC router ve lazer ile çizim dosyanıza göre kesim.
+Fason tabela imalatı: Germe, totem, kapı tabelası ve özel projeler.
+Montaj: Ankara içi tabela montajı.
+
+
+### Sipariş akışı
+
+Şartname: Tabela sihirbazıyla ürünü yapılandırın; “Reklamcıyım” kutusunu işaretleyin.
+Dosya: Vektörel çizim dosyalarını WhatsApp veya e-posta ile iletin.
+Onay: Malzeme, kalınlık, renk ve ölçü yazılı olarak teyit edilir.
+Üretim ve teslim: İşin türüne göre termin bildirilir; atölyeden teslim veya sevkiyat planlanır.
+
+
+### Neden şartname usulü?
+Pleksi kalınlığı, yan derinlik, LED markası gibi ayrıntılar sözlü aktarımda kolayca karışır. Sihirbaz sonunda oluşan şartname; ürünün tüm malzeme ve renk seçimlerini, notları ve fiyat etkisini tek sayfada gösterir. Aynı şartname sizde ve atölyede bulunduğu için yanlış anlaşılma riski azalır.
+
+### Sık sorulan sorular
+**Fason işlerde minimum adet var mı?** İşin türüne göre değişir; küçük ve büyük işler için bizi arayın.
+**Reklamcı olarak nasıl sipariş veririm?** Sihirbazla şartname oluşturup WhatsApp’tan gönderin; dosyaları iletin. Fason koşullarını birlikte netleştiririz.
+**Montaj da yapıyor musunuz?** Ankara içinde montaj hizmeti verilir; diğer iller için sevkiyat seçeneklerini görüşebiliriz.
+**Kendi tasarım dosyamı kullanabilir miyim?** Evet. Vektörel çizim dosyalarınızla çalışırız.
+
+## Tabela Montaj
+URL: https://ac2f.github.io/iyireklam/tabela-montaj/
+
+İyi Reklam, ürettiği tabelaların Ankara içi montajını yapar. Keşifte cephe malzemesi, yükseklik ve elektrik bağlantı noktası değerlendirilir; kutu harf, totem, germe ve kapı tabelaları uygun sabitleme yöntemiyle monte edilir.
+
+- Kapsam: Ankara içi montaj
+- Ürünler: Kutu harf, krom harf, germe, totem, kapı tabelası
+- Önce: Keşif ve ölçü
+- Elektrik: Bağlantı noktası ve trafo yeri planlanır
+- Yüksek cephe: Gerekli ekipman keşifte planlanır
+- Randevu: 0531 520 90 01
+
+### Montaj öncesi keşif
+Doğru montaj için cephe malzemesi (beton, sıva, kompozit, cam, ahşap vb.), tabela yüksekliği ve elektrik çıkış noktası keşifte değerlendirilir. Bu bilgi; sabitleme yöntemini, gerekli ekipmanı ve süreyi belirler.
+
+### Neleri monte ediyoruz?
+
+Kutu harf ve krom harf montajı
+Germe tabela asma ve duvara sabitleme
+Totem tabela sabitleme ve yerleştirme
+Kapı ve ofis tabelası montajı (distanslı vida, bant, gizli montaj)
+
+
+### İzin ve güvenlik
+Tabela ölçüleri ve yerleşimleri belediye reklam düzenlemelerine tabi olabilir. Başvuru sürecinde gerekli ölçü ve görselleri şartnameden alabilirsiniz. Montajda iş güvenliği ve cephe bütünlüğü esas alınır.
+
+### Sık sorulan sorular
+**Başka yerde yapılmış tabelanın montajını yapar mısınız?** Genellikle kendi ürettiğimiz tabelaların montajını yapıyoruz; farklı durumlar için telefonla görüşebilirsiniz.
+**Elektrik bağlantısını siz yapıyor musunuz?** Bağlantı noktası ve trafo yeri keşifte planlanır. Elektrik tesisat işleri için gerekli durumlarda yetkili elektrikçi koordinasyonu önerilir.
+**Montaj ücretli mi?** Montaj, işin yüksekliği ve zorluğuna göre fiyatlandırılır. Şartnamede “Ankara içi montaj” seçeneğini işaretleyebilirsiniz.
+
+## Kutu Harf İçin Pleksi Kalınlığı Nasıl Seçilir? (2,8–18 mm)
+URL: https://ac2f.github.io/iyireklam/rehber/pleksi-kalinlik-secimi/
+
+Kutu harf ön yüzünde 2,8 mm’den 18 mm’ye kadar pleksi kullanılabilir. En uygun fiyatlı seçenek 2,8 mm’dir; kalınlık arttıkça malzeme ve işçilik maliyeti hızla yükselir. Standart cephe uygulamalarında ince veya orta kalınlık yeterlidir; 9,8 mm ve üzeri kalınlıklar özel tasarım ve hacimli görünüm için tercih edilir.
+
+Pleksi kalınlığı seçenekleri
+Akpolimer pleksi levhalar; 2,8, 4,5, 5,8, 7,8, 9,8, 12, 14 ve 18 mm kalınlıklarda bulunur. Kutu harfte kalınlık, harfin ön yüzünün dayanımını ve ışığı nasıl ilettiğini belirler.
+
+KalınlıkFiyat etkisiNe zaman tercih edilir?
+
+2,8 mmEn uygunStandart cephe kutu harfi; küçük ve orta harf ölçüleri
+4,5 mmHafif farkBiraz daha sağlam ön yüz; büyük harfler
+5,8 mmHafif farkBüyük ölçülü ve rüzgâra açık uygulamalar
+7,8 – 9,8 mmFiyatı artırırHacimli, özel tasarım ve vitrin işleri
+12 – 18 mmBelirgin artışÖzel projeler, derin ve kalın görünüm
+
+Kalınlık neden fiyatı artırır?
+Pleksi levhanın maliyeti kalınlıkla birlikte yükselir. Ayrıca kalın pleksiyi kesmek ve işlemek daha uzun sürer, daha fazla takım aşınması ve daha dikkatli işçilik gerektirir. Bu yüzden kalın pleksi tercihleri fiyatı oldukça artırır. Işıklı uygulamada kalın pleksi ışığı yumuşatabilir ancak aynı parlaklık için LED yapısının da gözden geçirilmesi gerekebilir.
+Doğru kalınlığı seçmek için üç soru
+
+Harf ölçüsü ne kadar? Harf büyüdükçe ön yüz için daha kalın pleksi düşünülebilir.
+Işıklı mı ışıksız mı? Işıklı uygulamada ışık geçirgenliği ve yüzey homojenliği önem kazanır.
+Bütçe ne? Sihirbaz her seçeneğin fiyat etkisini gösterir; en uygun kalınlık “En uygun” etiketiyle işaretlidir.
+
+Emin değilseniz sihirbazda 2,8 mm ile başlayın, notlara harf ölçüsünü yazın; birlikte doğru kalınlığı belirleriz.
+Sihirbazda her pleksi seçimi için ayrıca not ekleyebilir, farklı kalınlık taleplerinizi iletebilirsiniz. Işıklı ve ışıksız harf çeşitleri için kutu harf tabela sayfasına, LED seçimi için LED rehberine bakın.
+
+## Kutu Harf LED Seçimi: Standart, Epistar ve Samsung Farkı
+URL: https://ac2f.github.io/iyireklam/rehber/led-secimi-samsung-epistar/
+
+Işıklı kutu harflerde LED markası olarak Standart, Epistar veya Samsung seçilebilir. Standart LED modül en uygun fiyatlıdır; Epistar ve Samsung gibi marka tercihleri fiyatı yukarı taşıyabilir. Işık rengi için beyaz, günışığı, amber, kırmızı, mavi ve yeşil seçenekleri vardır.
+
+LED markası seçenekleri
+
+Standart LED: Atölyemizin standart modülü; en uygun maliyetli seçenektir ve çoğu uygulama için yeterlidir.
+Epistar: Epistar çipli LED modül. Marka tercihi yapmak isteyenler için orta seviye bir seçenektir.
+Samsung: Samsung çipli LED modül. Marka güvencesi isteyen müşteriler için tercih edilir; maliyeti yukarı taşır.
+
+Standart dışı marka seçimleri fiyatı yukarı yönlü değiştirir. Seçiminizi sihirbazda işaretler, şartnamede görürsünüz; sihirbaz her adımda en uygun seçeneği belirtir.
+LED ışık rengi nasıl seçilir?
+
+RenkGörünümÖnerilen kullanım
+
+Beyaz (soğuk)Parlak, net, modernKurumsal, teknoloji, sağlık
+Günışığı (sıcak)Sıcak ve davetkârRestoran, kafe, kuyumcu, otel
+AmberTuruncu-sarı tonÖzel tasarım ve vurgu
+Kırmızı / Mavi / YeşilRenkli aydınlatmaMarka renginin vurgulanması
+
+Pleksi rengi ile LED rengi birlikte düşünülmeli
+Işıklı kutu harfte ön yüzdeki pleksinin rengi ve LED rengi birlikte nihai tonu belirler. Örneğin beyaz LED arkasında kırmızı pleksi kırmızı ışık verir; opal beyaz pleksi arkasında renkli LED ise LED rengini yansıtır. Siyah veya çok koyu pleksilerde ışık geçişi sınırlıdır.
+İpucu: Marka renginiz belliyse pleksi rengini marka rengine, LED’i ise beyaza ayarlamak çoğu zaman en dengeli sonucu verir.
+Ayrıca pleksi kalınlığı rehberimizi ve kutu harf sayfamızı inceleyebilirsiniz.
+
+## Tabela Zemin Malzemesi: Kompozit, Dekota ve Aynalı Dekota
+URL: https://ac2f.github.io/iyireklam/rehber/dekota-aynali-dekota-kompozit/
+
+Tabela zemininde en çok alüminyum kompozit (Sistem paleti: düz, metalik, aynalı, fırçalı, ahşap ve taş desen), dekota (4,5–18 mm) ve aynalı dekota (gümüş/gold; 4, 8, 13, 18 mm) kullanılır. Dekota genellikle en ekonomik, aynalı dekota en gösterişli seçenektir.
+
+Alüminyum kompozit
+İki ince alüminyum levha arasında çekirdek katman bulunan hafif ve düz bir panel malzemedir. Dış cephe ve iç mekânda yaygındır. Sistem markası paletinde düz renkler, metalik tonlar, aynalı gold/gümüş, fırçalı yüzeyler ile ahşap ve taş desenleri bulunur. Sihirbazda kompozit için 3 ve 4 mm seçenekleri sunulur.
+Dekota
+Hafif, kolay işlenen ve ekonomik bir levhadır. Kalınlık seçenekleri 4,5, 7, 8, 10, 14 ve 18 mm’dir. Düz harf ve ekonomik zemin çözümlerinde sık kullanılır. Kalınlık arttıkça fiyat yükselir.
+Aynalı dekota
+Ayna yüzeyli dekota; gümüş ve gold renkte, 4, 8, 13 ve 18 mm kalınlıklarda bulunur. Ofis girişleri, klinikler ve şık iç mekânlar için gösterişli bir seçimdir; düz dekotaya göre fiyatı daha yüksektir.
+Hangi malzeme ne için?
+
+MalzemeGüçlü yanıUygun alan
+
+Alüminyum kompozitDüzgün yüzey, geniş renk/desen yelpazesiCephe, totem, kapı tabelası
+DekotaEkonomik, hafifİç mekân, ekonomik zemin ve harf
+Aynalı dekotaAyna parlaklığı (gümüş / gold)Ofis, klinik, otel girişi
+
+Zemin kalınlığı
+Zemin ölçüsü büyüdükçe daha kalın veya destekli bir yapı gerekebilir. Kalın malzeme fiyatı artırır; sihirbaz her kalınlık için fiyat etkisini gösterir. Bunun yanında zemin rengi seçiminde ekran renklerinin yaklaşık olduğunu, kesin rengin kartelayla teyit edildiğini unutmayın.
+İlgili hizmetler: kapı ve ofis tabelaları, totem tabela, CNC router kesim.
+
+## Kutu Harf Yan Yüzey ve Derinlik: 6, 7, 8, 10 cm ve Bant Renkleri
+URL: https://ac2f.github.io/iyireklam/rehber/kutu-harf-yan-bant-secimi/
+
+Kutu harfin yan yüzeyi ışıksız renkli bant (antrasit, siyah, beyaz, altın, gümüş) veya pleksi ışıklı bant olabilir. Yan yükseklik 6, 7, 8 ve 10 cm olarak seçilebilir. Pleksi ışıklı bant ışığı yanlardan da yayar ancak maliyeti artırır; daha derin harf daha hacimli görünür ve daha pahalıdır.
+
+İki ana yan yüzey tipi
+
+Işıksız yan bant: Antrasit, siyah, beyaz, altın veya gümüş renkli yan yüzey. Işık yalnızca ön yüzden verilir; netter ve daha ekonomik bir görünüm sunar.
+Pleksi ışıklı bant: Yan yüzey de pleksi olur ve LED ışığı yanlardan da yayılır. Harf daha parlak ve hacimli görünür; LED sayısı ve maliyet artar.
+
+Yan yükseklik (derinlik)
+Derinlik; harfin duvardan ne kadar dışarı çıktığını belirler. Sihirbazda 6, 7, 8 ve 10 cm seçenekleri vardır. 6 cm en uygun seçenektir; 10 cm daha belirgin hacim sağlar ancak malzeme ve işçilik maliyetini artırır. Farklı bir derinlik gerekiyorsa sihirbazdaki not alanına yazabilirsiniz.
+Yan bant rengi nasıl seçilir?
+
+RenkEtki
+
+AntrasitModern, çoğu cephe rengiyle uyumlu
+SiyahKontrast yaratır, ön yüzü öne çıkarır
+BeyazHafif, temiz ve açık cephelere uygun
+AltınPrestijli ve sıcak görünüm; maliyeti artırabilir
+GümüşMetalik ve kurumsal görünüm; maliyeti artırabilir
+
+Krom yan yüzey ve file seçenekleri için krom harf tabela sayfasına, genel bilgi için kutu harf tabela sayfasına bakın.
+
+## Işıklı Tabela Fiyatı Neye Göre Belirlenir? Fiyatı Etkileyen 8 Etken
+URL: https://ac2f.github.io/iyireklam/rehber/isikli-tabela-fiyati/
+
+Tabela fiyatını; ölçü, harf sistemi, pleksi kalınlığı, yan yüzey ve derinlik, LED markası, zemin malzemesi/kalınlığı, süreç zorluğu ve montaj koşulları belirler. Kalın pleksi, geniş derinlik, Samsung/Epistar LED ve aynalı malzemeler fiyatı yukarı taşır. Fiyat için sabit liste yoktur; şartname ile ölçü/keşif sonrası netleşir.
+
+Fiyatı belirleyen etkenler
+
+Ölçü ve harf yüksekliği: Büyük harf daha çok malzeme ve işçilik demektir.
+Harf sistemi: Baskı/folyo en ekonomik, kabartma düz harf ve dekupe orta, ışıklı kutu harf ve krom harf daha üst seviyedir.
+Pleksi kalınlığı: 2,8 mm en uygundur; kalınlık arttıkça fiyat oldukça yükselir.
+Yan yüzey ve derinlik: Pleksi ışıklı bant ve 8–10 cm derinlik maliyeti artırır.
+LED markası ve rengi: Standart LED en uygundur; Samsung ve Epistar fiyatı yukarı taşıyabilir.
+Zemin malzemesi ve kalınlığı: Dekota ekonomik, kompozit orta, aynalı malzemeler ve kalın levhalar üst seviyedir.
+İşin zorluğu: Köşe yuvarlatma, çok sayıda renk veya karmaşık logo işçilik süresini artırır.
+Montaj koşulları: Yükseklik, cephe malzemesi ve ulaşım zorluğu montaj maliyetini etkiler.
+
+Fiyatı düşürmenin yolları
+
+Pleksi kalınlığını en ince uygun seviyede tutun.
+Standart LED modül ve beyaz/günışığı rengini tercih edin.
+Harf derinliğini 6 cm’de tutun, ışıksız yan bant seçin.
+İç mekânda dekota zemin, dış mekânda kompozit zemin kullanın.
+Gerekmedikçe zemin kullanmadan harfleri doğrudan yüzeye uygulatın.
+
+Sihirbaz size yol gösterir: Her seçeneğin yanında fiyat etkisi (En uygun → Belirgin artış) görünür ve şartnamenin sonunda bütçeyi düşürecek alternatifler listelenir.
+Kesin fiyat için şartnamenizi WhatsApp’tan gönderin; ölçüyü netleştirip fiyat verelim. Başlamak için tabela sihirbazını açın.
+
+## Tabela Yaptırırken Dikkat Edilmesi Gerekenler: 10 Maddelik Kontrol Listesi
+URL: https://ac2f.github.io/iyireklam/rehber/tabela-yaptirirken-dikkat/
+
+Tabela yaptırmadan önce ölçüyü, belediye kurallarını, malzemeyi, LED ve pleksi kalınlığını, montaj koşullarını ve yazılı şartnameyi netleştirin. Tüm bunları kayıt altına almak yanlış anlaşılmaları ve hatalı üretimi önler; İyi Reklam sihirbazı bu amaçla şartname üretir.
+
+10 maddelik kontrol listesi
+
+Ölçüyü netleştirin. Cephedeki kullanılabilir alanı ölçün; mümkünse fotoğraf çekin.
+Belediye kurallarına bakın. Tabela ve reklam ölçüleri, konumu ve yüksekliği için ilgili belediyenin düzenlemelerini teyit edin.
+Harf sistemini seçin. Işıklı kutu harf, krom harf, kabartma düz harf, dekupe veya baskı; bütçe ve görünüme göre karar verin.
+Zemin malzemesini belirleyin. Kompozit, dekota, aynalı dekota veya zeminsiz uygulama.
+Pleksi kalınlığına karar verin. Kalın pleksi fiyatı oldukça artırır; ihtiyacınıza uygun en ince seviye genellikle yeterlidir.
+Yan yüzey ve derinliği seçin. Işıksız bant mı, pleksi ışıklı bant mı; 6, 7, 8 veya 10 cm.
+LED’i seçin. Marka (standart, Epistar, Samsung) ve renk.
+Renkleri kartelayla teyit edin. Ekran renkleri yaklaşıktır; kesin rengi kartela üzerinde görün.
+Montaj ve elektrik noktasını planlayın. Keşifte belirlenir.
+Her şeyi yazılı alın. Şartname; malzeme, kalınlık, renk, ölçü ve notları tek sayfada toplar.
+
+Şartname neden önemli?
+Sözlü aktarılan “kalın pleksi olsun” ya da “altın yan” gibi ifadeler kolayca farklı anlaşılır. Yazılı şartname; hem sizin hem de atölyenin elindeki ortak referanstır. Tabela sihirbazıyla seçimlerinizi görsel olarak görür ve şartnameyi tek tıkla paylaşırsınız.
+Ankara’da tabela yaptırmak için
+Ankara İskitler’deki atölyemizde kutu harf, germe tabela, totem ve kapı tabelası üretiyor; montajını yapıyoruz. Sorularınız için 0531 520 90 01’i arayabilirsiniz.
+
+## Genel sorular
+**Ankara’da tabela imalatı için nereye gelmeliyim?** Atölyemiz Ankara Altındağ İskitler, Sebze Bahçeleri Caddesi No: 107/22 adresindedir. Gelmeden önce 0531 520 90 01 numaralı telefondan bilgi alabilir veya WhatsApp’tan yazabilirsiniz.
+**Hangi tabela türlerini üretiyorsunuz?** Işıklı ve ışıksız pleksi kutu harf, krom harf, germe tabela, totem tabela, kapı ve ofis tabelaları üretiyoruz. Ayrıca CNC router kesim, CNC lazer kesim, dijital baskı ve tabela montajı yapıyoruz.
+**Online tabela sihirbazı ücretli mi?** Hayır, tabela sihirbazı ücretsizdir. Ürünü, ölçüyü, malzemeyi ve renkleri seçip önizlemede görür, sonunda şartnameyi WhatsApp, PNG veya PDF olarak paylaşabilirsiniz.
+**Tabela fiyatı nasıl belirleniyor?** Fiyat; ölçü, harf sistemi, pleksi kalınlığı, yan yüzey ve derinlik, LED markası, zemin malzemesi ve montaj koşullarına göre değişir. Sihirbaz her seçeneğin fiyat etkisini gösterir; kesin fiyat şartname ve ölçü/keşif sonrası verilir.
+**Reklamcılara fason üretim yapıyor musunuz?** Evet. Reklam ajansları ve tabelacılar için fason kutu harf, fason tabela imalatı, CNC router ve lazer kesim yapıyoruz. Şartname usulüyle sipariş alıyoruz.
+**Montaj hizmeti veriyor musunuz?** Evet, Ankara içinde tabela montajı yapıyoruz. Keşifte cephe ve elektrik durumuna göre en uygun sabitleme yöntemini planlıyoruz.
+**Pleksi kalınlığı ve LED markası fiyatı etkiler mi?** Evet. Kalın pleksi tercihleri fiyatı oldukça artırır; Samsung ve Epistar gibi standart dışı LED tercihleri de fiyatı yukarı taşıyabilir. Sihirbazda en uygun seçenek her adımda belirtilir.
+**Tabela sihirbazı ücretsiz mi?** Evet, tabela sihirbazı ücretsizdir ve üyelik gerektirmez. Seçimlerinizi önizlemede görür, şartnameyi dilediğiniz gibi paylaşırsınız.
+**Sihirbaz kesin fiyat gösteriyor mu?** Hayır. Sihirbaz her seçeneğin fiyat etkisini (En uygun, Hafif fark, Fiyatı artırır, Belirgin artış) gösterir ve genel bir fiyat seviyesi verir. Kesin fiyat ölçü ve keşif sonrası, şartnameye göre bildirilir.
+**Verilerim saklanıyor mu?** Tasarımınız yalnızca tarayıcınızda (bu cihazda) saklanır; sunucuya gönderilmez. Paylaşmak istediğinizde WhatsApp, PNG veya PDF ile siz iletirsiniz.
+**Şartnameyi nasıl paylaşırım?** Son adımda WhatsApp ile gönder, görseli paylaş/indir (PNG), yazdır/PDF, metni kopyala ve bağlantıyı kopyala seçenekleri bulunur. Bağlantıyı açan kişi aynı tasarımı görür.
+**Her seçeneğe not ekleyebilir miyim?** Evet. Her seçenek grubunun altındaki “+ Not ekle” bağlantısıyla özel isteklerinizi (farklı kalınlık, renk, ölçü vb.) yazabilirsiniz; notlar şartnamede ilgili satırın altında görünür.
+**Telefondan kullanılabilir mi?** Evet. Sihirbaz mobil uyumludur; önizleme ekranın üstünde sabit kalır, seçenekler altta kaydırılır.
