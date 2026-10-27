@@ -278,6 +278,32 @@ for (const product of ['cephe', 'totem', 'kapi', 'germe']) {
   });
 }
 
+await test('Hazır şablonlar: her biri uygulanır, ürün/sistem doğru, metin ve iletişim korunur', async () => {
+  const page = await newPage();
+  await openWizard(page);
+  const n = await page.locator('.tpl').count();
+  assert(n >= 6, 'şablon sayısı ' + n);
+  const expect = [['cephe', 'kutu_isikli'], ['cephe', 'krom'], ['kapi', 'kabartma'], ['kapi', 'kabartma'], ['totem', 'kutu_isikli'], ['germe', 'baski'], ['cephe', 'dekupe'], ['cephe', 'kabartma']];
+  for (let i = 0; i < n; i++) {
+    await goStep(page, 'urun');
+    await page.locator('.tpl').nth(i).click();
+    await page.waitForTimeout(80);
+    const st = await state(page);
+    assert(st.p === expect[i][0] && st.s === expect[i][1], `şablon ${i}: ${st.p}/${st.s}`);
+    await checkSvg(page, 'şablon ' + i);
+    assert(st.L[0].t.length > 0, 'şablon metni');
+  }
+  // kullanıcı metni korunur
+  await goStep(page, 'olcu');
+  await page.locator('input[data-k="L.0.t"]').fill('Benim Firmam');
+  await goStep(page, 'urun');
+  await page.locator('.tpl').nth(1).click();
+  const st = await state(page);
+  assert(st.L[0].t === 'Benim Firmam' && st.s === 'krom', 'kullanıcı metni korunmalı: ' + st.L[0].t);
+  noErrs(page);
+  await page.context().close();
+});
+
 await test('Ölçü doğrulama: aralık dışı değer uyarı verir, tamamlanınca düzeltilir', async () => {
   const page = await newPage();
   await openWizard(page);

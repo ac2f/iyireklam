@@ -73,4 +73,14 @@ for (const [name, size, radius] of [
   await p.close();
 }
 await browser.close();
+
+// favicon.ico (PNG gömülü ICO): tarayıcılar kökte /favicon.ico ister
+import { readFile } from 'node:fs/promises';
+const png = await readFile(path.join(IMG, 'favicon-48.png'));
+const head = Buffer.alloc(22);
+head.writeUInt16LE(0, 0); head.writeUInt16LE(1, 2); head.writeUInt16LE(1, 4);
+head[6] = 48; head[7] = 48; head[8] = 0; head[9] = 0;
+head.writeUInt16LE(1, 10); head.writeUInt16LE(32, 12);
+head.writeUInt32LE(png.length, 14); head.writeUInt32LE(22, 18);
+await writeFile(path.join(ROOT, 'favicon.ico'), Buffer.concat([head, png]));
 console.log('Görseller üretildi:', IMG);

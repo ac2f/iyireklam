@@ -2,7 +2,7 @@
 import {
   PRODUCTS, STRATEGIES, ZEMIN_MATERIALS, THICKNESS, PALETTES, SIDE_COLORS, KROM_SIDES,
   LED_BRANDS, LED_COLORS, FRAME_COLORS, FONTS, GERME_COLORS, GERME_INK, DEPTHS, CORNERS,
-  LASER_MATERIALS, LASER_FINISH, FIX_TYPES, SERVICE_OPTIONS, PLEXI_COLORS, FOIL_COLORS,
+  LASER_MATERIALS, LASER_FINISH, FIX_TYPES, SERVICE_OPTIONS, PLEXI_COLORS, FOIL_COLORS, PRESETS,
   DEKOTA_COLORS, COMPOSITE_COLORS, MIRROR_DEKOTA_COLORS,
 } from '../data/catalog.mjs';
 
@@ -243,4 +243,21 @@ function deepMerge(base, delta) {
     }
   }
   return out;
+}
+
+/** Hazır şablonu uygular; kullanıcının yazdığı metin ve iletişim bilgileri korunur */
+export function applyPreset(prev, preset) {
+  const base = defaultState(preset.patch.p);
+  const s = normalize(deepMerge(base, preset.patch));
+  s.c = prev.c;
+  s.q = prev.q;
+  s.f = prev.f;
+  s.up = prev.up;
+  // Örnek metinleri (varsayılanlar ve diğer şablonlar) kullanıcı yazısı saymayız
+  const known = new Set(['']);
+  for (const prod of PRODUCTS) defaultState(prod.id).L.forEach((x) => known.add(x.t));
+  for (const t of PRESETS) (t.patch.L || []).forEach((x) => known.add(x.t));
+  const edited = prev.L.some((x) => !known.has(x.t));
+  if (edited) s.L = prev.L.map((x) => ({ ...x }));
+  return normalize(s);
 }

@@ -1,7 +1,7 @@
 // Tabela sihirbazı: durum yönetimi, olaylar, önizleme ve paylaşım eylemleri.
-import { FONTS } from '../data/catalog.mjs';
+import { FONTS, PRESETS } from '../data/catalog.mjs';
 import {
-  defaultState, normalize, switchProduct, encodeState, decodeState, getProduct,
+  defaultState, normalize, switchProduct, encodeState, decodeState, getProduct, applyPreset,
 } from './state.js';
 import {
   find, summarize, refNo, specText, whatsappText, isLit, activeLines,
@@ -314,6 +314,11 @@ export function mountWizard(root) {
       case 'next': if (idx < list.length - 1) go(list[idx + 1].id); break;
       case 'prev': if (idx > 0) go(list[idx - 1].id); break;
       case 'goto': go(b.dataset.step); break;
+      case 'tpl': {
+        const t = PRESETS[Number(b.dataset.i)];
+        if (t) { app.st = applyPreset(app.st, t); commit({ rerender: true }); say(''); }
+        break;
+      }
       case 'preset':
         app.st.w = Number(b.dataset.w); app.st.h = Number(b.dataset.h);
         commit({ rerender: true });

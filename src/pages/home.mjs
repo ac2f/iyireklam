@@ -101,6 +101,7 @@ export function homePage(ctx) {
 </div></div>
 
 <section class="sec" id="hizmetler"><div class="wrap">
+  <div class="tldr" style="max-width:880px"><b>İyi Reklam bir bakışta</b><p>İyi Reklam, Ankara Altındağ İskitler’de (Sebze Bahçeleri Caddesi No: 107/22) ${cfg.experienceYears} deneyimle kendi atölyesinde tabela imalatı yapan bir reklam atölyesidir. Işıklı ve ışıksız pleksi kutu harf, krom harf, germe tabela, totem, kapı ve ofis tabelaları üretir; CNC router kesim, CNC lazer kesim, dijital baskı ve Ankara içi tabela montajı yapar; reklamcılara fason imalat hizmeti verir. Telefon ve WhatsApp: ${cfg.phoneHtml}.</p></div>
   <div class="sec-head"><span class="eyebrow">Hizmetlerimiz</span><h2 class="h2">Tabeladan kesime, <em>her şey</em> tek atölyede</h2>
   <p class="lead">Işıklı veya ışıksız her türlü tabelayı; makinalarımız ve ${cfg.experienceYears} deneyimimizle en uygun ve kaliteli malzeme seçimiyle üretiyoruz.</p></div>
   <div class="grid g5">${svcCards}</div>

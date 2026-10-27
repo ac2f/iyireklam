@@ -27,7 +27,7 @@ export function makeCtx(slug, assetHash) {
 /** {{l:slug|metin}} → <a href="göreli">metin</a>  (text:true ise yalnızca metin) */
 export function links(html, ctx, { text = false } = {}) {
   return html.replace(/\{\{l:([^|}]+)\|([^}]+)\}\}/g, (_, slug, label) =>
-    text ? label : `<a href="${ctx.href(slug === 'tabela-sihirbazi' ? 'tabela-sihirbazi' : slug)}">${label}</a>`,
+    text ? label : `<a href="${ctx.href(slug)}">${label}</a>`,
   );
 }
 
@@ -259,7 +259,7 @@ export function ctaBand(ctx, { title = 'Tabelanızı birlikte planlayalım', tex
 export function faqHTML(items, ctx) {
   return (
     `<div class="faq">` +
-    items.map(([q, a]) => `<details><summary>${esc(q)}</summary><div class="ans"><p>${links(esc(a).replace(/\{\{l:([^|}]+)\|([^}]+)\}\}/g, '{{l:$1|$2}}'), ctx)}</p></div></details>`).join('') +
+    items.map(([q, a]) => `<details><summary>${esc(q)}</summary><div class="ans"><p>${links(esc(a), ctx)}</p></div></details>`).join('') +
     `</div>`
   );
 }

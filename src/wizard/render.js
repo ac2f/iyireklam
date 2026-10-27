@@ -561,7 +561,7 @@ export function buildScene(st, opts = {}) {
     : '';
 
   const svg =
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${CW} ${CH}" role="img" aria-label="Tabela önizlemesi" preserveAspectRatio="xMidYMid meet">` +
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${CW} ${CH}" role="img" aria-label="${esc(`Tabela önizlemesi: ${prod.name}, ${st.w} × ${st.h} cm${lines.length ? ', yazı: ' + lines.map((l) => l.t).join(' / ') : ''}${night ? ', gece görünümü' : ', gündüz görünümü'}`)}" preserveAspectRatio="xMidYMid meet">` +
     `<defs>${defs.join('')}</defs>` +
     baseLayer.join('') +
     overlay +

@@ -10,7 +10,7 @@ Işıklı tabela; içine LED yerleştirilerek gece de okunabilen tabelalara deni
 - Yöntemler: Işıklı kutu harf · Krom harf · Germe · LED’li dekupe
 - LED markası: Standart · Epistar · Samsung
 - LED rengi: Beyaz, günışığı, amber, kırmızı, mavi, yeşil
-- Işık verişi: Ön yüz pleksi, pleksi yan bant veya arkadan germe kumaş
+- Işık yayılımı: Ön yüz pleksi, pleksi yan bant veya arkadan germe kumaş
 - Önizleme: Sihirbazda gündüz ve gece görünümü
 - Montaj: Ankara içi keşif ve montaj
 

@@ -1,7 +1,7 @@
 // Sihirbaz adımları için HTML şablonları (string tabanlı; olaylar app.js'te delegasyonla yönetilir).
 import {
   PRODUCTS, STRATEGIES, ZEMIN_MATERIALS, THICKNESS, DEPTHS, SIDE_COLORS, KROM_SIDES, LED_BRANDS,
-  LED_COLORS, FRAME_COLORS, FONTS, GERME_COLORS, GERME_INK, CORNERS, LASER_MATERIALS, LASER_FINISH,
+  LED_COLORS, FRAME_COLORS, FONTS, PRESETS, GERME_COLORS, GERME_INK, CORNERS, LASER_MATERIALS, LASER_FINISH,
   FIX_TYPES, SERVICE_OPTIONS, PLEXI_COLORS, FOIL_COLORS, COST_LEVELS, fmtMm, PLEXI_THICKNESS_NOTE,
 } from '../data/catalog.mjs';
 import { getProduct, paletteFor, LETTER_MATS } from './state.js';
@@ -177,6 +177,7 @@ function stepUrun(app) {
   return (
     `<div class="step-intro"><h2 class="step-h">Ne tasarlamak istiyorsunuz?</h2><p>Ürününüzü seçin; adım adım malzeme, renk ve ölçüyü belirleyin. Önizleme anında güncellenir ve sonunda paylaşılabilir bir şartname oluşur.</p></div>` +
     `<div class="pcards" role="radiogroup" aria-label="Ürün tipi">${cards}</div>` +
+    `<div class="presets-box"><h3 class="g-t" style="font-size:15px">Hazır örneklerden başlayın</h3><div class="tpls">${PRESETS.map((t, i) => `<button type="button" class="tpl" data-act="tpl" data-i="${i}"><b>${esc(t.name)}</b><span>${esc(t.desc)}</span></button>`).join('')}</div></div>` +
     `<p class="g-hint">Dikey ışıklı kutu totem için <b>Germe Tabela</b> seçip yüksekliği artırabilirsiniz. Listede olmayan bir ürün için sonunda not düşebilir veya bizi arayabilirsiniz.</p>` +
     noteHTML(st, 'urun')
   );

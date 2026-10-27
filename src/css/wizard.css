@@ -224,3 +224,12 @@
   .spec-h,.spec-t .sg th,.spec-prev,.cb,.lvl i{-webkit-print-color-adjust:exact;print-color-adjust:exact}
   .spec-t tr{break-inside:avoid}
 }
+
+/* hazır şablonlar */
+.presets-box{margin:14px 0 0}
+.presets-box .g-t{display:block;padding:0;margin:0 0 8px}
+.tpls{display:grid;gap:8px;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))}
+.tpl{display:grid;gap:2px;text-align:left;padding:10px 12px;border:1.5px dashed var(--line2);border-radius:14px;background:rgba(255,255,255,.6);cursor:pointer;transition:.15s}
+.tpl:hover{border-color:var(--gold);background:#fffaf0}
+.tpl b{font-size:14px}
+.tpl span{font-size:12.5px;color:var(--muted);line-height:1.4}

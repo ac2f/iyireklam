@@ -426,3 +426,39 @@ export function byId(list, id) {
 
 export const PLEXI_THICKNESS_NOTE =
   'Pleksi kalınlığı arttıkça malzeme ve işçilik maliyeti hızla yükselir. Kutu harf ön yüzü için en uygun seçenek 2,8 mm\'dir.';
+
+/** Hazır başlangıç şablonları: sihirbazın ilk adımında tek tıkla uygulanır */
+export const PRESETS = [
+  {
+    id: 'magaza', name: 'Işıklı mağaza tabelası', desc: 'Antrasit zemin, ışıklı pleksi kutu harf',
+    patch: { p: 'cephe', w: 300, h: 80, zc: 'k-antrasit', s: 'kutu_isikli', o: { pc: 'opal', pt: 2.8, side: 'solid', sc: 'antrasit', dp: 6, lb: 'standart', lc: 'beyaz' }, L: [{ t: 'MAĞAZA ADI', s: 'L' }, { t: 'Slogan veya alt başlık', s: 'M' }] },
+  },
+  {
+    id: 'kuyumcu', name: 'Altın yanlı krom harf', desc: 'Siyah zemin, fileli krom, sıcak ışık',
+    patch: { p: 'cephe', w: 250, h: 70, zc: 'k-siyah', s: 'krom', o: { kt: 'fileli', ks: 'altin', kl: 1, pc: 'bordo', pt: 2.8, dp: 6, lb: 'standart', lc: 'gunisigi' }, L: [{ t: 'KUYUMCU', s: 'L' }, { t: 'Altın & Mücevher', s: 'M' }] },
+  },
+  {
+    id: 'klinik', name: 'Klinik / ofis kapı tabelası', desc: 'Aynalı gümüş dekota, siyah kabartma harf',
+    patch: { p: 'kapi', w: 40, h: 30, zm: 'aynali', zt: 4, zc: 'ad-gumus', s: 'kabartma', o: { km: 'pleksi', kk: 2.8, kr: 'siyah' }, L: [{ t: 'DR. AD SOYAD', s: 'L' }, { t: 'Uzman Doktor', s: 'M' }] },
+  },
+  {
+    id: 'avukat', name: 'Altın plaka kapı tabelası', desc: 'Aynalı gold dekota, antrasit kabartma harf',
+    patch: { p: 'kapi', w: 40, h: 30, zm: 'aynali', zt: 4, zc: 'ad-gold', cr: 'yuvarlak', s: 'kabartma', o: { km: 'dekota', kk: 4.5, kr: 'd-antrasit' }, L: [{ t: 'AV. AD SOYAD', s: 'L' }, { t: 'Hukuk Bürosu', s: 'M' }] },
+  },
+  {
+    id: 'site', name: 'Site girişi totemi', desc: 'Antrasit kompozit gövde, ışıklı kutu harf',
+    patch: { p: 'totem', w: 100, h: 300, zc: 'k-antrasit', s: 'kutu_isikli', o: { pc: 'opal', pt: 2.8, side: 'solid', sc: 'antrasit', dp: 8, lb: 'standart', lc: 'gunisigi' }, L: [{ t: 'SİTE ADI', s: 'L' }, { t: 'Yönetim Ofisi', s: 'M' }] },
+  },
+  {
+    id: 'germe', name: 'Işıklı germe tabela', desc: 'Kırmızı zeminli, baskılı germe kumaş',
+    patch: { p: 'germe', w: 300, h: 100, gc: 'g-kirmizi', fr: 'beyaz', sd: 'tek', L: [{ t: 'İŞLETME ADI', s: 'L' }, { t: 'Kısa tanıtım yazısı', s: 'M' }] },
+  },
+  {
+    id: 'dekupe', name: 'Işıklı dekupe', desc: 'Siyah zeminden oyma harf, arkadan LED',
+    patch: { p: 'cephe', w: 200, h: 60, zm: 'kompozit', zt: 4, zc: 'k-siyah', s: 'dekupe', o: { df: 'led', pc: 'opal', pt: 2.8, lb: 'standart', lc: 'gunisigi' }, L: [{ t: 'FİRMA ADI', s: 'L' }] },
+  },
+  {
+    id: 'ahsap', name: 'Ahşap desenli cephe', desc: 'Meşe kompozit zemin, aynalı gold düz harf',
+    patch: { p: 'cephe', w: 250, h: 70, zm: 'kompozit', zt: 4, zc: 'k-ceviz', s: 'kabartma', o: { km: 'aynali', kk: 8, kr: 'ad-gold' }, L: [{ t: 'KAFE ADI', s: 'L' }, { t: 'Kahve & Tatlı', s: 'M' }] },
+  },
+];
