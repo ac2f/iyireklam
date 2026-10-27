@@ -116,13 +116,19 @@ function navHTML(ctx) {
   );
 }
 
+/** "İyi Reklam" → "İyi <b>Reklam</b>" (ilk sözcük düz, kalanı vurgulu); tek sözcükse düz yazılır */
+export function wordmark(name = cfg.brand) {
+  const [first, ...rest] = name.split(' ');
+  return rest.length ? `${esc(first)} <b>${esc(rest.join(' '))}</b>` : esc(first);
+}
+
 export const logoSVG = () =>
   `<svg viewBox="0 0 40 40" aria-hidden="true"><rect width="40" height="40" rx="11" fill="#0e1116"/><circle cx="20" cy="9.5" r="3.6" fill="#e7c878"/><circle cx="20" cy="9.5" r="6" fill="#e7c878" opacity=".22"/><path d="M20 17v14" stroke="#fff" stroke-width="4.6" stroke-linecap="round"/></svg>`;
 
 function header(ctx) {
   return (
     `<header class="hdr"><div class="wrap hdr-in">` +
-    `<a class="brand" href="${ctx.href('')}" aria-label="${esc(cfg.brand)} ana sayfa">${logoSVG()}<span>İyi <b>Reklam</b></span></a>` +
+    `<a class="brand" href="${ctx.href('')}" aria-label="${esc(cfg.brand)} ana sayfa">${logoSVG()}<span>${wordmark()}</span></a>` +
     navHTML(ctx) +
     `<button class="burger" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menüyü aç"><span></span></button>` +
     `</div></header>`
@@ -133,7 +139,7 @@ function footer(ctx) {
   const svc = [...hubs, ...services].map((s) => `<li><a href="${ctx.href(s.slug)}">${esc(s.name)}</a></li>`).join('');
   return (
     `<footer class="ftr"><div class="wrap"><div class="ftr-g">` +
-    `<div><a class="brand" href="${ctx.href('')}">${logoSVG()}<span>İyi <b>Reklam</b></span></a>` +
+    `<div><a class="brand" href="${ctx.href('')}">${logoSVG()}<span>${wordmark()}</span></a>` +
     `<p>Ankara İskitler’de kendi atölyemizde tabela imalatı, kutu harf, CNC router ve lazer kesim. ${cfg.experienceYears} deneyim.</p></div>` +
     `<div><h2>Hizmetler</h2><ul>${svc}</ul></div>` +
     `<div><h2>Keşfet</h2><ul>` +

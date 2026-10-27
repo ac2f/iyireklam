@@ -7,6 +7,8 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
+import cfg from '../src/site.config.mjs';
+
 const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -44,10 +46,10 @@ p.sub{position:absolute;left:72px;top:372px;width:640px;font-size:26px;line-heig
 .sign .t{font:700 66px/1 Inter,sans-serif;letter-spacing:3px;color:#fff6dc;text-shadow:0 0 6px #ffd88a,0 0 22px #ffd88a,0 0 54px rgba(255,216,138,.85)}
 .sign .s{margin-top:16px;font:600 16px Inter;letter-spacing:4px;color:#e7c878;text-shadow:0 0 12px rgba(255,216,138,.8)}
 </style><div class="dots"></div>
-<div class="brand">${mark(58, 14)}<span>İyi <b>Reklam</b></span></div>
+<div class="brand">${mark(58, 14)}<span>${cfg.brand.split(' ')[0]} <b>${cfg.brand.split(' ').slice(1).join(' ')}</b></span></div>
 <h1>Ankara Tabela İmalatı <em>ve Kutu Harf Atölyesi</em></h1>
 <p class="sub">Işıklı kutu harf, krom harf, germe, totem ve kapı tabelaları · CNC router & lazer kesim · Online tabela sihirbazı</p>
-<div class="sign"><div><div class="t">İYİ REKLAM</div><div class="s">TABELA · KUTU HARF · CNC</div></div></div>
+<div class="sign"><div><div class="t">${cfg.brand.toLocaleUpperCase('tr-TR')}</div><div class="s">TABELA · KUTU HARF · CNC</div></div></div>
 <div class="tags"><span>İskitler, Altındağ</span><span>20+ yıl deneyim</span></div>
 <div class="phone">0531 520 90 01</div>`;
 

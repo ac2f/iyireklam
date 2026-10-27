@@ -28,6 +28,8 @@ export const HOME_FAQ = [
   ['Pleksi kalınlığı ve LED markası fiyatı etkiler mi?', 'Evet. Kalın pleksi tercihleri fiyatı oldukça artırır; Samsung ve Epistar gibi standart dışı LED tercihleri de fiyatı yukarı taşıyabilir. Sihirbazda en uygun seçenek her adımda belirtilir.'],
 ];
 
+const BRAND_UP = cfg.brand.toLocaleUpperCase('tr-TR');
+
 function heroArt() {
   return `<svg viewBox="0 0 500 400" role="img" aria-label="Işıklı kutu harf tabela, totem ve kapı tabelası çizimi" preserveAspectRatio="xMidYMid slice">
 <defs>
@@ -42,9 +44,9 @@ function heroArt() {
 <g stroke="#ffffff" stroke-opacity=".035"><path d="M0 70h500M0 140h500M0 210h500M0 280h500M0 350h500"/><path d="M60 0v400M140 0v400M220 0v400M300 0v400M380 0v400M460 0v400"/></g>
 <g filter="url(#hs)"><rect x="40" y="48" width="420" height="132" rx="10" fill="url(#hp)" stroke="#ffffff" stroke-opacity=".08"/></g>
 <g class="glow-a" font-family="Inter,Arial,sans-serif" font-weight="700" text-anchor="middle" letter-spacing="3">
-<text x="250" y="124" font-size="58" fill="#ffd88a" filter="url(#hb2)" opacity=".85">İYİ REKLAM</text>
-<text x="250" y="124" font-size="58" fill="#ffd88a" filter="url(#hb1)">İYİ REKLAM</text>
-<text x="250" y="124" font-size="58" fill="#fff6dc">İYİ REKLAM</text>
+<text x="250" y="124" font-size="58" fill="#ffd88a" filter="url(#hb2)" opacity=".85">${BRAND_UP}</text>
+<text x="250" y="124" font-size="58" fill="#ffd88a" filter="url(#hb1)">${BRAND_UP}</text>
+<text x="250" y="124" font-size="58" fill="#fff6dc">${BRAND_UP}</text>
 <text x="250" y="156" font-size="14.5" fill="#e7c878" letter-spacing="6.5">TABELA · KUTU HARF · CNC</text>
 </g>
 <g filter="url(#hs)"><rect x="330" y="206" width="112" height="170" rx="8" fill="url(#hp)" stroke="#ffffff" stroke-opacity=".08"/><rect x="316" y="372" width="140" height="10" rx="4" fill="#0a0d12"/></g>

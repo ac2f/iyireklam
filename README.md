@@ -29,7 +29,7 @@ Depodaki dosyalar **derlenmiş hâlde** olduğundan ek bir derleme ayarı gerekm
 
 | Ne? | Nerede? |
 |---|---|
-| Telefon, adres, marka adı, alan adı, Google Analytics / Search Console kodu | `src/site.config.mjs` |
+| Telefon, adres, **marka adı**, alan adı, Google Analytics / Search Console kodu | `src/site.config.mjs` |
 | Pleksi / dekota / kompozit renkleri, kalınlıklar, LED seçenekleri, fiyat etkisi seviyeleri | `src/data/catalog.mjs` |
 | Hizmet sayfası metinleri, SSS | `src/data/services.mjs` |
 | Rehber yazıları | `src/data/guides.mjs` |
@@ -44,6 +44,8 @@ npm install        # ilk seferde (yalnızca esbuild)
 npm run build      # sayfaları, CSS/JS paketlerini, sitemap, robots, llms.txt dosyalarını üretir
 npm run serve      # http://localhost:4173 (yerel önizleme)
 ```
+
+> **Not (firma adı):** Depo adından yola çıkarak marka adı “İyi Reklam” olarak kullanıldı. Resmî ticari adınız farklıysa `src/site.config.mjs` içindeki `brand` değerini değiştirip `npm run build` ve `node scripts/make-images.mjs` çalıştırmanız yeterlidir (metinler, logo yazısı, paylaşım görseli ve şartname başlığı otomatik güncellenir).
 
 > **Not (renkler):** Üretici kartelalarına internet üzerinden ulaşılamadığı için Akpolimer (pleksi) ve Sistem (kompozit) paletleri bilinen renk aileleriyle ve yaklaşık ekran renkleriyle hazırlanmıştır. Gerçek kartela adı/rengi farklıysa `src/data/catalog.mjs` içindeki ilgili satırı düzeltmeniz yeterlidir; sihirbaz, şartname ve sayfalar otomatik güncellenir.
 

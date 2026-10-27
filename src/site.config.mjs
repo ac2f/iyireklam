@@ -2,8 +2,9 @@
 // (veya derleme sırasında SITE_URL ortam değişkeni verilir) ve `npm run build` çalıştırılır.
 
 export default {
-  brand: 'İyi Reklam',
-  brandFull: 'İyi Reklam Tabela & CNC Atölyesi',
+  // Firma adı (BRAND ortam değişkeniyle de verilebilir). Değişince `npm run build` ve `node scripts/make-images.mjs` çalıştırın.
+  brand: process.env.BRAND || 'İyi Reklam',
+  brandFull: (process.env.BRAND || 'İyi Reklam') + ' Tabela & CNC Atölyesi',
   tagline: 'Ankara tabela imalatı, kutu harf, CNC router ve lazer kesim',
   // Alan adı alınınca bunu değiştirin (örn. https://www.alanadiniz.com)
   siteUrl: (process.env.SITE_URL || 'https://ac2f.github.io/iyireklam').replace(/\/+$/, ''),

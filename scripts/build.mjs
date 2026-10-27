@@ -27,6 +27,9 @@ async function put(rel, data) {
   written.add(rel.split(path.sep).join('/'));
 }
 
+// Kaynak metinlerde marka adı "İyi Reklam" olarak yazılıdır; config'te farklı bir ad verilirse derlemede değiştirilir.
+const BRAND_SRC = 'İyi Reklam';
+const rebrand = (t) => (cfg.brand === BRAND_SRC ? t : t.split(BRAND_SRC).join(cfg.brand));
 const hash = (s) => createHash('sha1').update(s).digest('hex').slice(0, 8);
 const trimHtml = (h) => h.replace(/\n[ \t]+/g, '\n').replace(/\n{2,}/g, '\n');
 const today = new Date().toISOString().slice(0, 10);
@@ -51,7 +54,7 @@ async function main() {
     entryPoints: [out('src/wizard/main.js')],
     bundle: true, minify: true, format: 'iife', target: ['es2019'], write: false, legalComments: 'none',
   });
-  const wzCode = wz.outputFiles[0].text;
+  const wzCode = rebrand(wz.outputFiles[0].text);
   assetHash['wizard.js'] = hash(wzCode);
   await put('assets/wizard.js', wzCode);
 
@@ -66,7 +69,7 @@ async function main() {
   for (const p of pages) {
     const ctx = makeCtx(p.slug, assetHash);
     const page = p.build(ctx);
-    const html = trimHtml(renderPage(ctx, { ...page, slug: p.slug }));
+    const html = rebrand(trimHtml(renderPage(ctx, { ...page, slug: p.slug })));
     await put(p.slug === '' ? 'index.html' : `${p.slug}/index.html`, html);
   }
 
@@ -78,7 +81,7 @@ async function main() {
     ctx.href = (t, h = '') => (t === '' ? ctx.up : `${ctx.up}${t}/`) + h;
     ctx.asset = (n, withHash = true) => `${ctx.up}assets/${n}${withHash && assetHash[n] ? `?v=${assetHash[n]}` : ''}`;
     const page = notFoundPage(ctx);
-    await put('404.html', trimHtml(renderPage(ctx, { ...page, slug: '404' }).replaceAll(`href="${ctx.up}assets/img/`, `href="${ctx.up}assets/img/`)));
+    await put('404.html', rebrand(trimHtml(renderPage(ctx, { ...page, slug: '404' }))));
   }
 
   // ---- sitemap
@@ -142,7 +145,7 @@ async function main() {
     `- [Tam metin (llms-full.txt)](${cfg.siteUrl}/llms-full.txt)`,
     '',
   ].join('\n');
-  await put('llms.txt', llms);
+  await put('llms.txt', rebrand(llms));
 
   const full = [`# ${cfg.brand} — tam içerik özeti`, '', llms.split('\n').slice(2, 3).join('\n'), ''];
   for (const s of [...hubs, ...services]) {
@@ -155,7 +158,7 @@ async function main() {
   for (const g of guides) full.push(`## ${T(g.title)}`, `URL: ${abs('rehber/' + g.slug)}`, '', T(g.tldr), '', T(g.body), '');
   full.push('## Genel sorular');
   for (const [q, ans] of [...HOME_FAQ, ...WIZARD_FAQ]) full.push(`**${q}** ${T(ans)}`);
-  await put('llms-full.txt', full.join('\n') + '\n');
+  await put('llms-full.txt', rebrand(full.join('\n') + '\n'));
 
   // ---- manifest
   await put(
