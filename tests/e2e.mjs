@@ -303,6 +303,85 @@ await test('Hazır şablonlar: her biri uygulanır, ürün/sistem doğru, metin 
   await page.context().close();
 });
 
+await test('Küçük yazılar dekupe olur: önizleme, etiket, seçenekler, şartname, gece LED', async () => {
+  const page = await newPage();
+  await openWizard(page);
+  const svgText = () => page.locator('#wz-view svg').textContent();
+  // varsayılan cephe tasarımında küçük bir alt satır vardır -> dekupe
+  assert((await svgText()).includes('Küçük yazı: dekupe'), 'varsayılan önizlemede küçük yazı dekupe etiketi: ' + (await svgText()));
+  assert((await page.locator('#wz-view svg mask').count()) === 1, 'dekupe için panel maskesi');
+  await goStep(page, 'olcu');
+  await page.locator('input[data-k="L.2.t"]').fill('0312 000 00 00');
+  await goStep(page, 'detay');
+  assert(await page.locator('#g-kucuk').isVisible(), 'küçük yazılar grubu görünmeli');
+  assert((await page.locator('#g-kucuk .g-h').textContent()).includes('Şu an küçük sayılan'), 'küçük sayılan satırlar listelenmeli');
+  assert(await page.locator('#g-kucukarka').isVisible(), 'dekupe arkası grubu görünmeli');
+  // yöntemler
+  const expectLabel = { auto: 'Küçük yazı: dekupe', dekupe: 'Küçük yazı: dekupe', kabartma: 'Küçük yazı: kabartma düz harf', baski: 'Küçük yazı: folyo', same: null };
+  for (const [m, label] of Object.entries(expectLabel)) {
+    await hit(page.locator(`input[name=sm][value=${m}]`));
+    await page.waitForTimeout(120);
+    const t = await svgText();
+    if (label) assert(t.includes(label), `${m}: etiket "${label}" yok`);
+    else assert(!t.includes('Küçük yazı:'), 'same: etiket olmamalı');
+    assert(((await page.locator('#g-kucukarka').count()) === 1) === (m === 'auto' || m === 'dekupe'), `${m}: arka grubu görünürlüğü`);
+    await checkSvg(page, 'küçük yazı ' + m);
+  }
+  // şartname satırı
+  await hit(page.locator('input[name=sm][value=dekupe]'));
+  await hit(page.locator('input[name=sb][value=pleksi]'));
+  await goStep(page, 'ozet');
+  let spec = await page.locator('#spec-sheet').textContent();
+  assert(spec.includes('Küçük yazılar (10 cm altı)') && spec.includes('Dekupe') && spec.includes('renkli pleksi dolgu'), 'şartnamede küçük yazı satırı: ' + spec.slice(0, 200));
+  // gece: LED arkalı dekupe parlar
+  await goStep(page, 'detay');
+  await hit(page.locator('input[name=sb][value=led]'));
+  await page.locator('input[name=view][value=night]').check({ force: true });
+  await page.waitForTimeout(150);
+  assert((await page.locator('#wz-view svg').innerHTML()).includes('b1ls'), 'küçük yazı için LED parlaması');
+  // zeminsiz: dekupe mümkün değil -> kabartma düz harfa düşer
+  await goStep(page, 'zemin');
+  await hit(page.locator('input[name=z][value="0"]'));
+  await page.waitForTimeout(120);
+  assert((await svgText()).includes('Küçük yazı: kabartma düz harf'), 'zeminsizde kabartma düz harf: ' + (await svgText()));
+  // ana sistem kutu harf değilse kural uygulanmaz
+  await goStep(page, 'sistem');
+  await hit(page.locator('input[name=s][value=kabartma]'));
+  await page.waitForTimeout(120);
+  assert(!(await svgText()).includes('Küçük yazı:'), 'kabartmada etiket olmamalı');
+  await goStep(page, 'detay');
+  assert((await page.locator('#g-kucuk').count()) === 0, 'kabartmada küçük yazı grubu olmamalı');
+  noErrs(page);
+  await page.context().close();
+});
+
+await test('Küçük yazı tercihi bağlantıyla paylaşılır; kolay modda otomatik uygulanır ve listelenir', async () => {
+  const page = await newPage();
+  await openWizard(page);
+  await goStep(page, 'detay');
+  await hit(page.locator('input[name=sm][value=baski]'));
+  await goStep(page, 'ozet');
+  await page.waitForTimeout(500);
+  const p2 = await newPage();
+  await p2.goto(page.url(), { waitUntil: 'networkidle' });
+  await p2.waitForSelector('.wz-steps button');
+  assert((await state(p2)).sm === 'baski', 'sm paylaşımda korunmalı');
+  assert((await p2.locator('#spec-sheet').textContent()).includes('Folyo / baskı'), 'paylaşılan şartnamede folyo');
+  await p2.context().close();
+  // kolay mod: ışıklı harf + küçük satır -> otomatik dekupe, "seçtiklerimiz" listesinde
+  const p3 = await newPage();
+  await openWizard(p3, '?tur=isikli_harf', { mode: null });
+  assert((await p3.locator('#wz-view svg').textContent()).includes('Küçük yazı: dekupe'), 'kolay modda dekupe etiketi');
+  await goStep(p3, 'olcu');
+  assert((await p3.locator('#g-metin .g-hint').textContent()).includes('dekupe'), 'metin adımında bilgilendirme');
+  await goStep(p3, 'gorunum');
+  assert((await p3.locator('.sel-box').textContent()).includes('Küçük yazılar'), 'seçtiklerimiz listesinde küçük yazılar');
+  noErrs(p3);
+  await p3.context().close();
+  noErrs(page);
+  await page.context().close();
+});
+
 await test('Ölçü doğrulama: aralık dışı değer uyarı verir, tamamlanınca düzeltilir', async () => {
   const page = await newPage();
   await openWizard(page);

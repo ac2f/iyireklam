@@ -3,6 +3,7 @@
 // base verilirse (örn. /iyireklam) site o alt yolda yayınlanıyormuş gibi sunulur (GitHub Pages benzetimi).
 import http from 'node:http';
 import { readFile, stat } from 'node:fs/promises';
+import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -43,12 +44,17 @@ export function startServer(port = 4173, base = '') {
       res.writeHead(500); res.end(String(e));
     }
   });
-  return new Promise((resolve) => server.listen(port, () => resolve(server)));
+  // 0.0.0.0: aynı Wi-Fi ağındaki telefonlar da bağlanabilsin
+  return new Promise((resolve) => server.listen(port, '0.0.0.0', () => resolve(server)));
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const port = Number(process.argv[2]) || 4173;
   const base = process.argv[3] || '';
   await startServer(port, base);
-  console.log(`http://localhost:${port}${base}/`);
+  console.log(`\nBilgisayarda:  http://localhost:${port}${base}/`);
+  const lan = Object.values(os.networkInterfaces()).flat().filter((i) => i && i.family === 'IPv4' && !i.internal);
+  for (const i of lan) console.log(`Telefonda:     http://${i.address}:${port}${base}/   (telefon ve bilgisayar aynı Wi-Fi ağında olmalı)`);
+  if (!lan.length) console.log('Telefonda:     (ağ adresi bulunamadı; bilgisayarın Wi-Fi/Ethernet bağlantısını kontrol edin)');
+  console.log('Durdurmak için Ctrl+C\n');
 }

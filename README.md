@@ -65,6 +65,7 @@ npm run serve      # http://localhost:4173 (yerel önizleme)
 
 Ürünler: cephe tabelası, totem, kapı/ofis tabelası, germe tabela.  
 Harf sistemleri: ışıklı / ışıksız kutu harf, krom harf (fileli/filesiz/tam krom), kabartma düz harf, dekupe, lazer kesim metal harf, baskı/folyo.  
+**Küçük yazılar:** kutu harf / krom harf tasarımlarında harf yüksekliği 10 cm’nin altındaki satırlar (slogan, telefon vb.) otomatik olarak **dekupe** (panelden oyma, ışıklıysa arkadan LED) çizilir; önizlemede etiketle gösterilir, şartnameye yazılır. Detaylı modda yöntem (dekupe / kabartma / folyo / hepsi kutu harf) ve dekupe arkası değiştirilebilir. Sınır `SMALL_TEXT_CM` ile `src/data/catalog.mjs` içinde ayarlanır.  
 Her seçenek grubunda **not alanı**, **fiyat etkisi etiketi** ve “**en uygun seçenek**” ipucu bulunur; fiyat rakamı gösterilmez.
 
 Şartname: WhatsApp (`wa.me/905315209001`), PNG, yazdır/PDF, metin kopyala, bağlantı kopyala. Veriler yalnızca tarayıcıda tutulur.
@@ -87,6 +88,15 @@ Kodla yapılanlar:
 4. Tamamlanan işlerin fotoğraflarını (önce/sonra, gece görünümü) Google profiline ve ileride siteye ekleyin.
 5. Alan adını edinip `siteUrl`’i güncelleyin (yukarıya bakın).
 6. İsterseniz `gaId` alanına Google Analytics kimliği girin (boşsa hiçbir üçüncü taraf betik yüklenmez).
+
+## Mobilde test etme
+
+1. **En kolayı — yayındaki adres:** GitHub Pages açıldıktan sonra `https://ac2f.github.io/iyireklam/` adresini telefonda açın (kamera ile QR okutmak için adresi bir QR üretici sitesine yapıştırabilirsiniz). Her `master` güncellemesinden 1–2 dakika sonra yeni sürüm görünür; eski görünüm kalırsa sayfayı yenileyin.
+2. **Bilgisayardan canlı önizleme:** `npm install && npm run serve` komutu hem `http://localhost:4173` hem de `http://192.168.x.x:4173` gibi bir *telefon adresi* yazar. Telefon ve bilgisayar **aynı Wi-Fi ağındaysa** bu adresi telefonda açın (bilgisayar güvenlik duvarı gelen bağlantıyı engelliyorsa 4173 portuna izin verin).
+3. **Telefonsuz hızlı kontrol:** Chrome/Edge’de siteyi açıp `F12` → `Ctrl+Shift+M` (cihaz çubuğu) → iPhone/Pixel seçin; **Fast 4G** ağ kısıtlamasıyla hız, **Lighthouse → Mobile** ile puan ölçün. Safari’de *Geliştir → Duyarlı Tasarım Modu*.
+4. **Gerçek cihazda hata ayıklama:** Android: Chrome’da `chrome://inspect`; iPhone: iPhone *Ayarlar → Safari → Gelişmiş → Web Inspector*, Mac Safari’de *Geliştir → (iPhone adı)*.
+
+**Telefonda mutlaka deneyin:** sihirbazda Kolay mod → 3 soru → tür → ölçü/yazı → görünüm → şartname; Gündüz/Gece anahtarı; “Büyüt”; yazı yazarken klavyenin önizlemeyi kapatmaması; “WhatsApp ile gönder” (WhatsApp açılmalı); “Görseli paylaş” (paylaşım menüsü); yatay/dikey döndürme; menü, “Ara” ve “WhatsApp” düğmeleri.
 
 ## Test
 

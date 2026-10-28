@@ -2,7 +2,7 @@
 import {
   COST_LEVELS, THICKNESS, DEPTHS, SIDE_COLORS, KROM_SIDES, LED_BRANDS, LED_COLORS, FRAME_COLORS,
   FONTS, GERME_COLORS, GERME_INK, CORNERS, LASER_MATERIALS, LASER_FINISH, FIX_TYPES,
-  SERVICE_OPTIONS, PLEXI_COLORS, FOIL_COLORS, STRATEGIES, ZEMIN_MATERIALS, fmtMm,
+  SERVICE_OPTIONS, PLEXI_COLORS, FOIL_COLORS, STRATEGIES, ZEMIN_MATERIALS, fmtMm, SMALL_TEXT_CM,
 } from '../data/catalog.mjs';
 import { LETTER_MATS, getProduct, paletteFor, encodeState } from './state.js';
 
@@ -52,6 +52,25 @@ export const isLit = (st) =>
   (st.s === 'krom' && st.o.kl === 1 && st.o.kt !== 'tam') ||
   (st.s === 'dekupe' && st.o.df === 'led') ||
   st.p === 'germe';
+
+/** Küçük yazı kuralı yalnızca hacimli (kutu) harf sistemlerinde geçerlidir */
+export const BOX_STRATS = ['kutu_isikli', 'kutu_isiksiz', 'krom'];
+
+/**
+ * Harf yüksekliği SMALL_TEXT_CM altındaki satırlar için uygulanacak yöntem.
+ * @returns {null | {method:'dekupe'|'kabartma'|'baski', backing:string|null}} null = küçük yazılar ana sistemle yapılır
+ */
+export function smallPlan(st) {
+  if (!BOX_STRATS.includes(st.s)) return null;
+  let m = st.sm;
+  if (m === 'same') return null;
+  if (m === 'auto' || m === 'dekupe') m = hasZemin(st) ? 'dekupe' : 'kabartma'; // dekupe için panel gerekir
+  if (m === 'dekupe') {
+    const backing = st.sb === 'auto' ? (isLit(st) ? 'led' : 'bos') : st.sb;
+    return { method: 'dekupe', backing };
+  }
+  return { method: m, backing: null };
+}
 
 export const plexiOf = (id) => find(PLEXI_COLORS, id);
 export const ledColor = (id) => find(LED_COLORS, id);
@@ -162,6 +181,22 @@ export function buildRows(st, meta) {
       g: 'Harf', k: 'sistem', label: 'Harf sistemi', value: strat.name, cost: strat.cost,
       tipList: prod.strategies.map((id) => STRATEGIES[id]), tipKey: 'name',
     });
+    const sp = smallPlan(st);
+    if (meta.small && meta.small.lines.length && sp) {
+      const NAME = { dekupe: 'Dekupe (zeminden oyma)', kabartma: 'Kabartma düz harf', baski: 'Folyo / baskı' };
+      const BACK = { bos: 'arkası açık', pleksi: 'arkadan renkli pleksi dolgu', led: 'arkadan pleksi + LED' };
+      add({
+        g: 'Harf', k: 'kucuk_yazi', label: `Küçük yazılar (${SMALL_TEXT_CM} cm altı)`,
+        value: `${NAME[sp.method]}${sp.method === 'dekupe' ? ` — ${BACK[sp.backing]}` : ''} · ${meta.small.lines.map((t) => `“${t}”`).join(', ')}`,
+        cost: sp.method === 'dekupe' ? { bos: 0, pleksi: 1, led: 3 }[sp.backing] : sp.method === 'kabartma' ? 1 : 0,
+      });
+    } else if (meta.tiny && meta.tiny.length && BOX_STRATS.includes(st.s) && !sp) {
+      add({
+        g: 'Harf', k: 'kucuk_yazi', label: `Küçük yazılar (${SMALL_TEXT_CM} cm altı)`,
+        value: `Kutu harf olarak yapılacak — ${SMALL_TEXT_CM} cm altı harflerde imalat zordur · ${meta.tiny.map((t) => `“${t}”`).join(', ')}`,
+        cost: 2,
+      });
+    }
   }
 
   if (v.plexiFront) {

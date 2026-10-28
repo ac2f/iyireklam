@@ -4,10 +4,11 @@ import {
   LED_COLORS, FRAME_COLORS, FONTS, PRESETS, GERME_COLORS, GERME_INK, CORNERS, LASER_MATERIALS, LASER_FINISH,
   FIX_TYPES, SERVICE_OPTIONS, PLEXI_COLORS, FOIL_COLORS, COST_LEVELS, fmtMm, PLEXI_THICKNESS_NOTE,
   EASY_TYPES, EASY_BUDGETS, EASY_COLORS, EASY_BG, EASY_LIGHTS, EASY_METALS, QUIZ,
+  SMALL_TEXT_CM, SMALL_METHODS, SMALL_BACKINGS,
 } from '../data/catalog.mjs';
 import { getProduct, paletteFor, LETTER_MATS } from './state.js';
 import {
-  visible, hasZemin, cheapest, zeminMat, find, summarize, refNo, costLabel, itemCost, buildRows,
+  visible, hasZemin, cheapest, zeminMat, find, summarize, refNo, costLabel, itemCost, buildRows, smallPlan, BOX_STRATS,
 } from './model.js';
 import { easyType, budgetSummary, contrastWarning } from './easy.js';
 
@@ -329,6 +330,9 @@ function stepOlcu(app) {
     group({ id: 'olcu', title: 'Ölçü', body: sizeBody, note: 'olcu', st }) +
     group({
       id: 'metin', title: 'Metin', help: 'Boş bıraktığınız satırlar çizilmez. Türkçe karakterler (İ, ı, ğ, ş) desteklenir.',
+      hint: BOX_STRATS.includes(st.s) && !(st.p === 'germe')
+        ? `<b>Küçük yazılar:</b> harf yüksekliği ${SMALL_TEXT_CM} cm’nin altındaki satırlar (örn. slogan, telefon) kutu harf yerine <b>dekupe</b> yapılır; önizlemede panelden oyulmuş olarak görürsünüz.`
+        : '',
       body: `<div class="lines">${lines.join('')}</div>` +
         toggle('up', st.up, 'BÜYÜK HARF', 'Tüm yazıyı büyük harfe çevirir') +
         `<label class="rng"><span>Yazı boyutu <output>${st.fit}%</output></span><input type="range" min="40" max="100" step="5" value="${st.fit}" data-k="fit" data-num="1" data-min="40" data-max="100" aria-label="Yazı boyutu yüzdesi"></label>`,
@@ -439,6 +443,34 @@ function ledGroups(st) {
   );
 }
 
+
+function smallGroups(app) {
+  const st = app.st;
+  const meta = app.meta || {};
+  const sp = smallPlan(st);
+  const cm = (n) => `${String(Math.round(n * 10) / 10).replace('.', ',')} cm`;
+  const tiny = (meta.lines || []).filter((l) => l.capCm < SMALL_TEXT_CM);
+  const mainName = { kutu_isikli: 'ışıklı kutu harf', kutu_isiksiz: 'kutu harf', krom: 'krom harf' }[st.s];
+  const info = tiny.length
+    ? `Şu an küçük sayılan yazılar: ${tiny.map((l) => `“${esc(l.text)}” (≈ ${cm(l.capCm)})`).join(', ')}.`
+    : `Şu an ${SMALL_TEXT_CM} cm’nin altında harf yok; tüm yazılar ${mainName} olur. Slogan veya telefon gibi küçük bir satır eklerseniz otomatik olarak dekupe önizlenir.`;
+  let html = group({
+    id: 'kucuk', title: `Küçük yazılar (${SMALL_TEXT_CM} cm altı)`,
+    help: `Çok küçük harflerin kutu harf olarak yapılması zordur. Bu yüzden küçük yazılar genellikle <b>dekupe</b> (panelden oyma) yapılır. ${info}`,
+    body: radios('sm', st.sm, SMALL_METHODS.map((m) => ({ v: m.id, t: m.name, d: m.desc }))),
+    hint: !hasZemin(st) ? 'Dekupe için zemin (panel) gerekir; zeminsiz tasarımda küçük yazılar kabartma düz harf olarak yapılır.' : '',
+    note: 'kucuk_yazi', st,
+  });
+  if (sp && sp.method === 'dekupe') {
+    const items = SMALL_BACKINGS.map((b) => ({ v: b.id, t: b.name, d: b.desc, cost: b.cost }));
+    html += group({
+      id: 'kucukarka', title: 'Küçük yazıların arkası (dekupe)', body: radios('sb', st.sb, items),
+      hint: costHint(items.filter((i) => typeof i.cost === 'number')), note: 'kucuk_arka', st,
+    });
+  }
+  return html;
+}
+
 function stepDetay(app) {
   const st = app.st;
   const v = visible(st);
@@ -517,6 +549,7 @@ function stepDetay(app) {
       hint: costHint(items, 'Daha derin harf daha fazla malzeme ve işçilik demektir. Farklı bir derinlik için not yazabilirsiniz.'), note: 'derinlik', st,
     });
   }
+  if (BOX_STRATS.includes(st.s)) html += smallGroups(app);
 
   // Kabartma
   if (v.kabartma) {

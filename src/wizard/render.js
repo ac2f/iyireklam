@@ -1,10 +1,10 @@
 // Tabela önizleme motoru: seçimlerden SVG sahne üretir (gündüz / gece).
 import {
-  FONTS, SIDE_COLORS, LED_COLORS, FRAME_COLORS, GERME_COLORS, GERME_INK, LASER_FINISH, FOIL_COLORS,
+  FONTS, SIDE_COLORS, LED_COLORS, FRAME_COLORS, GERME_COLORS, GERME_INK, LASER_FINISH, FOIL_COLORS, SMALL_TEXT_CM,
 } from '../data/catalog.mjs';
 import { getProduct } from './state.js';
 import {
-  find, activeLines, hasZemin, plexiOf, zeminColor, kabartmaColor, visible,
+  find, activeLines, hasZemin, plexiOf, zeminColor, kabartmaColor, visible, smallPlan,
 } from './model.js';
 
 // ---------------------------------------------------------------------------
@@ -295,12 +295,28 @@ export function buildScene(st, opts = {}) {
   }
   meta.area = area;
 
-  const textEls = laid
+  // Küçük yazı kuralı: kutu harf sistemlerinde harf yüksekliği SMALL_TEXT_CM altındaki satırlar
+  // dekupe (veya seçilen yöntem) ile yapılır; ayrı bir grupta çizilir.
+  const sp = st.p === 'germe' ? null : smallPlan(st);
+  const boxy = ['kutu_isikli', 'kutu_isiksiz', 'krom'].includes(st.s);
+  const tinyLine = (l) => l.capPx / pxPerCm < SMALL_TEXT_CM;
+  const smallLaid = sp ? laid.filter(tinyLine) : [];
+  const mainLaid = sp ? laid.filter((l) => !tinyLine(l)) : laid;
+  meta.lines.forEach((l) => { l.small = !!sp && l.capCm < SMALL_TEXT_CM; });
+  meta.small = sp && smallLaid.length
+    ? { method: sp.method, backing: sp.backing, lines: meta.lines.filter((l) => l.small).map((l) => l.text) }
+    : null;
+  meta.tiny = boxy && !sp ? meta.lines.filter((l) => l.capCm < SMALL_TEXT_CM).map((l) => l.text) : [];
+
+  const textEls = (arr) => arr
     .map((l) => `<text x="${l.cx}" y="${l.base}" font-size="${l.size}" letter-spacing="${l.ls}">${esc(l.text)}</text>`)
     .join('');
-  defs.push(`<g id="${idp}lt" text-anchor="middle" font-family="${font.stack}" font-weight="${font.weight}">${textEls}</g>`);
-  const U = (extra = '') => `<use href="#${idp}lt" ${extra}/>`;
-  const minSize = laid.length ? Math.min(...laid.map((l) => l.size)) : 20;
+  const gAttr = `text-anchor="middle" font-family="${font.stack}" font-weight="${font.weight}"`;
+  defs.push(`<g id="${idp}lt" ${gAttr}>${textEls(mainLaid)}</g>`);
+  defs.push(`<g id="${idp}ls" ${gAttr}>${textEls(smallLaid)}</g>`);
+  const Ug = (gid, extra = '') => `<use href="#${idp}${gid}" ${extra}/>`;
+  const U = (extra = '') => Ug('lt', extra);
+  const minOf = (arr) => (arr.length ? Math.min(...arr.map((l) => l.size)) : 20);
 
   // ---- zemin
   const cornerR = st.cr === 'yuvarlak' ? clamp(Math.min(sw, sh) * 0.14, 6, 46) : 2;
@@ -308,29 +324,14 @@ export function buildScene(st, opts = {}) {
   const zFill = zItem ? fillFor(zItem, idp, 'z') : null;
   const zDepth = clamp((st.zt / 10) * pxPerCm * 1.4, 2, 10);
 
-  const isCut = st.s === 'dekupe' && hasZ && laid.length > 0;
+  const mainCut = st.s === 'dekupe' && hasZ && mainLaid.length > 0;
+  const smallCut = !!sp && sp.method === 'dekupe' && hasZ && smallLaid.length > 0;
+  const isCut = mainCut || smallCut;
 
   // ---- harf stili
   const lit = visible(st).led || st.p === 'germe';
   const o = st.o;
   const led = find(LED_COLORS, o.lc);
-
-  function glowLayer(color, strength = 1) {
-    const b1 = clamp(minSize * 0.07, 1.5, 9);
-    const b2 = clamp(minSize * 0.28, 5, 34);
-    defs.push(`<filter id="${idp}b1" x="-20%" y="-80%" width="140%" height="260%"><feGaussianBlur stdDeviation="${r1(b1)}"/></filter>`);
-    defs.push(`<filter id="${idp}b2" x="-30%" y="-120%" width="160%" height="340%"><feGaussianBlur stdDeviation="${r1(b2)}"/></filter>`);
-    return (
-      U(`fill="${color}" filter="url(#${idp}b2)" opacity="${r1(0.55 * strength)}" stroke="${color}" stroke-width="${r1(minSize * 0.12)}"`) +
-      U(`fill="${color}" filter="url(#${idp}b1)" opacity="${r1(0.9 * strength)}"`)
-    );
-  }
-
-  function extrusion(n, fill, dx = 0.55, dy = 0.7) {
-    let s = '';
-    for (let k = n; k >= 1; k--) s += U(`x="${r1(k * dx)}" y="${r1(k * dy)}" fill="${fill}"`);
-    return s;
-  }
 
   // ---- sahne parçaları: panel
   function panelSVG() {
@@ -348,7 +349,7 @@ export function buildScene(st, opts = {}) {
     inner += `<rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" rx="${r1(cornerR)}" fill="url(#${idp}shine)" opacity=".28"/>`;
     inner += `<rect x="${sx + 0.5}" y="${sy + 0.5}" width="${sw - 1}" height="${sh - 1}" rx="${r1(cornerR)}" fill="none" stroke="rgba(255,255,255,.35)"/>`;
     if (isCut) {
-      defs.push(`<mask id="${idp}cut" maskUnits="userSpaceOnUse" x="${sx - 20}" y="${sy - 20}" width="${sw + 60}" height="${sh + 60}"><rect x="${sx - 20}" y="${sy - 20}" width="${sw + 60}" height="${sh + 60}" fill="#fff"/><use href="#${idp}lt" fill="#000" stroke="#000" stroke-width="0.6"/></mask>`);
+      defs.push(`<mask id="${idp}cut" maskUnits="userSpaceOnUse" x="${sx - 20}" y="${sy - 20}" width="${sw + 60}" height="${sh + 60}"><rect x="${sx - 20}" y="${sy - 20}" width="${sw + 60}" height="${sh + 60}" fill="#fff"/>${mainCut ? Ug('lt', 'fill="#000" stroke="#000" stroke-width="0.6"') : ''}${smallCut ? Ug('ls', 'fill="#000" stroke="#000" stroke-width="0.6"') : ''}</mask>`);
       parts.push(`<g filter="url(#${idp}psh)"><g mask="url(#${idp}cut)">${inner}</g></g>`);
     } else {
       parts.push(`<g filter="url(#${idp}psh)">${inner}</g>`);
@@ -407,16 +408,6 @@ export function buildScene(st, opts = {}) {
     // =======================================================================
     let panel = '';
     if (hasZ) {
-      // dekupe arkası
-      if (isCut) {
-        const df = o.df;
-        if (df === 'bos') {
-          under.push(U(`fill="${night ? '#0b0e14' : '#cfc8ba'}"`));
-        } else {
-          const pc = plexiOf(o.pc);
-          under.push(U(`fill="${pc.hex}"`));
-        }
-      }
       panel = panelSVG();
     } else {
       // zeminsiz: alanı kesik çizgilerle göster
@@ -424,21 +415,39 @@ export function buildScene(st, opts = {}) {
     }
 
     // =====================================================================
-    // Harfler
+    // Harfler: ana yazılar (st.s) ve küçük yazılar (dekupe vb.) ayrı gruplarda
     // =====================================================================
     let letters = '';
     let litLetters = '';
-    if (laid.length) {
-      const dpx = (cm) => clamp(cm * pxPerCm * 0.55, 3, 16);
-      const sh1 = `<filter id="${idp}dsh" x="-10%" y="-20%" width="130%" height="170%"><feDropShadow dx="2.5" dy="4.5" stdDeviation="3.5" flood-color="#000" flood-opacity="${night ? 0.55 : 0.32}"/></filter>`;
-      defs.push(sh1);
-      const gS = `url(#${idp}gS)`;
-      const gG = `url(#${idp}gG)`;
+    const dpx = (cm) => clamp(cm * pxPerCm * 0.55, 3, 16);
+    defs.push(`<filter id="${idp}dsh" x="-10%" y="-20%" width="130%" height="170%"><feDropShadow dx="2.5" dy="4.5" stdDeviation="3.5" flood-color="#000" flood-opacity="${night ? 0.55 : 0.32}"/></filter>`);
+    const gS = `url(#${idp}gS)`;
+    const gG = `url(#${idp}gG)`;
 
-      switch (st.s) {
+    /** gid: 'lt' | 'ls'; method: strateji kimliği; c: { arr, small, backing } */
+    function drawGroup(gid, method, c) {
+      const Uu = (extra = '') => Ug(gid, extra);
+      const minS = minOf(c.arr);
+      const glow = (color, strength = 1) => {
+        const b1 = clamp(minS * 0.07, 1.5, 9);
+        const b2 = clamp(minS * 0.28, 5, 34);
+        defs.push(`<filter id="${idp}b1${gid}" x="-20%" y="-80%" width="140%" height="260%"><feGaussianBlur stdDeviation="${r1(b1)}"/></filter>`);
+        defs.push(`<filter id="${idp}b2${gid}" x="-30%" y="-120%" width="160%" height="340%"><feGaussianBlur stdDeviation="${r1(b2)}"/></filter>`);
+        return (
+          Uu(`fill="${color}" filter="url(#${idp}b2${gid})" opacity="${r1(0.55 * strength)}" stroke="${color}" stroke-width="${r1(minS * 0.12)}"`) +
+          Uu(`fill="${color}" filter="url(#${idp}b1${gid})" opacity="${r1(0.9 * strength)}"`)
+        );
+      };
+      const extr = (n, fill, dx = 0.55, dy = 0.7) => {
+        let out = '';
+        for (let k = n; k >= 1; k--) out += Uu(`x="${r1(k * dx)}" y="${r1(k * dy)}" fill="${fill}"`);
+        return out;
+      };
+
+      switch (method) {
         case 'kutu_isikli':
         case 'kutu_isiksiz': {
-          const isLit = st.s === 'kutu_isikli';
+          const isLit = method === 'kutu_isikli';
           const pc = plexiOf(o.pc);
           const n = Math.round(dpx(o.dp));
           const clear = pc.clear;
@@ -456,13 +465,13 @@ export function buildScene(st, opts = {}) {
             const gcol = dark ? pc.hex : lum(pc.hex) > 0.8 ? led.glow : mix(pc.hex, led.glow, 0.2);
             const strength = dark ? 0.2 : 1;
             const faceCol = dark ? shade(pc.hex, 0.1) : mix(lum(pc.hex) > 0.8 ? led.hex : pc.hex, '#ffffff', 0.2);
-            if (!sideLit) letters += `<g filter="url(#${idp}dsh)">${extrusion(n, sideFill)}</g>`;
-            litLetters += glowLayer(gcol, strength);
-            if (sideLit) litLetters += extrusion(n, shade(sideFill, 0.25));
-            litLetters += U(`fill="${faceCol}" stroke="${shade(gcol, 0.2)}" stroke-width=".7"`);
-            litLetters += U(`fill="url(#${idp}shine)" opacity=".18"`);
+            if (!sideLit) letters += `<g filter="url(#${idp}dsh)">${extr(n, sideFill)}</g>`;
+            litLetters += glow(gcol, strength);
+            if (sideLit) litLetters += extr(n, shade(sideFill, 0.25));
+            litLetters += Uu(`fill="${faceCol}" stroke="${shade(gcol, 0.2)}" stroke-width=".7"`);
+            litLetters += Uu(`fill="url(#${idp}shine)" opacity=".18"`);
           } else {
-            letters += `<g filter="url(#${idp}dsh)">${extrusion(n, sideFill)}${U(`fill="${pc.hex}" ${clear ? 'fill-opacity=".85"' : ''} stroke="${shade(pc.hex, -0.28)}" stroke-width=".7"`)}${U(`fill="url(#${idp}shine)" opacity=".5"`)}</g>`;
+            letters += `<g filter="url(#${idp}dsh)">${extr(n, sideFill)}${Uu(`fill="${pc.hex}" ${clear ? 'fill-opacity=".85"' : ''} stroke="${shade(pc.hex, -0.28)}" stroke-width=".7"`)}${Uu(`fill="url(#${idp}shine)" opacity=".5"`)}</g>`;
           }
           break;
         }
@@ -470,33 +479,34 @@ export function buildScene(st, opts = {}) {
           const metal = o.ks === 'altin' ? gG : gS;
           const metalHex = o.ks === 'altin' ? '#c99b34' : '#aab2bb';
           const n = Math.round(dpx(o.dp));
-          const fw = r1(clamp(minSize * 0.035, 1.2, 4));
+          const fw = r1(clamp(minS * 0.035, 1.2, 4));
           const pc = plexiOf(o.pc);
           const isLit = o.kl === 1 && o.kt !== 'tam';
           if (o.kt === 'tam') {
-            letters += `<g filter="url(#${idp}dsh)">${extrusion(n, metal)}${U(`fill="${metal}" stroke="${metalHex}" stroke-width=".6"`)}${U(`fill="url(#${idp}shine)" opacity=".35"`)}</g>`;
+            letters += `<g filter="url(#${idp}dsh)">${extr(n, metal)}${Uu(`fill="${metal}" stroke="${metalHex}" stroke-width=".6"`)}${Uu(`fill="url(#${idp}shine)" opacity=".35"`)}</g>`;
           } else if (isLit && night) {
             const dark = lum(pc.hex) < 0.12;
             const gcol = dark ? pc.hex : lum(pc.hex) > 0.8 ? led.glow : mix(pc.hex, led.glow, 0.2);
             const faceCol = dark ? shade(pc.hex, 0.1) : mix(lum(pc.hex) > 0.8 ? led.hex : pc.hex, '#ffffff', 0.2);
-            letters += `<g filter="url(#${idp}dsh)">${extrusion(n, metal)}</g>`;
-            litLetters += glowLayer(gcol, dark ? 0.2 : 0.85);
-            if (o.kt === 'fileli') litLetters += U(`fill="${metal}" stroke="${metal}" stroke-width="${fw * 2}" stroke-linejoin="round"`);
-            litLetters += U(`fill="${faceCol}"`);
+            letters += `<g filter="url(#${idp}dsh)">${extr(n, metal)}</g>`;
+            litLetters += glow(gcol, dark ? 0.2 : 0.85);
+            if (o.kt === 'fileli') litLetters += Uu(`fill="${metal}" stroke="${metal}" stroke-width="${fw * 2}" stroke-linejoin="round"`);
+            litLetters += Uu(`fill="${faceCol}"`);
           } else {
-            letters += `<g filter="url(#${idp}dsh)">${extrusion(n, metal)}`;
-            if (o.kt === 'fileli') letters += U(`fill="${metal}" stroke="${metal}" stroke-width="${fw * 2}" stroke-linejoin="round"`);
-            letters += `${U(`fill="${pc.hex}" stroke="${shade(pc.hex, -0.25)}" stroke-width=".5"`)}${U(`fill="url(#${idp}shine)" opacity=".5"`)}</g>`;
+            letters += `<g filter="url(#${idp}dsh)">${extr(n, metal)}`;
+            if (o.kt === 'fileli') letters += Uu(`fill="${metal}" stroke="${metal}" stroke-width="${fw * 2}" stroke-linejoin="round"`);
+            letters += `${Uu(`fill="${pc.hex}" stroke="${shade(pc.hex, -0.25)}" stroke-width=".5"`)}${Uu(`fill="url(#${idp}shine)" opacity=".5"`)}</g>`;
           }
           break;
         }
         case 'kabartma': {
-          const it = kabartmaColor(st);
-          const f = fillFor(it, idp, 'k');
+          // küçük yazılarda: ön yüz pleksisiyle aynı renkte ince kabartma düz harf
+          const it = c.small ? { hex: plexiOf(o.pc).hex } : kabartmaColor(st);
+          const f = c.small ? { defs: '', fill: it.hex, base: it.hex } : fillFor(it, idp, 'k');
           defs.push(f.defs);
-          const n = Math.round(clamp(o.kk * 0.35, 1.5, 7));
+          const n = c.small ? 2 : Math.round(clamp(o.kk * 0.35, 1.5, 7));
           const side = shade(f.base, -0.38);
-          letters += `<g filter="url(#${idp}dsh)">${extrusion(n, side, 0.5, 0.65)}${U(`fill="${f.fill}" stroke="${shade(f.base, -0.2)}" stroke-width=".5"`)}${U(`fill="url(#${idp}shine)" opacity="${it.mirror ? 0.25 : 0.4}"`)}</g>`;
+          letters += `<g filter="url(#${idp}dsh)">${extr(n, side, 0.5, 0.65)}${Uu(`fill="${f.fill}" stroke="${shade(f.base, -0.2)}" stroke-width=".5"`)}${Uu(`fill="url(#${idp}shine)" opacity="${it.mirror ? 0.25 : 0.4}"`)}</g>`;
           break;
         }
         case 'lazer': {
@@ -504,30 +514,55 @@ export function buildScene(st, opts = {}) {
           const f = fillFor(lf, idp, 'l');
           defs.push(f.defs);
           const n = Math.round(clamp(o.lk * 0.5, 1.5, 4));
-          letters += `<g filter="url(#${idp}dsh)">${extrusion(n, shade(f.base, -0.42), 0.4, 0.5)}${U(`fill="${f.fill}" stroke="${shade(f.base, -0.25)}" stroke-width=".5"`)}${U(`fill="url(#${idp}shine)" opacity=".28"`)}</g>`;
+          letters += `<g filter="url(#${idp}dsh)">${extr(n, shade(f.base, -0.42), 0.4, 0.5)}${Uu(`fill="${f.fill}" stroke="${shade(f.base, -0.25)}" stroke-width=".5"`)}${Uu(`fill="url(#${idp}shine)" opacity=".28"`)}</g>`;
           break;
         }
         case 'baski': {
-          const fc = find(FOIL_COLORS, o.fc);
-          const f = fillFor(fc, idp, 'b');
-          defs.push(f.defs);
-          letters += U(`fill="${f.fill}"`);
+          if (c.small) {
+            // küçük yazılarda folyo rengi zeminle zıt seçilir
+            letters += Uu(`fill="${hasZ && lum(zFill.base) < 0.5 ? '#f6f6f3' : '#16171b'}"`);
+          } else {
+            const fc = find(FOIL_COLORS, o.fc);
+            const f = fillFor(fc, idp, 'b');
+            defs.push(f.defs);
+            letters += Uu(`fill="${f.fill}"`);
+          }
           break;
         }
         case 'dekupe': {
-          // kenar çizgisi
-          letters += U(`fill="none" stroke="rgba(0,0,0,.45)" stroke-width="1"`);
-          if (o.df === 'led' && night) {
-            const pc = plexiOf(o.pc);
+          const backing = c.backing || o.df;
+          const pc = plexiOf(o.pc);
+          // panelin altındaki katman: boşsa duvar, doluysa pleksi
+          under.push(backing === 'bos' ? Uu(`fill="${night ? '#0b0e14' : '#cfc8ba'}"`) : Uu(`fill="${pc.hex}"`));
+          letters += Uu(`fill="none" stroke="rgba(0,0,0,.45)" stroke-width="1"`);
+          if (backing === 'led' && night) {
             const gcol = lum(pc.hex) > 0.8 ? led.glow : mix(pc.hex, led.glow, 0.2);
-            litLetters += glowLayer(gcol, 0.55);
-            litLetters += U(`fill="${mix(lum(pc.hex) > 0.8 ? led.hex : pc.hex, '#ffffff', 0.25)}"`);
+            litLetters += glow(gcol, 0.55);
+            litLetters += Uu(`fill="${mix(lum(pc.hex) > 0.8 ? led.hex : pc.hex, '#ffffff', 0.25)}"`);
           }
           break;
         }
         default:
           break;
       }
+    }
+
+    if (mainLaid.length) {
+      // ana yazılar; dekupe ise panel yoksa çizilmez (normalize zemini zorunlu kılar)
+      if (st.s !== 'dekupe' || hasZ) drawGroup('lt', st.s, { arr: mainLaid, small: false, backing: null });
+    }
+    if (smallLaid.length && sp) drawGroup('ls', sp.method, { arr: smallLaid, small: true, backing: sp.backing });
+
+    // Önizlemede küçük yazı kuralını açıkça göster
+    if (meta.small) {
+      const NAME = { dekupe: 'dekupe', kabartma: 'kabartma düz harf', baski: 'folyo' };
+      const MAIN = { kutu_isikli: 'ışıklı kutu harf', kutu_isiksiz: 'kutu harf', krom: 'krom harf' }[st.s];
+      const label = `Büyük yazı: ${MAIN} · Küçük yazı: ${NAME[meta.small.method]}`;
+      const lw = label.length * 8.9 + 34;
+      hud.push(
+        `<g transform="translate(14 14)"><rect width="${r1(lw)}" height="32" rx="16" fill="${night ? '#1b2231' : '#fff'}" stroke="${night ? '#38425a' : '#d6cfbf'}"/>` +
+        `<circle cx="17" cy="16" r="4.5" fill="#b8913a"/><text x="30" y="21" font-size="15.5" font-family="Inter, Arial, sans-serif" font-weight="600" fill="${dimLabel}">${esc(label)}</text></g>`,
+      );
     }
 
     baseLayer.push(under.join(''));

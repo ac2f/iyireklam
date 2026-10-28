@@ -4,7 +4,7 @@ import {
   LED_BRANDS, LED_COLORS, FRAME_COLORS, FONTS, GERME_COLORS, GERME_INK, DEPTHS, CORNERS,
   LASER_MATERIALS, LASER_FINISH, FIX_TYPES, SERVICE_OPTIONS, PLEXI_COLORS, FOIL_COLORS, PRESETS,
   DEKOTA_COLORS, COMPOSITE_COLORS, MIRROR_DEKOTA_COLORS,
-  EASY_TYPES, EASY_COLORS, EASY_BG_IDS, EASY_LIGHTS, EASY_METALS, DEFAULT_EASY,
+  EASY_TYPES, EASY_COLORS, EASY_BG_IDS, EASY_LIGHTS, EASY_METALS, DEFAULT_EASY, SMALL_METHODS, SMALL_BACKINGS,
 } from '../data/catalog.mjs';
 
 export const STATE_VERSION = 1;
@@ -54,6 +54,7 @@ export function defaultState(product = 'cephe') {
     w, h, q: 1,
     L: [{ t: 'FİRMA ADINIZ', s: 'L' }, { t: '', s: 'M' }, { t: '', s: 'S' }, { t: '', s: 'S' }],
     f: 'montserrat', up: 1, fit: 90, logo: 0,
+    sm: 'auto', sb: 'auto', // küçük yazıların işlenme yöntemi ve dekupe arkası
     z: p.zemin === 'none' ? 0 : 1,
     zm: 'kompozit', zt: 3, zc: 'k-antrasit', cr: 'duz',
     s: p.defaultStrategy,
@@ -65,7 +66,7 @@ export function defaultState(product = 'cephe') {
   };
   if (p.id === 'kapi') { s.zc = 'k-beyaz'; s.o.kr = 'opal'; s.L[0].t = 'DR. AD SOYAD'; s.L[1].t = 'Uzman Doktor'; }
   if (p.id === 'totem') { s.zc = 'k-antrasit'; s.L[1].t = 'Slogan veya alt başlık'; }
-  if (p.id === 'cephe') { s.zc = 'k-antrasit'; }
+  if (p.id === 'cephe') { s.zc = 'k-antrasit'; s.L[1] = { t: 'Slogan veya telefon', s: 'S' }; }
   if (p.id === 'germe') { s.L[1].t = 'alt başlık / slogan'; }
   return s;
 }
@@ -111,6 +112,8 @@ export function normalize(input) {
   s.f = pick(ids(FONTS), src.f, base.f);
   s.up = src.up === 0 || src.up === false ? 0 : 1;
   s.fit = clamp(num(src.fit, 90), 40, 100);
+  s.sm = pick(ids(SMALL_METHODS), src.sm, 'auto');
+  s.sb = pick(ids(SMALL_BACKINGS), src.sb, 'auto');
   s.logo = src.logo ? 1 : 0;
 
   s.z = p.zemin === 'none' ? 0 : p.zemin === 'required' ? 1 : src.z === 0 || src.z === false ? 0 : 1;
@@ -179,7 +182,7 @@ export function switchProduct(prev, productId) {
   const merged = {
     ...next,
     m: prev.m, e: { ...prev.e },
-    f: prev.f, up: prev.up, fit: prev.fit, logo: prev.logo, c: prev.c, sv: prev.sv, q: prev.q,
+    f: prev.f, up: prev.up, fit: prev.fit, logo: prev.logo, c: prev.c, sv: prev.sv, q: prev.q, sm: prev.sm, sb: prev.sb,
     o: { ...prev.o },
     zm: prev.zm, zt: prev.zt, cr: prev.cr,
     fr: prev.fr, sd: prev.sd, gc: prev.gc, gi: prev.gi,

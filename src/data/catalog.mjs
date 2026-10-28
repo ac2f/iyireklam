@@ -563,3 +563,23 @@ export const QUIZ = {
     { v: 'sade', t: 'Sade ve ekonomik' },
   ],
 };
+
+// ---------------------------------------------------------------------------
+// Küçük yazılar: harf yüksekliği bu değerin (cm) altındaysa kutu harf yerine dekupe önerilir.
+// ---------------------------------------------------------------------------
+export const SMALL_TEXT_CM = 10;
+
+export const SMALL_METHODS = [
+  { id: 'auto', name: 'Otomatik (önerilen)', desc: `Harf yüksekliği ${SMALL_TEXT_CM} cm’nin altındaki yazılar kutu harf yerine dekupe (zeminden oyma) yapılır.` },
+  { id: 'dekupe', name: 'Dekupe (zeminden oyma)', desc: 'Küçük yazılar panelden oyulur; arkasına isteğe bağlı LED veya pleksi eklenir.' },
+  { id: 'kabartma', name: 'Kabartma düz harf', desc: 'Küçük yazılar pleksiden kesilip panele yapıştırılır.' },
+  { id: 'baski', name: 'Folyo / baskı', desc: 'Küçük yazılar folyo ile uygulanır (en ekonomik).' },
+  { id: 'same', name: 'Küçük yazılar da kutu harf', desc: `Tümü kutu harf olur; ${SMALL_TEXT_CM} cm altı harflerde imalat zordur ve maliyeti artırabilir.` },
+];
+
+export const SMALL_BACKINGS = [
+  { id: 'auto', name: 'Otomatik', desc: 'Ana yazı ışıklıysa arkadan LED, değilse arkası açık.' },
+  { id: 'led', name: 'Arkadan LED', desc: 'Küçük yazılar da geceleri ışık verir.', cost: 3 },
+  { id: 'pleksi', name: 'Renkli pleksi dolgu', desc: 'Oyuk harflerin arkasına pleksi gelir; ışıksız.', cost: 1 },
+  { id: 'bos', name: 'Arkası açık', desc: 'Harflerin arkasından zemin/duvar görünür.', cost: 0 },
+];

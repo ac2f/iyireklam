@@ -86,6 +86,7 @@ export function mountWizard(root) {
     `<div class="seg seg-sm" role="radiogroup" aria-label="Görünüm"><label class="seg-o"><input type="radio" name="view" value="day" checked data-act="view"><span>Gündüz</span></label><label class="seg-o"><input type="radio" name="view" value="night" data-act="view"><span>Gece</span></label></div>` +
     `<button type="button" class="pill" data-act="zoom">Büyüt</button>` +
     `<button type="button" class="pill" data-act="reset">Sıfırla</button>` +
+    `<span class="tag-small" id="wz-small" hidden></span>` +
     `</div>` +
     `<div class="wz-mini" id="wz-mini"></div>` +
     `</aside>` +
@@ -138,6 +139,9 @@ export function mountWizard(root) {
       if (key !== fontKey) return;
       clearMeasureCache();
       renderPreview(true);
+      // yazı tipi yüklenince ölçüler değişir: açık olan şartname/ayrıntı adımı güncellensin
+      if (app.stepId === 'ozet') updateSpec();
+      else if (app.stepId === 'detay' || app.stepId === 'gorunum') renderPanel();
     }).catch(() => {});
   }
 
@@ -159,6 +163,12 @@ export function mountWizard(root) {
 
   function renderMini() {
     const info = summarize(app.st, app.meta || {});
+    const sm = app.meta && app.meta.small;
+    const tag = root.querySelector('#wz-small');
+    if (tag) {
+      tag.hidden = !sm;
+      if (sm) tag.textContent = `Küçük yazılar (${sm.lines.length} satır): ${{ dekupe: 'dekupe', kabartma: 'kabartma düz harf', baski: 'folyo' }[sm.method]}`;
+    }
     const caps = (app.meta?.lines || []).map((l) => `${String(Math.round(l.capCm * 10) / 10).replace('.', ',')} cm`);
     mini.innerHTML =
       `<div class="mini-row"><span>Fiyat seviyesi</span><b>${info.level.label}</b>${levelMeter(info.level)}</div>` +
