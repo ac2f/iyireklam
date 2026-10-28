@@ -43,7 +43,7 @@ function servicePage(s, ctx) {
     .join('');
   const body = `${bc.html}
 <header class="phead"><div class="wrap"><h1 class="h1">${s.h1}</h1><p class="lead">${esc(s.lead)}</p>
-<p style="margin-top:22px;display:flex;flex-wrap:wrap;gap:10px"><a class="btn btn-gold" href="${ctx.href('tabela-sihirbazi')}?urun=${s.wizard}">${icon('spark')}Sihirbazla Tasarla</a><a class="btn btn-wa" href="https://wa.me/${cfg.whatsapp}" rel="noopener">${icon('whatsapp')}WhatsApp</a></p></div></header>
+<p style="margin-top:22px;display:flex;flex-wrap:wrap;gap:10px"><a class="btn btn-gold" href="${ctx.href('tabela-sihirbazi')}?tur=${s.tur}">${icon('spark')}Sihirbazla Tasarla</a><a class="btn btn-wa" href="https://wa.me/${cfg.whatsapp}" rel="noopener">${icon('whatsapp')}WhatsApp</a></p></div></header>
 <div class="sec" style="padding-top:20px"><div class="wrap layout-2">
 <article class="prose">
 <div class="tldr"><b>Kısaca</b><p>${esc(s.tldr)}</p></div>
@@ -53,7 +53,7 @@ ${sections}
 ${faqHTML(s.faq, ctx)}
 </article>
 <aside class="side" aria-label="Hızlı işlemler">
-<div class="card"><h3>Online tasarlayın</h3><p>Ölçü, malzeme, renk ve LED seçimlerinizi önizlemede görün; şartnameyi paylaşın.</p><p style="margin-top:14px"><a class="btn btn-gold btn-sm" href="${ctx.href('tabela-sihirbazi')}?urun=${s.wizard}">Sihirbazı Aç</a></p></div>
+<div class="card"><h3>Online tasarlayın</h3><p>Ölçü, malzeme, renk ve LED seçimlerinizi önizlemede görün; şartnameyi paylaşın.</p><p style="margin-top:14px"><a class="btn btn-gold btn-sm" href="${ctx.href('tabela-sihirbazi')}?tur=${s.tur}">Sihirbazı Aç</a></p></div>
 <div class="card"><h3>İletişim</h3><p>${phoneLink()}<br>${esc(cfg.address.street)}, ${esc(cfg.address.neighborhood)}, ${esc(cfg.address.district)} / ${esc(cfg.address.city)}</p><p style="margin-top:14px"><a class="btn btn-wa btn-sm" href="https://wa.me/${cfg.whatsapp}" rel="noopener">WhatsApp</a></p></div>
 <div class="card"><h3>İlgili hizmetler</h3><div class="rel">${rel}</div></div>
 <div class="card"><h3>Rehberler</h3><div class="rel">${guideLinks}</div><p style="margin-top:12px"><a class="more" href="${ctx.href('rehber')}" style="font-size:14px;font-weight:600;color:var(--gold3)">Tüm rehberler</a></p></div>
@@ -154,6 +154,8 @@ function guideIndex(ctx) {
 // Sihirbaz sayfası
 // ---------------------------------------------------------------------------
 const WIZARD_FAQ = [
+  ['Hangi tabelayı seçeceğimi bilmiyorum, ne yapmalıyım?', 'Sihirbazın Kolay modunu kullanın. Tabelanın nereye yapılacağını, geceleri ışık verip vermeyeceğini ve nasıl bir görünüm istediğinizi seçmeniz yeterli; ışıklı harf, dekupe, germe, krom, kabartma harf, totem veya kapı tabelasından size uygun olanı önerir. Kalınlık, derinlik ve LED gibi teknik ayrıntıları da sizin için otomatik belirler.'],
+  ['Kolay mod ile Detaylı mod arasındaki fark nedir?', 'Kolay modda yalnızca tür, ölçü, yazı, bütçe, renk ve ışık seçersiniz; malzeme ayrıntılarını sistem belirler. Detaylı modda zemin malzemesi, pleksi kalınlığı, yan yüzey, derinlik, LED markası gibi her şeyi kendiniz seçersiniz. İstediğiniz an iki mod arasında geçiş yapabilirsiniz.'],
   ['Tabela sihirbazı ücretsiz mi?', 'Evet, tabela sihirbazı ücretsizdir ve üyelik gerektirmez. Seçimlerinizi önizlemede görür, şartnameyi dilediğiniz gibi paylaşırsınız.'],
   ['Sihirbaz kesin fiyat gösteriyor mu?', 'Hayır. Sihirbaz her seçeneğin fiyat etkisini (En uygun, Hafif fark, Fiyatı artırır, Belirgin artış) gösterir ve genel bir fiyat seviyesi verir. Kesin fiyat ölçü ve keşif sonrası, şartnameye göre bildirilir.'],
   ['Verilerim saklanıyor mu?', 'Tasarımınız yalnızca tarayıcınızda (bu cihazda) saklanır; sunucuya gönderilmez. Paylaşmak istediğinizde WhatsApp, PNG veya PDF ile siz iletirsiniz.'],
@@ -168,7 +170,7 @@ function wizardPage(ctx) {
     (p) => `<div class="card"><h3 style="margin-top:0">${esc(p.name)}</h3><p>${esc(p.desc)}.</p></div>`,
   ).join('');
   const body = `${bc.html}
-<header class="phead"><div class="wrap"><h1 class="h1">Online Tabela <em>Tasarım Sihirbazı</em></h1><p class="lead">Ürünü seçin, ölçüyü girin, zemin ve harf sistemini, pleksi rengi ve kalınlığını, yan yüzeyi ve LED’i belirleyin. Gündüz ve gece önizlemeyi görün; şartnameyi paylaşın.</p></div></header>
+<header class="phead"><div class="wrap"><h1 class="h1">Online Tabela <em>Tasarım Sihirbazı</em></h1><p class="lead"><strong>Kolay mod:</strong> 3 soruyla size uygun tabelayı biz seçelim. <strong>Detaylı mod:</strong> tüm malzeme ayrıntılarını siz belirleyin. Gündüz/gece önizleyin, şartnameyi paylaşın.</p></div></header>
 <div class="wrap"><div id="wizard" data-base="${ctx.up}assets/"><p class="wz-loading">Sihirbaz yükleniyor…</p>
 <noscript><div class="noscript">Tabela sihirbazı için JavaScript gereklidir. Dilerseniz bizi arayın: <a href="tel:${cfg.phone}">${cfg.phoneHtml}</a> veya <a href="https://wa.me/${cfg.whatsapp}">WhatsApp</a>’tan yazın.</div></noscript></div></div>
 

@@ -30,7 +30,8 @@ Depodaki dosyalar **derlenmiş hâlde** olduğundan ek bir derleme ayarı gerekm
 | Ne? | Nerede? |
 |---|---|
 | Telefon, adres, **marka adı**, alan adı, Google Analytics / Search Console kodu | `src/site.config.mjs` |
-| Pleksi / dekota / kompozit renkleri, kalınlıklar, LED seçenekleri, fiyat etkisi seviyeleri | `src/data/catalog.mjs` |
+| Pleksi / dekota / kompozit renkleri, kalınlıklar, LED seçenekleri, fiyat etkisi seviyeleri, **Kolay mod türleri/renkleri** | `src/data/catalog.mjs` |
+| Kolay modun bütçeye göre otomatik seçtiği kalınlık, derinlik, LED vb. | `src/wizard/easy.js` (`deriveEasy`) |
 | Hizmet sayfası metinleri, SSS | `src/data/services.mjs` |
 | Rehber yazıları | `src/data/guides.mjs` |
 | Ana sayfa | `src/pages/home.mjs` |
@@ -54,10 +55,13 @@ npm run serve      # http://localhost:4173 (yerel önizleme)
 `src/wizard/` altındaki modüller tek bir paket olarak (`assets/wizard.js`, ~32 KB gzip) yüklenir:
 
 - `state.js` — seçimlerin durumu, doğrulama, paylaşılabilir bağlantı kodlaması (`#d=…`)
+- `easy.js` — **Kolay mod**: tür/bütçe/renk/ışık seçimlerinden tüm teknik ayrıntıları (pleksi kalınlığı, derinlik, LED markası, zemin, sabitleme…) otomatik üretir; “Bana öner” soruları
 - `model.js` — şartname satırları, fiyat etkisi seviyesi, bütçe ipuçları, WhatsApp/metin çıktıları
 - `render.js` — SVG önizleme motoru (gündüz/gece, parlama, dokular, otomatik satır yerleşimi)
 - `ui.js`, `app.js` — adımlar, notlar, olaylar, erişilebilirlik
 - `share.js` — PNG şartname kartı, panoya kopyalama
+
+**İki mod vardır:** *Kolay mod* (varsayılan) teknik bilgisi olmayanlar içindir — 3 soruyla tabela türü önerilir (ışıklı harf, ışıklı oyma yazı/dekupe, germe, krom, kabartma harf, totem, kapı tabelası); kullanıcı yalnızca ölçü, yazı, bütçe (Ekonomik/Dengeli/Gösterişli), renk ve ışık seçer. *Detaylı mod* tüm malzeme ayrıntılarını tek tek ayarlatır. İki mod arasında istenildiği an geçiş yapılır. Bağlantılar: `?tur=isikli_harf|dekupe|germe|krom|kabartma|totem|kapi`, `?mod=detayli|kolay`.
 
 Ürünler: cephe tabelası, totem, kapı/ofis tabelası, germe tabela.  
 Harf sistemleri: ışıklı / ışıksız kutu harf, krom harf (fileli/filesiz/tam krom), kabartma düz harf, dekupe, lazer kesim metal harf, baskı/folyo.  

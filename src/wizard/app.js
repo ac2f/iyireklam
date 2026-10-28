@@ -1,5 +1,5 @@
 // Tabela sihirbazı: durum yönetimi, olaylar, önizleme ve paylaşım eylemleri.
-import { FONTS, PRESETS } from '../data/catalog.mjs';
+import { FONTS, PRESETS, EASY_TYPES } from '../data/catalog.mjs';
 import {
   defaultState, normalize, switchProduct, encodeState, decodeState, getProduct, applyPreset,
 } from './state.js';
@@ -7,6 +7,7 @@ import {
   find, summarize, refNo, specText, whatsappText, isLit, activeLines,
 } from './model.js';
 import { buildScene, clearMeasureCache } from './render.js';
+import { deriveEasy, applyEasyChange, setEasyType, recommend } from './easy.js';
 import { stepsFor, renderStep, specHTML, levelMeter } from './ui.js';
 import {
   waLink, copyText, buildCard, canvasToBlob, downloadBlob,
@@ -35,7 +36,7 @@ function deepClone(x) { return JSON.parse(JSON.stringify(x)); }
 
 export function mountWizard(root) {
   const base = root.dataset.base || '../assets/';
-  const app = { st: defaultState('cephe'), night: false, stepId: 'urun', meta: {}, logoUrl: null, scene: null };
+  const app = { st: deriveEasy(defaultState('cephe')), night: false, stepId: 'tur', meta: {}, logoUrl: null, scene: null, quiz: {}, quizWhy: '' };
 
   // ---- başlangıç durumu
   let banner = '';
@@ -48,17 +49,34 @@ export function mountWizard(root) {
   if (!banner) {
     const saved = lsGet();
     const st = saved ? decodeState(saved) : null;
-    if (st) { app.st = st; banner = 'restored'; }
+    if (st) { app.st = st; banner = 'restored'; app.stepId = st.m === 'e' ? 'tur' : 'urun'; }
   }
-  const urun = params.get('urun');
-  if (!hash && urun && getProduct(urun).id === urun && urun !== app.st.p) {
-    app.st = switchProduct(app.st, urun);
-    banner = '';
+  if (!hash) {
+    const mod = params.get('mod');
+    const tur = params.get('tur');
+    const urun = params.get('urun');
+    const typeOfProduct = { cephe: 'isikli_harf', totem: 'totem', kapi: 'kapi', germe: 'germe' };
+    // Kayıtlı/paylaşılan tasarım yoksa ve doğrudan detaylı mod istendiyse sade (ekonomik) varsayılanlarla başla
+    if (!banner && mod === 'detayli') app.st = normalize({ ...defaultState('cephe'), m: 'p' });
+    if (tur && EASY_TYPES.some((t) => t.id === tur)) {
+      app.st = setEasyType({ ...app.st, m: 'e' }, tur);
+      banner = '';
+    } else if (urun && getProduct(urun).id === urun && urun !== app.st.p) {
+      app.st = app.st.m === 'e' ? setEasyType(app.st, typeOfProduct[urun]) : switchProduct(app.st, urun);
+      banner = '';
+    }
+    if (mod === 'detayli') app.st = normalize({ ...app.st, m: 'p' });
+    else if (mod === 'kolay' && app.st.m !== 'e') app.st = deriveEasy({ ...app.st, m: 'e' });
+    if (!banner || mod) app.stepId = app.st.m === 'e' ? 'tur' : 'urun';
   }
 
   // ---- iskelet
   root.innerHTML =
     `<div class="wz">` +
+    `<div class="wz-mode" role="radiogroup" aria-label="Sihirbaz modu">` +
+    `<label class="mode-o"><input type="radio" name="mode" value="e" data-act="mode"><span><b>Kolay mod</b><small>Biz önerelim, siz seçin</small></span></label>` +
+    `<label class="mode-o"><input type="radio" name="mode" value="p" data-act="mode"><span><b>Detaylı mod</b><small>Tüm malzeme ayrıntıları</small></span></label>` +
+    `</div>` +
     `<nav class="wz-steps" aria-label="Sihirbaz adımları"><ol id="wz-steps"></ol><div class="wz-prog" aria-hidden="true"><i id="wz-prog"></i></div></nav>` +
     `<div class="wz-banner" id="wz-banner" hidden></div>` +
     `<div class="wz-grid">` +
@@ -97,7 +115,9 @@ export function mountWizard(root) {
   };
   function ensureStep() {
     const list = steps();
-    if (!list.some((s) => s.id === app.stepId)) app.stepId = 'detay';
+    if (!list.some((s) => s.id === app.stepId)) {
+      app.stepId = app.stepId === 'sistem' && list.some((s) => s.id === 'detay') ? 'detay' : list[0].id;
+    }
   }
 
   function say(msg) {
@@ -168,6 +188,7 @@ export function mountWizard(root) {
     const next = root.querySelector('[data-act="next"]');
     prev.disabled = idx === 0;
     next.hidden = idx === list.length - 1;
+    root.querySelectorAll('input[name="mode"]').forEach((i) => { i.checked = i.value === app.st.m; });
     // aktif adımı yatay çubukta görünür kıl
     const on = stepsEl.querySelector('.on');
     if (on && stepsEl.scrollWidth > stepsEl.clientWidth) {
@@ -186,13 +207,13 @@ export function mountWizard(root) {
   function renderPanel({ keepFocus = true } = {}) {
     ensureStep();
     const ae = document.activeElement;
-    const sig = keepFocus && ae && ae.dataset && ae.dataset.k ? { k: ae.dataset.k, v: ae.value } : null;
+    const sig = keepFocus && ae && ae.dataset && (ae.dataset.k || ae.dataset.q) ? { k: ae.dataset.k, q: ae.dataset.q, v: ae.value } : null;
     const isFinal = app.stepId === 'ozet';
     stepHost.innerHTML = renderStep(app, isFinal ? '<div id="spec-host"></div>' : '');
     if (isFinal) updateSpec();
     renderSteps();
     if (sig) {
-      const sel = `[data-k="${CSS.escape(sig.k)}"]` + (ae.type === 'radio' ? `[value="${CSS.escape(String(sig.v))}"]` : '');
+      const sel = (sig.k ? `[data-k="${CSS.escape(sig.k)}"]` : `[data-q="${CSS.escape(sig.q)}"]`) + (ae.type === 'radio' ? `[value="${CSS.escape(String(sig.v))}"]` : '');
       const el = stepHost.querySelector(sel);
       if (el && el.focus) el.focus({ preventScroll: true });
     }
@@ -244,6 +265,21 @@ export function mountWizard(root) {
     stepHost.focus({ preventScroll: true });
   }
 
+  function setMode(m) {
+    if (m === 'e') app.st = deriveEasy({ ...app.st, m: 'e' });
+    else app.st = normalize({ ...app.st, m: 'p' });
+    app.stepId = steps()[0].id;
+    commit({ rerender: true });
+  }
+
+  function onQuiz(name, value) {
+    app.quiz[name] = value;
+    const r = recommend(app.quiz);
+    app.quizWhy = r.why;
+    app.st = setEasyType(app.st, r.type, r.budget);
+    commit({ rerender: true });
+  }
+
   // ---- olaylar
   function parseVal(t) {
     if (t.type === 'checkbox') return t.checked ? 1 : 0;
@@ -255,6 +291,8 @@ export function mountWizard(root) {
     const t = e.target;
     if (!(t instanceof HTMLElement)) return;
     if (t.dataset.act === 'view') { app.night = t.value === 'night'; renderPreview(); return; }
+    if (t.dataset.act === 'mode') { setMode(t.value); return; }
+    if (t.dataset.q) { onQuiz(t.dataset.q, t.value); return; }
     if (t.dataset.act === 'logo' && t.files && t.files[0]) { loadLogo(t.files[0]); return; }
     if (!t.dataset.k) return;
     if (t.type === 'number' || t.type === 'text' || t.type === 'tel' || t.tagName === 'TEXTAREA' || t.type === 'range') {
@@ -272,6 +310,11 @@ export function mountWizard(root) {
       return;
     }
     const val = parseVal(t);
+    if (t.dataset.k.startsWith('e.')) {
+      app.st = applyEasyChange(app.st, t.dataset.k, val);
+      commit({ rerender: true });
+      return;
+    }
     if (t.dataset.act === 'product') app.st = switchProduct(app.st, String(val));
     else setPath(app.st, t.dataset.k, val);
     // toggle'lar ve radyo seçimleri adımın görünümünü değiştirebilir
@@ -333,10 +376,18 @@ export function mountWizard(root) {
         if (open) ta.focus();
         break;
       }
+      case 'pro': {
+        app.st = normalize({ ...app.st, m: 'p' });
+        commit({ rerender: true });
+        go(app.st.p === 'germe' ? 'zemin' : 'sistem');
+        break;
+      }
       case 'reset': {
-        app.st = defaultState('cephe');
+        app.st = app.st.m === 'e' ? deriveEasy(defaultState('cephe')) : normalize({ ...defaultState('cephe'), m: 'p' });
         app.logoUrl = null;
-        app.stepId = 'urun';
+        app.quiz = {};
+        app.quizWhy = '';
+        app.stepId = steps()[0].id;
         lsDel();
         showBanner('');
         commit({ rerender: true });

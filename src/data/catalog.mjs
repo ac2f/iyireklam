@@ -462,3 +462,104 @@ export const PRESETS = [
     patch: { p: 'cephe', w: 250, h: 70, zm: 'kompozit', zt: 4, zc: 'k-ceviz', s: 'kabartma', o: { km: 'aynali', kk: 8, kr: 'ad-gold' }, L: [{ t: 'KAFE ADI', s: 'L' }, { t: 'Kahve & Tatlı', s: 'M' }] },
   },
 ];
+
+// ---------------------------------------------------------------------------
+// KOLAY MOD: teknik bilgisi olmayanlar için sadeleştirilmiş seçenekler.
+// Kullanıcı yalnızca tür, bütçe, renk ve ışık seçer; malzeme, kalınlık, derinlik, LED markası
+// gibi ayrıntıları sistem (src/wizard/easy.js) otomatik belirler.
+// ---------------------------------------------------------------------------
+export const EASY_TYPES = [
+  {
+    id: 'isikli_harf', name: 'Işıklı harf', sub: 'Kutu harf', icon: 'isikli', product: 'cephe', strategy: 'kutu_isikli', lit: true, zemin: true,
+    tag: 'En çok tercih edilen', desc: 'Harfler içeriden ışık verir; gece de çok net görünür. Mağaza ve işyeri cepheleri için klasik çözüm.',
+    defaults: { c: 'beyaz', g: 'k-antrasit' },
+  },
+  {
+    id: 'dekupe', name: 'Işıklı oyma yazı', sub: 'Dekupe', icon: 'dekupe', product: 'cephe', strategy: 'dekupe', lit: true, zemin: true,
+    desc: 'Yazı panelden oyulur, arkasından ışık verir. Modern, zarif ve temiz görünüm.',
+    defaults: { c: 'beyaz', g: 'k-siyah' },
+  },
+  {
+    id: 'germe', name: 'Işıklı baskılı tabela', sub: 'Germe', icon: 'germe', product: 'germe', strategy: 'baski', lit: true, zemin: false,
+    desc: 'Logonuz ve renkleriniz baskılı kumaşa basılır, arkadan aydınlanır. Geniş yüzeylerde çok uygun.',
+    defaults: { c: 'kirmizi', g: 'k-antrasit' },
+  },
+  {
+    id: 'krom', name: 'Lüks krom harf', sub: 'Altın / gümüş', icon: 'krom', product: 'cephe', strategy: 'krom', lit: true, zemin: true,
+    desc: 'Parlak altın veya gümüş yan yüzeyli prestijli harf. Kuyumcu, otel ve butik işletmeler için.',
+    defaults: { c: 'kirmizi', g: 'k-siyah' },
+  },
+  {
+    id: 'kabartma', name: 'Kabartma harf', sub: 'Işıksız', icon: 'kabartma', product: 'cephe', strategy: 'kabartma', lit: false, zemin: true,
+    tag: 'En ekonomik', desc: 'Harfler panele yapıştırılır; ışık yoktur. Sade, sağlam ve uygun fiyatlı.',
+    defaults: { c: 'beyaz', g: 'k-antrasit' },
+  },
+  {
+    id: 'totem', name: 'Totem', sub: 'Ayaklı büyük tabela', icon: 'totem', product: 'totem', strategy: 'kutu_isikli', lit: true, zemin: true,
+    desc: 'Yol kenarında, site veya iş merkezi girişinde ayakta duran dikey tabela. Uzaktan fark edilir.',
+    defaults: { c: 'beyaz', g: 'k-antrasit' },
+  },
+  {
+    id: 'kapi', name: 'Kapı / ofis tabelası', sub: 'Küçük plaka', icon: 'kapi', product: 'kapi', strategy: 'kabartma', lit: false, zemin: true,
+    desc: 'Oda, ofis, klinik veya plaza kapısı için şık küçük tabela.',
+    defaults: { c: 'siyah', g: 'k-beyaz' },
+  },
+];
+
+export const EASY_BUDGETS = [
+  { id: 0, name: 'Ekonomik', desc: 'En uygun fiyatlı, sade ve sağlam malzemeler.', cost: 0 },
+  { id: 1, name: 'Dengeli', desc: 'Çoğu işletme için ideal: kalite ve fiyat dengesi.', cost: 1, tag: 'Önerilen' },
+  { id: 2, name: 'Gösterişli', desc: 'Daha kalın ve parlak malzemeler; hacimli, prestijli görünüm.', cost: 2 },
+];
+
+/** Ana renk (harf / ışık / baskı rengi). Her rengin ilgili malzemedeki karşılığı tanımlıdır. */
+export const EASY_COLORS = [
+  { id: 'beyaz', name: 'Beyaz', hex: '#f5f4ef', plexi: 'opal', dek: 'd-beyaz', germe: 'g-beyaz' },
+  { id: 'siyah', name: 'Siyah', hex: '#14161a', plexi: 'siyah', dek: 'd-siyah', germe: 'g-siyah' },
+  { id: 'kirmizi', name: 'Kırmızı', hex: '#d3202a', plexi: 'kirmizi', dek: 'd-kirmizi', germe: 'g-kirmizi' },
+  { id: 'turuncu', name: 'Turuncu', hex: '#f26a1b', plexi: 'turuncu', dek: 'd-turuncu', germe: 'g-turuncu' },
+  { id: 'sari', name: 'Sarı', hex: '#f6d216', plexi: 'sari', dek: 'd-sari', germe: 'g-sari' },
+  { id: 'yesil', name: 'Yeşil', hex: '#1f9d55', plexi: 'yesil', dek: 'd-yesil', germe: 'g-yesil' },
+  { id: 'mavi', name: 'Mavi', hex: '#1c6fd1', plexi: 'mavi', dek: 'd-mavi', germe: 'g-mavi' },
+  { id: 'lacivert', name: 'Lacivert', hex: '#14275c', plexi: 'lacivert', dek: 'd-lacivert', germe: 'g-lacivert' },
+  { id: 'bordo', name: 'Bordo', hex: '#7b1226', plexi: 'bordo', dek: 'd-bordo', germe: 'g-bordo' },
+  { id: 'altin', name: 'Altın', hex: '#d8b457', mirror: 'gold', metal: 'gold', plexi: 'amber', dek: null, germe: 'g-krem' },
+  { id: 'gumus', name: 'Gümüş', hex: '#cfd5db', mirror: 'silver', metal: 'silver', plexi: 'buzlu', dek: null, germe: 'g-gri' },
+];
+
+/** Zemin (arka plan) renkleri: alüminyum kompozit paletinden seçilmiş popüler olanlar */
+export const EASY_BG_IDS = ['k-antrasit', 'k-siyah', 'k-beyaz', 'k-acikgri', 'k-lacivert', 'k-bordo', 'k-yesil', 'k-mese', 'k-ceviz', 'k-ayna-gold', 'k-ayna-gumus'];
+export const EASY_BG = EASY_BG_IDS.map((id) => COMPOSITE_COLORS.find((c) => c.id === id));
+
+export const EASY_LIGHTS = [
+  { id: 'beyaz', name: 'Beyaz ışık', desc: 'Net ve modern görünüm.' },
+  { id: 'gunisigi', name: 'Sıcak ışık', desc: 'Sarımsı, davetkâr görünüm (günışığı).' },
+];
+
+export const EASY_METALS = [
+  { id: 'altin', name: 'Altın krom', hex: '#d8b457', mirror: 'gold' },
+  { id: 'gumus', name: 'Gümüş krom', hex: '#cfd5db', mirror: 'silver' },
+];
+
+export const DEFAULT_EASY = { t: 'isikli_harf', b: 1, c: 'beyaz', g: 'k-antrasit', l: 'beyaz', m: 'altin' };
+
+/** "Bana öner" soruları */
+export const QUIZ = {
+  where: [
+    { v: 'cephe', t: 'Dükkan / işyeri cephesi' },
+    { v: 'yol', t: 'Yol kenarı / site girişi' },
+    { v: 'kapi', t: 'Ofis, oda veya kapı' },
+    { v: 'pano', t: 'Geniş reklam panosu' },
+  ],
+  light: [
+    { v: 'evet', t: 'Evet, gece de parlasın' },
+    { v: 'hayir', t: 'Hayır, ışıksız olsun' },
+    { v: 'fark', t: 'Fark etmez' },
+  ],
+  look: [
+    { v: 'canli', t: 'Canlı, dikkat çekici' },
+    { v: 'modern', t: 'Şık ve modern' },
+    { v: 'luks', t: 'Lüks, prestijli' },
+    { v: 'sade', t: 'Sade ve ekonomik' },
+  ],
+};

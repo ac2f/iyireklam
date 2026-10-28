@@ -4,6 +4,7 @@ import {
   LED_BRANDS, LED_COLORS, FRAME_COLORS, FONTS, GERME_COLORS, GERME_INK, DEPTHS, CORNERS,
   LASER_MATERIALS, LASER_FINISH, FIX_TYPES, SERVICE_OPTIONS, PLEXI_COLORS, FOIL_COLORS, PRESETS,
   DEKOTA_COLORS, COMPOSITE_COLORS, MIRROR_DEKOTA_COLORS,
+  EASY_TYPES, EASY_COLORS, EASY_BG_IDS, EASY_LIGHTS, EASY_METALS, DEFAULT_EASY,
 } from '../data/catalog.mjs';
 
 export const STATE_VERSION = 1;
@@ -47,6 +48,8 @@ export function defaultState(product = 'cephe') {
   const [w, h] = [p.size.w[2], p.size.h[2]];
   const s = {
     v: STATE_VERSION,
+    m: 'e', // 'e' = kolay mod, 'p' = detaylı mod
+    e: { ...DEFAULT_EASY },
     p: p.id,
     w, h, q: 1,
     L: [{ t: 'FİRMA ADINIZ', s: 'L' }, { t: '', s: 'M' }, { t: '', s: 'S' }, { t: '', s: 'S' }],
@@ -82,6 +85,17 @@ export function normalize(input) {
   const src = input && typeof input === 'object' ? input : {};
   const p = getProduct(src.p);
   const s = { ...base, p: p.id };
+
+  s.m = src.m === 'p' ? 'p' : 'e';
+  const e = src.e && typeof src.e === 'object' ? src.e : {};
+  s.e = {
+    t: pick(ids(EASY_TYPES), e.t, DEFAULT_EASY.t),
+    b: pick([0, 1, 2], num(e.b, NaN), DEFAULT_EASY.b),
+    c: pick(ids(EASY_COLORS), e.c, DEFAULT_EASY.c),
+    g: pick(EASY_BG_IDS, e.g, DEFAULT_EASY.g),
+    l: pick(ids(EASY_LIGHTS), e.l, DEFAULT_EASY.l),
+    m: pick(ids(EASY_METALS), e.m, DEFAULT_EASY.m),
+  };
 
   s.w = clamp(num(src.w, p.size.w[2]), p.size.w[0], p.size.w[1]);
   s.h = clamp(num(src.h, p.size.h[2]), p.size.h[0], p.size.h[1]);
@@ -164,6 +178,7 @@ export function switchProduct(prev, productId) {
   const next = defaultState(productId);
   const merged = {
     ...next,
+    m: prev.m, e: { ...prev.e },
     f: prev.f, up: prev.up, fit: prev.fit, logo: prev.logo, c: prev.c, sv: prev.sv, q: prev.q,
     o: { ...prev.o },
     zm: prev.zm, zt: prev.zt, cr: prev.cr,
@@ -250,6 +265,8 @@ export function applyPreset(prev, preset) {
   const base = defaultState(preset.patch.p);
   const s = normalize(deepMerge(base, preset.patch));
   s.c = prev.c;
+  s.m = prev.m;
+  s.e = { ...prev.e };
   s.q = prev.q;
   s.f = prev.f;
   s.up = prev.up;

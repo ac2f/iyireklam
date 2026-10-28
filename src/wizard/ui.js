@@ -3,11 +3,13 @@ import {
   PRODUCTS, STRATEGIES, ZEMIN_MATERIALS, THICKNESS, DEPTHS, SIDE_COLORS, KROM_SIDES, LED_BRANDS,
   LED_COLORS, FRAME_COLORS, FONTS, PRESETS, GERME_COLORS, GERME_INK, CORNERS, LASER_MATERIALS, LASER_FINISH,
   FIX_TYPES, SERVICE_OPTIONS, PLEXI_COLORS, FOIL_COLORS, COST_LEVELS, fmtMm, PLEXI_THICKNESS_NOTE,
+  EASY_TYPES, EASY_BUDGETS, EASY_COLORS, EASY_BG, EASY_LIGHTS, EASY_METALS, QUIZ,
 } from '../data/catalog.mjs';
 import { getProduct, paletteFor, LETTER_MATS } from './state.js';
 import {
-  visible, hasZemin, cheapest, zeminMat, find, summarize, refNo, costLabel, itemCost,
+  visible, hasZemin, cheapest, zeminMat, find, summarize, refNo, costLabel, itemCost, buildRows,
 } from './model.js';
+import { easyType, budgetSummary, contrastWarning } from './easy.js';
 
 export const esc = (s) =>
   String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
@@ -18,6 +20,14 @@ const COST_SHORT = ['En uygun', 'Hafif fark', 'Fiyatı artırır', 'Belirgin art
 // Adımlar
 // ---------------------------------------------------------------------------
 export function stepsFor(st) {
+  if (st.m === 'e') {
+    return [
+      { id: 'tur', t: 'Tabela türü' },
+      { id: 'olcu', t: 'Ölçü & Yazı' },
+      { id: 'gorunum', t: 'Görünüm' },
+      { id: 'ozet', t: 'Şartname' },
+    ];
+  }
   const germe = st.p === 'germe';
   const list = [
     { id: 'urun', t: 'Ürün' },
@@ -67,6 +77,7 @@ function group({ id, title, help, body, note, st, hint }) {
 }
 
 function noteHTML(st, key) {
+  if (st.m === 'e') return ''; // kolay modda tek bir genel not alanı bulunur
   const val = st.n[key] || '';
   const open = !!val;
   return (
@@ -162,6 +173,12 @@ const ICONS = {
   kapi: '<svg viewBox="0 0 80 48" aria-hidden="true"><rect x="14" y="8" width="52" height="32" rx="3" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="20" cy="14" r="1.8" fill="currentColor"/><circle cx="60" cy="14" r="1.8" fill="currentColor"/><circle cx="20" cy="34" r="1.8" fill="currentColor"/><circle cx="60" cy="34" r="1.8" fill="currentColor"/><path d="M26 22h28M30 29h20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>',
   germe: '<svg viewBox="0 0 80 48" aria-hidden="true"><rect x="5" y="8" width="70" height="32" rx="3" fill="none" stroke="currentColor" stroke-width="3.4"/><rect x="11" y="14" width="58" height="20" rx="1.5" fill="currentColor" opacity=".16"/><path d="M24 26h32M30 20h20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M2 4l4 4M78 4l-4 4M40 1v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
 };
+Object.assign(ICONS, {
+  isikli: '<svg viewBox="0 0 80 48" aria-hidden="true"><rect x="4" y="13" width="72" height="28" rx="3" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M13 34l5-12 5 12M15 30h6M32 22v12h5a3.2 3.2 0 0 0 0-6.4h-5h4a2.8 2.8 0 0 0 0-5.6h-4M62 25a6 6 0 1 0 0 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 5l2.5 4M40 2v5.5M66 5l-2.5 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
+  dekupe: '<svg viewBox="0 0 80 48" aria-hidden="true"><rect x="4" y="9" width="72" height="30" rx="3" fill="currentColor" opacity=".18" stroke="currentColor" stroke-width="2.4"/><path d="M13 31l5.5-13 5.5 13M15 26.5h7M31 18v13h5a3.6 3.6 0 0 0 0-7h-5h4.2a3.2 3.2 0 0 0 0-6H31M62 20.5a6.5 6.5 0 1 0 0 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3.2 2.6"/></svg>',
+  kabartma: '<svg viewBox="0 0 80 48" aria-hidden="true"><rect x="4" y="9" width="72" height="30" rx="3" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M14.5 32.5l5.5-13 5.5 13M16.5 28h7M32.5 19.5v13h5a3.6 3.6 0 0 0 0-7h-5h4.2a3.2 3.2 0 0 0 0-6H32.5M63.5 22a6.5 6.5 0 1 0 0 7" fill="none" stroke="currentColor" opacity=".35" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M13 31l5.5-13 5.5 13M15 26.5h7M31 18v13h5a3.6 3.6 0 0 0 0-7h-5h4.2a3.2 3.2 0 0 0 0-6H31M62 20.5a6.5 6.5 0 1 0 0 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+  krom: '<svg viewBox="0 0 80 48" aria-hidden="true"><rect x="4" y="9" width="72" height="30" rx="3" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M28 18h24l6 7-18 13-18-13zM22 25h36M34 18l-3 7 9 13M46 18l3 7-9 13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+});
 export const PRODUCT_ICONS = ICONS;
 
 // ---------------------------------------------------------------------------
@@ -181,6 +198,103 @@ function stepUrun(app) {
     `<p class="g-hint">Dikey ışıklı kutu totem için <b>Germe Tabela</b> seçip yüksekliği artırabilirsiniz. Listede olmayan bir ürün için sonunda not düşebilir veya bizi arayabilirsiniz.</p>` +
     noteHTML(st, 'urun')
   );
+}
+
+
+// ---------------------------------------------------------------------------
+// KOLAY MOD adımları
+// ---------------------------------------------------------------------------
+function quizChips(name, items, cur) {
+  return (
+    `<div class="chips" role="radiogroup" aria-label="${esc(name)}">` +
+    items
+      .map(
+        (it) =>
+          `<label class="chip"><input type="radio" name="q-${name}" value="${esc(it.v)}" data-q="${name}"${cur === it.v ? ' checked' : ''}><span class="chip-b"><b>${esc(it.t)}</b></span></label>`,
+      )
+      .join('') +
+    `</div>`
+  );
+}
+
+function stepTur(app) {
+  const st = app.st;
+  const q = app.quiz || {};
+  const answered = Object.keys(q).length > 0;
+  const cards = EASY_TYPES.map(
+    (t) =>
+      `<label class="tcard"><input type="radio" name="e.t" value="${t.id}" data-k="e.t"${t.id === st.e.t ? ' checked' : ''}>` +
+      `<span class="tcard-b"><span class="tcard-i">${ICONS[t.icon]}</span>` +
+      `<span class="tcard-t">${esc(t.name)}<small>${esc(t.sub)}</small></span>` +
+      `<span class="tcard-d">${esc(t.desc)}</span>${t.tag ? `<em class="tcard-tag">${esc(t.tag)}</em>` : ''}</span></label>`,
+  ).join('');
+  const T = easyType(st.e.t);
+  return (
+    `<div class="step-intro"><h2 class="step-h">Nasıl bir tabela istiyorsunuz?</h2><p>Teknik bilgi gerekmez: tabela türünü seçin, geri kalan malzeme ve ayrıntıları sizin için biz ayarlayalım.</p></div>` +
+    `<details class="quiz" open><summary>Hangisini seçeceğimi bilmiyorum</summary>` +
+    `<p class="quiz-p">Üç kısa soruya cevap verin, size uygun olanı seçelim.</p>` +
+    `<div class="quiz-q"><b>1. Nereye yapılacak?</b>${quizChips('where', QUIZ.where, q.where)}</div>` +
+    `<div class="quiz-q"><b>2. Geceleri ışık versin mi?</b>${quizChips('light', QUIZ.light, q.light)}</div>` +
+    `<div class="quiz-q"><b>3. Nasıl bir görünüm istersiniz?</b>${quizChips('look', QUIZ.look, q.look)}</div>` +
+    (answered && app.quizWhy ? `<p class="quiz-res" role="status"><b>Önerimiz: ${esc(T.name)}.</b> ${esc(app.quizWhy)}</p>` : '') +
+    `</details>` +
+    `<div class="tcards" role="radiogroup" aria-label="Tabela türü">${cards}</div>` +
+    `<p class="g-hint">Seçiminiz sonradan değişebilir. Daha fazla ayrıntı isterseniz <b>Detaylı mod</b>a geçerek zemin, kalınlık, LED ve renkleri tek tek ayarlayabilirsiniz.</p>`
+  );
+}
+
+function easyColorTitle(T) {
+  if (T.id === 'germe') return 'Tabela rengi';
+  if (T.lit) return 'Harf ve ışık rengi';
+  return 'Harf rengi';
+}
+
+function stepGorunum(app) {
+  const st = app.st;
+  const e = st.e;
+  const T = easyType(e.t);
+  const budgets = EASY_BUDGETS.map(
+    (b) =>
+      `<label class="opt"><input type="radio" name="e.b" value="${b.id}" data-k="e.b" data-n="1"${b.id === e.b ? ' checked' : ''}>` +
+      `<span class="opt-b"><span class="opt-t">${esc(b.name)}${b.tag ? ` <i class="tagi">${esc(b.tag)}</i>` : ''}</span>` +
+      `<span class="opt-d">${esc(b.desc)}</span>` +
+      `<span class="opt-d opt-s">${esc(budgetSummary(st, b.id))}</span>${badge(b.cost)}</span></label>`,
+  ).join('');
+  let html =
+    `<div class="step-intro"><h2 class="step-h">Görünümü seçin</h2><p>Bütçenizi ve renkleri seçin; malzeme, kalınlık, derinlik ve LED gibi teknik ayrıntıları sizin için biz belirliyoruz.</p></div>` +
+    group({
+      id: 'butce', title: 'Bütçeniz nasıl?', body: `<div class="opts">${budgets}</div>`,
+      hint: '<b>En uygun seçenek: Ekonomik.</b> Daha kalın malzeme, marka LED ve ışıklı yan bant gibi tercihler fiyatı yukarı taşır; kesin fiyat ölçü ve keşif sonrası netleşir.',
+    });
+  html += group({
+    id: 'renk', title: easyColorTitle(T),
+    help: T.id === 'germe' ? 'Baskılı kumaşın zemin rengi. Yazı rengi otomatik olarak okunaklı seçilir.' : T.id === 'krom' ? 'Ön yüzdeki pleksinin rengi; ışıkta bu renk parlar.' : '',
+    body: swatches('e.c', e.c, EASY_COLORS), hint: 'Altın ve gümüş seçenekleri aynalı malzeme kullandığı için fiyatı artırabilir.',
+  });
+  if (T.zemin) {
+    const warn = contrastWarning(st);
+    html += group({
+      id: 'zemin', title: 'Zemin (arka plan) rengi', help: 'Harflerin üzerine yerleştirileceği panelin rengi.',
+      body: swatches('e.g', e.g, EASY_BG),
+      hint: warn ? `<b>${esc(warn)}</b>` : 'Düz renkler en uygun seçenektir; aynalı zeminler fiyatı artırır. Koyu zeminde açık, açık zeminde koyu yazı en okunaklısıdır.',
+    });
+  }
+  if (T.id === 'krom') {
+    html += group({
+      id: 'metal', title: 'Krom rengi (yan yüzey)',
+      body: radios('e.m', e.m, EASY_METALS.map((m) => ({ v: m.id, t: m.name, cost: m.id === 'altin' ? 1 : 0 })), { kind: 'chip' }),
+    });
+  }
+  if (T.lit) {
+    html += group({
+      id: 'isik', title: 'Işık rengi', body: radios('e.l', e.l, EASY_LIGHTS.map((l) => ({ v: l.id, t: l.name, d: l.desc })), { cols: '' }),
+    });
+  }
+  const rows = buildRows(st, app.meta || {}).filter((r) => ['Zemin', 'Harf', 'Aydınlatma', 'Germe'].includes(r.g));
+  html +=
+    `<div class="sel-box"><h3>Sizin için seçtiklerimiz</h3><dl>${rows.map((r) => `<div><dt>${esc(r.label)}</dt><dd>${esc(r.value)}</dd></div>`).join('')}</dl>` +
+    `<p><button type="button" class="pill" data-act="pro">Ayrıntıları kendim ayarlayacağım</button></p></div>`;
+  return html;
 }
 
 function stepOlcu(app) {
@@ -451,14 +565,10 @@ function stepDetay(app) {
   return html;
 }
 
-function stepMontaj(app) {
-  const st = app.st;
-  const v = visible(st);
-  const sv = SERVICE_OPTIONS.map((s) => ({ v: s.id, t: s.name, d: s.desc, cost: s.cost }));
-  let html =
-    `<div class="step-intro"><h2 class="step-h">Montaj ve teslimat</h2><p>Üretimin ardından tabelanın nasıl teslim edileceğini seçin.</p></div>` +
-    group({ id: 'montaj', title: 'Teslimat şekli', body: radios('sv', st.sv, sv), hint: costHint(sv), note: 'montaj', st });
-  if (v.fix) {
+function montajGroups(st, { fix }) {
+  const sv = SERVICE_OPTIONS.map((x) => ({ v: x.id, t: x.name, d: x.desc, cost: x.cost }));
+  let html = group({ id: 'montaj', title: 'Teslimat şekli', body: radios('sv', st.sv, sv), hint: costHint(sv), note: 'montaj', st });
+  if (fix) {
     const fx = FIX_TYPES.map((f) => ({ v: f.id, t: f.name, d: f.desc, cost: f.cost }));
     html += group({ id: 'sabit', title: 'Sabitleme şekli', body: radios('fx', st.fx, fx), hint: costHint(fx), note: 'sabitleme', st });
   }
@@ -468,6 +578,14 @@ function stepMontaj(app) {
     body: `<textarea class="note-ta open" rows="4" maxlength="400" data-k="n.genel" placeholder="Örn. Cephe ölçüleri, adres, istenen termin, özel renk kodu…" aria-label="Genel not">${esc(st.n.genel || '')}</textarea>`,
   });
   return html;
+}
+
+function stepMontaj(app) {
+  const st = app.st;
+  return (
+    `<div class="step-intro"><h2 class="step-h">Montaj ve teslimat</h2><p>Üretimin ardından tabelanın nasıl teslim edileceğini seçin.</p></div>` +
+    montajGroups(st, { fix: visible(st).fix })
+  );
 }
 
 // ---------------------------------------------------------------------------
@@ -525,7 +643,9 @@ function stepOzet(app, specPart) {
   const c = st.c;
   const canShare = typeof navigator !== 'undefined' && !!navigator.share;
   return (
-    `<div class="step-intro"><h2 class="step-h">Şartnameniz hazır</h2><p>Aşağıdaki şartname seçimlerinizi, notlarınızı ve fiyat etkisini içerir. WhatsApp ile bize gönderin; ölçüyü ve fiyatı birlikte netleştirelim.</p></div>` +
+    `<div class="step-intro"><h2 class="step-h">Şartnameniz hazır</h2><p>Aşağıdaki şartname seçimlerinizi, notlarınızı ve fiyat etkisini içerir. WhatsApp ile bize gönderin; ölçüyü ve fiyatı birlikte netleştirelim.</p>` +
+    (st.m === 'e' ? `<p><button type="button" class="pill" data-act="pro">Ayrıntıları kendim düzenlemek istiyorum</button></p>` : '') + `</div>` +
+    (st.m === 'e' ? montajGroups(st, { fix: false }) : '') +
     group({
       id: 'musteri', title: 'İletişim bilgileriniz (isteğe bağlı)', help: 'Şartnameye eklenir; sunucuya gönderilmez.',
       body:
@@ -554,6 +674,8 @@ function stepOzet(app, specPart) {
 export function renderStep(app, specPart = '') {
   const id = app.stepId;
   switch (id) {
+    case 'tur': return stepTur(app);
+    case 'gorunum': return stepGorunum(app);
     case 'urun': return stepUrun(app);
     case 'olcu': return stepOlcu(app);
     case 'zemin': return stepZemin(app);

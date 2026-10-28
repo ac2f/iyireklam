@@ -233,3 +233,52 @@
 .tpl:hover{border-color:var(--gold);background:#fffaf0}
 .tpl b{font-size:14px}
 .tpl span{font-size:12.5px;color:var(--muted);line-height:1.4}
+
+/* kolay / detaylı mod anahtarı */
+.wz-mode{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px;max-width:560px}
+.mode-o{position:relative;cursor:pointer;display:block}
+.mode-o input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer;z-index:2}
+.mode-o span{display:grid;gap:1px;padding:10px 14px;border:1.5px solid var(--line);border-radius:14px;background:#fff;transition:.15s}
+.mode-o b{font-size:15px}
+.mode-o small{font-size:12.5px;color:var(--muted);line-height:1.3}
+.mode-o:hover span{border-color:var(--line2)}
+.mode-o input:checked+span{border-color:var(--gold);background:#fffaf0;box-shadow:0 0 0 3px rgba(184,145,58,.18)}
+.mode-o input:focus-visible+span{outline:3px solid var(--gold);outline-offset:2px}
+@media (max-width:420px){.mode-o small{display:none}.mode-o span{padding:9px 12px}}
+
+/* kolay mod: tür kartları */
+.tcards{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr))}
+.tcard{position:relative;cursor:pointer;display:block}
+.tcard input{position:absolute;opacity:0;inset:0;width:100%;height:100%;margin:0;cursor:pointer;z-index:2}
+.tcard-b{position:relative;display:grid;gap:6px;align-content:start;height:100%;padding:14px 15px 15px;border:1.5px solid var(--line);border-radius:18px;background:#fff;transition:.15s}
+.tcard:hover .tcard-b{border-color:var(--line2)}
+.tcard input:checked+.tcard-b{border-color:var(--gold);background:#fffaf0;box-shadow:0 0 0 3px rgba(184,145,58,.2)}
+.tcard input:focus-visible+.tcard-b{outline:3px solid var(--gold);outline-offset:2px}
+.tcard-i{color:var(--gold3);width:68px}
+.tcard-i svg{width:100%;height:auto}
+.tcard-t{font-weight:700;font-size:16px;line-height:1.25;display:grid}
+.tcard-t small{font-weight:500;font-size:12.5px;color:var(--muted)}
+.tcard-d{font-size:13px;color:var(--muted);line-height:1.45}
+.tcard-tag{position:absolute;right:10px;top:10px;font-style:normal;font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--ink);color:var(--gold2)}
+
+/* kolay mod: "bana öner" */
+.quiz{border:1.5px dashed var(--gold);border-radius:18px;background:rgba(255,250,240,.7);padding:4px 16px 14px;margin:0 0 14px}
+.quiz summary{cursor:pointer;font-weight:700;font-size:15.5px;padding:12px 0 6px;list-style:none;display:flex;align-items:center;gap:8px}
+.quiz summary::-webkit-details-marker{display:none}
+.quiz summary::before{content:"?";display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--ink);color:var(--gold2);font-size:14px;flex:none}
+.quiz-p{font-size:13.5px;color:var(--muted);margin:0 0 6px}
+.quiz-q{margin-top:10px}
+.quiz-q>b{display:block;font-size:13.5px;margin-bottom:6px}
+.quiz-res{margin:14px 0 0;padding:10px 12px;border-radius:12px;background:#fff;border:1px solid var(--gold);font-size:14px;line-height:1.5}
+
+/* kolay mod: görünüm adımı */
+.tagi{font-style:normal;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--ink);color:var(--gold2);margin-left:6px;vertical-align:middle}
+.opt-d.opt-s{font-weight:600;color:var(--text);font-size:12.5px}
+.sel-box{border:1px solid var(--line);border-radius:var(--r2);background:#fff;padding:16px 18px;margin:0 0 14px}
+.sel-box h3{font-size:16px;font-family:var(--f-body);font-weight:650;margin:0 0 8px}
+.sel-box dl{display:grid;gap:4px;margin:0 0 10px}
+.sel-box dl>div{display:grid;grid-template-columns:minmax(110px,34%) 1fr;gap:8px;font-size:13.5px;padding:5px 0;border-bottom:1px solid var(--line)}
+.sel-box dt{color:var(--muted)}
+.sel-box dd{margin:0;font-weight:600}
+.sel-box p{margin:0}
+.step-intro .pill{margin-top:4px}

@@ -114,9 +114,10 @@ export function homePage(ctx) {
   <div>
     <span class="eyebrow">Tabela Sihirbazı</span>
     <h2 class="h2">Tabelanı <em>kendin tasarla</em>, şartnamesini paylaş</h2>
-    <p class="lead">Ürünü seç; zemin, harf sistemi, pleksi rengi ve kalınlığı, yan yüzey, LED markası ve rengini belirle. Gündüz ve gece önizlemeyi gör, şartnameni WhatsApp’tan gönder.</p>
+    <p class="lead">Bilmiyorsan <strong>Kolay mod</strong>: 3 soruya cevap ver, sana uygun tabelayı biz seçelim. Uzmansan <strong>Detaylı mod</strong>: zemin, harf sistemi, pleksi kalınlığı, yan yüzey ve LED’i tek tek belirle. Gündüz ve gece önizlemeyi gör, şartnameni WhatsApp’tan gönder.</p>
     <ul class="check">
-      <li>${icon('check')}<span><strong>Her seçeneğe not ekleyin:</strong> farklı kalınlık, renk veya istek.</span></li>
+      <li>${icon('check')}<span><strong>Kolay mod:</strong> teknik bilgi gerekmez; kalınlık, derinlik ve LED’i sistem seçer.</span></li>
+      <li>${icon('check')}<span><strong>Detaylı modda her seçeneğe not ekleyin:</strong> farklı kalınlık, renk veya istek.</span></li>
       <li>${icon('check')}<span><strong>Fiyat etkisi görünür:</strong> en uygun seçenek her adımda işaretli.</span></li>
       <li>${icon('check')}<span><strong>Paylaşılabilir şartname:</strong> WhatsApp, PNG ve PDF.</span></li>
       <li>${icon('check')}<span><strong>Mobil ve masaüstü uyumlu,</strong> hızlı ve hafif.</span></li>
@@ -124,10 +125,12 @@ export function homePage(ctx) {
     <p style="margin-top:26px"><a class="btn btn-gold btn-lg" href="${a('tabela-sihirbazi')}">${icon('spark')}Sihirbazı Başlat</a></p>
   </div>
   <div class="grid two" style="gap:14px">
-    <a class="card" href="${a('tabela-sihirbazi')}?urun=cephe"><span class="ico">${icon('letters')}</span><h3>Cephe Tabelası</h3><p>Kutu harf, krom, dekupe, kabartma</p></a>
-    <a class="card" href="${a('tabela-sihirbazi')}?urun=totem"><span class="ico">${icon('totem')}</span><h3>Totem Tabela</h3><p>Yol kenarı ve site girişi</p></a>
-    <a class="card" href="${a('tabela-sihirbazi')}?urun=kapi"><span class="ico">${icon('door')}</span><h3>Kapı Tabelası</h3><p>Ofis, klinik, plaza</p></a>
-    <a class="card" href="${a('tabela-sihirbazi')}?urun=germe"><span class="ico">${icon('lightbox')}</span><h3>Germe Tabela</h3><p>Işıklı kutu, baskılı kumaş</p></a>
+    <a class="card" href="${a('tabela-sihirbazi')}?tur=isikli_harf"><span class="ico">${icon('letters')}</span><h3>Işıklı harf</h3><p>Kutu harf · gece de parlar</p></a>
+    <a class="card" href="${a('tabela-sihirbazi')}?tur=dekupe"><span class="ico">${icon('layers')}</span><h3>Işıklı oyma yazı</h3><p>Dekupe · modern ve zarif</p></a>
+    <a class="card" href="${a('tabela-sihirbazi')}?tur=germe"><span class="ico">${icon('lightbox')}</span><h3>Işıklı baskılı tabela</h3><p>Germe · geniş yüzeyler</p></a>
+    <a class="card" href="${a('tabela-sihirbazi')}?tur=krom"><span class="ico">${icon('gem')}</span><h3>Lüks krom harf</h3><p>Altın / gümüş yan</p></a>
+    <a class="card" href="${a('tabela-sihirbazi')}?tur=totem"><span class="ico">${icon('totem')}</span><h3>Totem</h3><p>Yol kenarı ve site girişi</p></a>
+    <a class="card" href="${a('tabela-sihirbazi')}?tur=kapi"><span class="ico">${icon('door')}</span><h3>Kapı / ofis tabelası</h3><p>Küçük, şık plaka</p></a>
   </div>
 </div></section>
 

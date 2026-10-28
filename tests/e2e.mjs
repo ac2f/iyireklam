@@ -174,16 +174,15 @@ await test('SEO: canonical, JSON-LD, OG, robots, sitemap, llms.txt', async () =>
 // ---------------------------------------------------------------------------
 console.log('\n▶ Sihirbaz');
 // ---------------------------------------------------------------------------
-async function openWizard(page, q = '') {
-  await page.goto(`${BASE}/tabela-sihirbazi/${q}`, { waitUntil: 'networkidle' });
+async function openWizard(page, q = '', { mode = 'detayli' } = {}) {
+  const withMode = mode ? `${q}${q.includes('?') ? '&' : '?'}mod=${mode}` : q;
+  await page.goto(`${BASE}/tabela-sihirbazi/${withMode}`, { waitUntil: 'networkidle' });
   await page.evaluate(() => { try { localStorage.clear(); } catch (e) { /* */ } });
-  if (q === '' || !q.includes('#')) {
-    await page.goto(`${BASE}/tabela-sihirbazi/${q}`, { waitUntil: 'networkidle' });
-  }
+  await page.goto(`${BASE}/tabela-sihirbazi/${withMode}`, { waitUntil: 'networkidle' });
   await page.waitForSelector('.wz-steps button');
 }
 
-await test('Sihirbaz açılır; varsayılan durum, 7 adım, hata yok', async () => {
+await test('Sihirbaz detaylı modda açılır; varsayılan durum, 7 adım, hata yok', async () => {
   const page = await newPage();
   await openWizard(page);
   assert((await page.locator('.wz-steps button').count()) === 7, '7 adım');
@@ -708,6 +707,185 @@ await test('Erişilebilirlik: etiketler, odak, odak halkası, odak yönetimi', a
   assert(focusId === 'wz-step', 'adım değişince odak içeriğe taşınmalı: ' + focusId);
   const cur = await page.locator('.wz-steps [aria-current="step"]').count();
   assert(cur === 1, 'aria-current');
+  await page.context().close();
+});
+
+// ---------------------------------------------------------------------------
+console.log('\n▶ Kolay mod');
+// ---------------------------------------------------------------------------
+const EASY = {
+  isikli_harf: ['cephe', 'kutu_isikli'], dekupe: ['cephe', 'dekupe'], germe: ['germe', 'baski'], krom: ['cephe', 'krom'],
+  kabartma: ['cephe', 'kabartma'], totem: ['totem', 'kutu_isikli'], kapi: ['kapi', 'kabartma'],
+};
+
+await test('Kolay mod varsayılan açılır: 4 adım, 7 tür kartı, anahtar, geçerli önizleme', async () => {
+  const page = await newPage();
+  await openWizard(page, '', { mode: null });
+  assert((await page.locator('.wz-steps button').count()) === 4, '4 adım');
+  assert((await page.locator('.tcard').count()) === 7, '7 tür kartı');
+  assert(await page.locator('input[name=mode][value=e]').isChecked(), 'kolay mod seçili');
+  const st = await state(page);
+  assert(st.m === 'e' && st.p === 'cephe' && st.s === 'kutu_isikli', 'başlangıç durumu ' + JSON.stringify([st.m, st.p, st.s]));
+  assert(st.o.lb === 'epistar' && st.o.pt === 4.5, 'Dengeli bütçe otomatik uygulanmalı: ' + JSON.stringify([st.o.lb, st.o.pt]));
+  await checkSvg(page, 'kolay varsayılan');
+  assert((await page.locator('.note-btn').count()) === 0, 'kolay modda not düğmeleri gizli');
+  noErrs(page);
+  await page.context().close();
+});
+
+await test('Kolay mod: her tür × bütçe × renk × zemin × ışık denenir (gündüz+gece), seçimler uygulanır', async () => {
+  const page = await newPage();
+  await openWizard(page, '', { mode: null });
+  let n = 0;
+  for (const night of [false, true]) {
+    await page.locator(`input[name=view][value=${night ? 'night' : 'day'}]`).check({ force: true });
+    for (const [type, [prod, strat]] of Object.entries(EASY)) {
+      await goStep(page, 'tur');
+      await hit(page.locator(`input[name="e.t"][value="${type}"]`));
+      await page.waitForTimeout(40);
+      let st = await state(page);
+      assert(st.p === prod && st.s === strat && st.e.t === type, `${type}: ${st.p}/${st.s}`);
+      await checkSvg(page, `${type} tür`);
+      await goStep(page, 'gorunum');
+      for (const name of ['e.b', 'e.c', 'e.g', 'e.l', 'e.m']) {
+        const vals = await page.$$eval(`#wz-step input[name="${name}"]`, (els) => els.map((e) => e.value));
+        for (const v of vals) {
+          await hit(page.locator(`#wz-step input[name="${name}"][value="${v}"]`));
+          await page.waitForTimeout(20);
+          st = await state(page);
+          assert(String(st.e[name.slice(2)]) === v, `${type}: ${name}=${v} uygulanmadı (${st.e[name.slice(2)]})`);
+          assert(st.s === strat && st.p === prod, `${type}: ${name}=${v} stratejiyi bozdu: ${st.p}/${st.s}`);
+          await checkSvg(page, `${type} ${name}=${v}${night ? ' gece' : ''}`);
+          n++;
+        }
+      }
+    }
+  }
+  assert(n > 300, 'az seçim denendi: ' + n);
+  console.log(`      (${n} seçim denendi)`);
+  noErrs(page);
+  await page.context().close();
+});
+
+await test('Kolay mod: bütçe seviyesi fiyat etiketini ve teknik seçimleri değiştirir', async () => {
+  const page = await newPage();
+  await openWizard(page, '?tur=isikli_harf', { mode: null });
+  await goStep(page, 'gorunum');
+  const res = {};
+  for (const b of ['0', '1', '2']) {
+    await hit(page.locator(`#wz-step input[name="e.b"][value="${b}"]`));
+    await page.waitForTimeout(120); // önizleme/etiket bir sonraki karede güncellenir
+    const st = await state(page);
+    res[b] = { lvl: await page.locator('#wz-mini b').first().textContent(), pt: st.o.pt, dp: st.o.dp, lb: st.o.lb, side: st.o.side };
+  }
+  assert(res[0].pt === 2.8 && res[0].dp === 6 && res[0].lb === 'standart', 'ekonomik: ' + JSON.stringify(res[0]));
+  assert(res[2].pt === 5.8 && res[2].dp === 8 && res[2].lb === 'samsung' && res[2].side === 'plexi', 'gösterişli: ' + JSON.stringify(res[2]));
+  assert(res[0].lvl !== res[2].lvl, 'fiyat seviyesi değişmeli: ' + JSON.stringify([res[0].lvl, res[2].lvl]));
+  noErrs(page);
+  await page.context().close();
+});
+
+await test('Kolay mod: "Bana öner" soruları doğru türü seçer', async () => {
+  const page = await newPage();
+  await openWizard(page, '', { mode: null });
+  const cases = [
+    [['kapi', 'evet', 'canli'], 'kapi'], [['yol', 'evet', 'luks'], 'totem'], [['pano', 'fark', 'sade'], 'germe'],
+    [['cephe', 'hayir', 'canli'], 'kabartma'], [['cephe', 'evet', 'luks'], 'krom'], [['cephe', 'evet', 'modern'], 'dekupe'],
+    [['cephe', 'evet', 'canli'], 'isikli_harf'], [['cephe', 'fark', 'sade'], 'isikli_harf'],
+  ];
+  for (const [[where, light, look], type] of cases) {
+    await hit(page.locator(`input[data-q=where][value=${where}]`));
+    await hit(page.locator(`input[data-q=light][value=${light}]`));
+    await hit(page.locator(`input[data-q=look][value=${look}]`));
+    const st = await state(page);
+    assert(st.e.t === type, `${where}/${light}/${look} -> ${st.e.t}, beklenen ${type}`);
+    assert(await page.locator('.quiz-res').isVisible(), 'öneri açıklaması görünmeli');
+    assert(await page.locator(`input[name="e.t"][value="${type}"]`).isChecked(), 'önerilen kart seçili olmalı');
+    await checkSvg(page, `öneri ${type}`);
+  }
+  const st = await state(page);
+  assert(st.e.b === 0, 'sade görünüm ekonomik bütçe önermeli: ' + st.e.b);
+  noErrs(page);
+  await page.context().close();
+});
+
+await test('Kolay ↔ Detaylı mod geçişi: seçimler korunur, kolay moda dönünce yeniden türetilir', async () => {
+  const page = await newPage();
+  await openWizard(page, '?tur=krom', { mode: null });
+  await goStep(page, 'gorunum');
+  await hit(page.locator('input[name="e.b"][value="2"]'));
+  await hit(page.locator('input[name="e.m"][value="gumus"]'));
+  let st = await state(page);
+  assert(st.s === 'krom' && st.o.ks === 'gumus' && st.o.kt === 'fileli', 'krom türetimi ' + JSON.stringify([st.s, st.o.ks, st.o.kt]));
+  await page.locator('[data-act="pro"]').click();
+  await page.waitForTimeout(100);
+  st = await state(page);
+  assert(st.m === 'p' && (await page.locator('.wz-steps button').count()) === 7, 'detaylı mod 7 adım');
+  assert(await page.locator('input[name=mode][value=p]').isChecked(), 'anahtar detaylıda');
+  assert(st.s === 'krom' && st.o.ks === 'gumus', 'seçimler korunmalı');
+  assert((await page.locator('.wz-steps .on').getAttribute('data-step')) === 'sistem', 'harf sistemi adımına gidilmeli');
+  // detaylı modda elle değişiklik
+  await goStep(page, 'detay');
+  await hit(page.locator('input[name="o.ks"][value="altin"]'));
+  assert((await state(page)).o.ks === 'altin', 'detaylı değişiklik');
+  // anahtarla kolay moda dön: yeniden türetilir
+  await hit(page.locator('input[name=mode][value=e]'));
+  await page.waitForTimeout(100);
+  st = await state(page);
+  assert(st.m === 'e' && (await page.locator('.wz-steps button').count()) === 4, 'kolay mod 4 adım');
+  assert(st.o.ks === 'gumus', 'kolay moda dönünce e.m değerine göre türetilmeli: ' + st.o.ks);
+  await checkSvg(page, 'mod geçişi');
+  noErrs(page);
+  await page.context().close();
+});
+
+await test('Kolay mod: ?tur= ve ?urun= parametreleri, paylaşım bağlantısı, not alanı, şartname', async () => {
+  const page = await newPage();
+  for (const [type, [prod, strat]] of Object.entries(EASY)) {
+    await openWizard(page, `?tur=${type}`, { mode: null });
+    const st = await state(page);
+    assert(st.m === 'e' && st.e.t === type && st.p === prod && st.s === strat, `?tur=${type}: ${JSON.stringify([st.m, st.e.t, st.p, st.s])}`);
+  }
+  await openWizard(page, '?urun=totem', { mode: null });
+  assert((await state(page)).e.t === 'totem', '?urun=totem kolay modda totem türü olmalı');
+
+  // paylaşım bağlantısı
+  await openWizard(page, '?tur=dekupe', { mode: null });
+  await goStep(page, 'olcu');
+  await page.locator('input[data-k="L.0.t"]').fill('Kolay Paylaşım');
+  assert((await page.locator('.note-btn').count()) === 0, 'olcu adımında not düğmesi olmamalı');
+  await goStep(page, 'ozet');
+  await page.locator('textarea[data-k="n.genel"]').fill('Cephe 2. kat, teslim ay sonu');
+  await page.locator('input[data-k="c.name"]').fill('Ayşe Yılmaz');
+  const spec = await page.locator('#spec-sheet').textContent();
+  for (const needle of ['KOLAY PAYLAŞIM', 'Dekupe', 'Cephe 2. kat, teslim ay sonu', 'Ayşe Yılmaz', 'LED']) assert(spec.includes(needle), `şartnamede "${needle}" yok`);
+  await page.waitForTimeout(500);
+  const before = await state(page);
+  const p2 = await newPage();
+  await p2.goto(page.url(), { waitUntil: 'networkidle' });
+  await p2.waitForSelector('.wz-steps button');
+  const after = await state(p2);
+  assert(JSON.stringify(before) === JSON.stringify(after), 'paylaşılan kolay mod tasarımı aynı olmalı');
+  assert(after.m === 'e' && (await p2.locator('.wz-steps button').count()) === 4, 'paylaşımda kolay mod');
+  noErrs(p2);
+  await p2.context().close();
+  noErrs(page);
+  await page.context().close();
+});
+
+await test('Kolay mod: PNG şartname indirilir ve mobilde kullanılabilir', async () => {
+  const page = await newPage({ viewport: { width: 375, height: 700 }, mobile: true });
+  await openWizard(page, '?tur=germe', { mode: null });
+  for (let i = 0; i < 3; i++) { await page.locator('[data-act="next"]').tap(); await page.waitForTimeout(200); }
+  assert(await page.locator('#spec-sheet').isVisible(), 'şartname görünmeli');
+  const [dl] = await Promise.all([page.waitForEvent('download', { timeout: 20000 }), page.locator('[data-act="png"]').tap()]);
+  const file = path.join(OUT, 'sartname-kolay-germe.png');
+  await dl.saveAs(file);
+  const buf = await readFile(file);
+  assert(buf.slice(0, 8).toString('hex') === '89504e470d0a1a0a' && buf.length > 30000, 'geçerli PNG');
+  await checkSvg(page, 'kolay mobil');
+  await page.screenshot({ path: path.join(OUT, 'mobile-easy-final.png') });
+  noErrs(page);
   await page.context().close();
 });
 
