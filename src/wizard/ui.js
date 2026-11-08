@@ -615,7 +615,7 @@ function ledGroups(st) {
   // Germe tabelada LED markası seçimi sunulmaz
   const brandGroup = st.p === 'germe'
     ? ''
-    : group({ id: 'ledmarka', title: 'LED markası', body: radios('o.lb', st.o.lb, brands), hint: costHint(brands, 'Epistar Lüks Seri ve Samsung seçimleri standart modüle göre maliyeti yükseltebilir.'), note: 'led_marka', st });
+    : group({ id: 'ledmarka', title: 'LED markası', body: radios('o.lb', st.o.lb, brands), hint: costHint(brands, 'Diamond Epistar ve Samsung seçimleri standart modüle göre maliyeti yükseltebilir.'), note: 'led_marka', st });
   return (
     brandGroup +
     group({ id: 'ledrenk', title: 'LED rengi', body: chips, hint: 'Beyaz ve günışığı en yaygın seçimlerdir. Renkli LED’ler ve özel tonlar için not ekleyebilirsiniz.', note: 'led_renk', st })

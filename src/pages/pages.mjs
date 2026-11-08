@@ -162,7 +162,7 @@ const WIZARD_FAQ = [
   ['Şartnameyi nasıl paylaşırım?', 'Son adımda WhatsApp ile gönder, görseli paylaş/indir (PNG), yazdır/PDF, metni kopyala ve bağlantıyı kopyala seçenekleri bulunur. Bağlantıyı açan kişi aynı tasarımı görür.'],
   ['Kayan yazı LED panelde neleri seçebilirim?', 'Kullanım yerini (dış/iç mekan), renk tipini (tek renk: kırmızı, yeşil, sarı, mavi, beyaz; ya da tam renkli RGB), piksel aralığını (P10, P8, P6, P5, P4, P3, P2.5) ve LED modül sayısına göre panel ebadını seçersiniz. Yanıp sönme animasyonunu açıp kapatabilir, çerçeve rengini, yüz sayısını ve kontrol yöntemini (USB / Wi-Fi) belirleyebilirsiniz. Önizleme yazıyı panelin gerçek çözünürlüğünde LED noktaları olarak gösterir.'],
   ['P10, P5, P4 farkı nedir?', 'P değeri iki LED pikselinin merkezleri arasındaki mesafedir (mm). P küçüldükçe aynı alana daha çok LED sığar; çözünürlük ve fiyat artar, panelden en az ne kadar uzaktan bakılması gerektiği azalır. P10 uzaktan okunan cephelerde, P5–P2.5 vitrin içi ve yakından bakılan yerlerde tercih edilir.'],
-  ['LED markası seçimini nerede yapabilirim?', 'Kutu harf, krom harf ve LED’li dekupede LED markasını seçebilirsiniz: Standart (Epistar çipli), Epistar Lüks Seri veya Samsung. Germe tabelada ve kayan yazı LED panelde LED markası seçimi sunulmaz.'],
+  ['LED markası seçimini nerede yapabilirim?', 'Kutu harf, krom harf ve LED’li dekupede LED markasını seçebilirsiniz: Standart (Epistar çipli), Diamond Epistar veya Samsung. Germe tabelada ve kayan yazı LED panelde LED markası seçimi sunulmaz.'],
   ['Her seçeneğe not ekleyebilir miyim?', 'Evet. Her seçenek grubunun altındaki “+ Not ekle” bağlantısıyla özel isteklerinizi (farklı kalınlık, renk, ölçü vb.) yazabilirsiniz; notlar şartnamede ilgili satırın altında görünür.'],
   ['Telefondan kullanılabilir mi?', 'Evet. Sihirbaz mobil uyumludur; önizleme ekranın üstünde sabit kalır, seçenekler altta kaydırılır.'],
 ];
@@ -193,12 +193,12 @@ function wizardPage(ctx) {
 <tr><td>Dekota</td><td>${THICKNESS.dekota.map((t) => fmtMm(t.v)).join(' · ')}</td></tr>
 <tr><td>Aynalı dekota</td><td>Gümüş ve gold; ${THICKNESS.aynali.map((t) => fmtMm(t.v)).join(' · ')}</td></tr>
 <tr><td>Yan yüzey</td><td>Antrasit, siyah, beyaz, altın, gümüş veya pleksi ışıklı bant; ${DEPTHS.map((d) => d.v + ' cm').join(' · ')} derinlik</td></tr>
-<tr><td>LED (kutu harf, krom, dekupe)</td><td>Standart (Epistar çipli), Epistar Lüks Seri, Samsung; beyaz, günışığı, amber, kırmızı, mavi, yeşil</td></tr>
+<tr><td>LED (kutu harf, krom, dekupe)</td><td>Standart (Epistar çipli), Diamond Epistar, Samsung; beyaz, günışığı, amber, kırmızı, mavi, yeşil</td></tr>
 <tr><td>Germe tabela</td><td>Çerçeve rengi, tek/çift yüz, baskı zemin ve yazı rengi, LED ışık rengi (LED markası seçilmez)</td></tr>
 <tr><td>Kayan yazı LED panel</td><td>Dış/iç mekan; tek renk (kırmızı, yeşil, sarı, mavi, beyaz) veya tam renkli; P10 · P8 · P6 · P5 · P4 · P3 · P2.5; modül sayısına göre ebat; yanıp sönme animasyonu açık/kapalı; USB veya Wi-Fi kontrol</td></tr>
 <tr><td>Montaj</td><td>Ankara içi montaj, atölyeden teslim, sevkiyat; kapı tabelasında sabitleme şekli</td></tr>
 </tbody></table></div>
-<div class="callout"><strong>Fiyat hakkında:</strong> Standart dışı seçimlerde (kalın pleksi, Epistar Lüks Seri/Samsung LED, aynalı malzeme, derin harf, yüksek çözünürlüklü LED panel vb.) fiyat yukarı yönlü değişebilir. Sihirbaz her adımda <em>en uygun</em> seçeneği belirtir.</div>
+<div class="callout"><strong>Fiyat hakkında:</strong> Standart dışı seçimlerde (kalın pleksi, Diamond Epistar/Samsung LED, aynalı malzeme, derin harf, yüksek çözünürlüklü LED panel vb.) fiyat yukarı yönlü değişebilir. Sihirbaz her adımda <em>en uygun</em> seçeneği belirtir.</div>
 <h2>Sık sorulan sorular</h2>
 ${faqHTML(WIZARD_FAQ, ctx)}
 </article></div></section>

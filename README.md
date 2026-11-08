@@ -67,7 +67,7 @@ npm run serve      # http://localhost:4173 (yerel önizleme)
 
 Ürünler: cephe tabelası, totem, kapı/ofis tabelası, germe tabela, **kayan yazı LED panel**.  
 Harf sistemleri: ışıklı / ışıksız kutu harf, krom harf (fileli/filesiz/tam krom), kabartma düz harf, dekupe, lazer kesim metal harf, baskı/folyo.  
-**LED markası:** ışıklı kutu harf, krom harf ve LED’li dekupede *Standart LED (Epistar çipli)*, *Epistar Lüks Seri* ve *Samsung* seçilir. **Germe tabelada ve LED panelde marka seçimi sunulmaz.** (`epistar` kimliği eski paylaşım bağlantılarıyla uyum için korunur.)
+**LED markası:** ışıklı kutu harf, krom harf ve LED’li dekupede *Standart LED (Epistar çipli)*, *Diamond Epistar* ve *Samsung* seçilir. **Germe tabelada ve LED panelde marka seçimi sunulmaz.** (`epistar` kimliği eski paylaşım bağlantılarıyla uyum için korunur.)
 
 **Kayan yazı LED panel:** Detaylı modda adımlar *Ürün → Panel & Çözünürlük → Ölçü & Yazı → Özellikler → Montaj → Şartname*’dir.
 - *Kullanım yeri* (dış/iç mekan) ve *renk tipi* (tek renk: kırmızı, yeşil, sarı, mavi, beyaz · tam renkli RGB) seçildikten sonra yalnızca o birleşimde üretilen **P değerleri** listelenir (P10, P8, P6, P5, P4, P3, P2.5). Her P için modül ölçüsü, modül çözünürlüğü, piksel/m² ve en yakın izleme mesafesi gösterilir.
@@ -76,7 +76,7 @@ Harf sistemleri: ışıklı / ışıksız kutu harf, krom harf (fileli/filesiz/t
 - **Yanıp sönme animasyonu** *Özellikler* adımında (Kolay modda *Görünüm* adımında) açılıp kapatılır; önizlemede canlı görünür (`prefers-reduced-motion` açıksa sabit kalır), şartnamede ve paylaşım bağlantısında yer alır. Varsayılan kapalıdır.
 - Çerçeve rengi, tek/çift yüz ve kontrol yöntemi (USB / Wi-Fi) de seçilir.
 
-> **Not (LED panel verileri):** Modül ölçüleri/çözünürlükleri sektörde yaygın standart modüllere (P10 320×160 mm 32×16 px; P8 256×128 mm; P6 192×192 mm; P5/P4/P2.5 320×160 mm; P3 192×192 mm) göre, parlaklık ve izleme mesafesi değerleri yaklaşıktır. Üretici föyleri farklıysa `src/data/catalog.mjs` içindeki `LED_PANEL_PITCHES` satırını düzeltmeniz yeterlidir. “Epistar Lüks Seri” için resmî bir ürün adı doğrulanamadı; görünen ad `LED_BRANDS` içinden değiştirilebilir.
+> **Not (LED panel verileri):** Modül ölçüleri/çözünürlükleri sektörde yaygın standart modüllere (P10 320×160 mm 32×16 px; P8 256×128 mm; P6 192×192 mm; P5/P4/P2.5 320×160 mm; P3 192×192 mm) göre, parlaklık ve izleme mesafesi değerleri yaklaşıktır. Üretici föyleri farklıysa `src/data/catalog.mjs` içindeki `LED_PANEL_PITCHES` satırını düzeltmeniz yeterlidir. “Diamond Epistar” görünen adı `LED_BRANDS` içinde tek satırdadır.
 
 **Küçük yazılar:** kutu harf / krom harf tasarımlarında harf yüksekliği 10 cm’nin altındaki satırlar (slogan, telefon vb.) otomatik olarak **dekupe** (panelden oyma, ışıklıysa arkadan LED) çizilir; önizlemede etiketle gösterilir, şartnameye yazılır. Detaylı modda yöntem (dekupe / kabartma / folyo / hepsi kutu harf) ve dekupe arkası değiştirilebilir. Sınır `SMALL_TEXT_CM` ile `src/data/catalog.mjs` içinde ayarlanır.  
 Her seçenek grubunda **not alanı**, **fiyat etkisi etiketi** ve “**en uygun seçenek**” ipucu bulunur; fiyat rakamı gösterilmez.

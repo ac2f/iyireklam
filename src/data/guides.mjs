@@ -34,16 +34,16 @@ export const guides = [
   },
   {
     slug: 'led-secimi-samsung-epistar',
-    title: 'Kutu Harf LED Seçimi: Standart, Epistar Lüks Seri ve Samsung',
-    desc: 'Işıklı kutu harfte standart (Epistar çipli) LED, Epistar Lüks Seri ve Samsung LED seçenekleri; ışık rengi (beyaz, günışığı, amber, kırmızı, mavi, yeşil) ve fiyata etkisi.',
-    h1: 'Kutu Harf LED Seçimi: <em>Standart, Epistar Lüks Seri, Samsung</em>',
+    title: 'Kutu Harf LED Seçimi: Standart, Diamond Epistar ve Samsung',
+    desc: 'Işıklı kutu harfte standart (Epistar çipli) LED, Diamond Epistar ve Samsung LED seçenekleri; ışık rengi (beyaz, günışığı, amber, kırmızı, mavi, yeşil) ve fiyata etkisi.',
+    h1: 'Kutu Harf LED Seçimi: <em>Standart, Diamond Epistar, Samsung</em>',
     lead: 'LED markası ve ışık rengi, ışıklı kutu harfin görünümünü ve maliyetini etkiler. Seçeneklere kısa bir bakış.',
-    tldr: 'Işıklı kutu harflerde LED markası olarak Standart (Epistar çipli), Epistar Lüks Seri veya Samsung seçilebilir. Standart LED modül en uygun fiyatlıdır; Epistar Lüks Seri ve Samsung gibi marka tercihleri fiyatı yukarı taşıyabilir. Germe tabelada LED markası seçimi sunulmaz. Işık rengi için beyaz, günışığı, amber, kırmızı, mavi ve yeşil seçenekleri vardır.',
+    tldr: 'Işıklı kutu harflerde LED markası olarak Standart (Epistar çipli), Diamond Epistar veya Samsung seçilebilir. Standart LED modül en uygun fiyatlıdır; Diamond Epistar ve Samsung gibi marka tercihleri fiyatı yukarı taşıyabilir. Germe tabelada LED markası seçimi sunulmaz. Işık rengi için beyaz, günışığı, amber, kırmızı, mavi ve yeşil seçenekleri vardır.',
     updated: '2026-10-27',
     body: `<h2>LED markası seçenekleri</h2>
 <ul>
 <li><strong>Standart LED (Epistar çipli):</strong> Atölyemizin standart modülüdür ve zaten Epistar çiplidir; en uygun maliyetli seçenektir ve çoğu uygulama için yeterlidir.</li>
-<li><strong>Epistar Lüks Seri:</strong> Epistar çipli üst seri LED modül. Daha tutarlı ışık tonu ve marka güvencesi isteyenler için orta seviye bir seçenektir.</li>
+<li><strong>Diamond Epistar:</strong> Epistar çipli üst seri LED modül. Standart modüle göre bir üst kalite isteyenler için orta seviye bir seçenektir.</li>
 <li><strong>Samsung:</strong> Samsung çipli LED modül. Marka güvencesi isteyen müşteriler için tercih edilir; maliyeti yukarı taşır.</li>
 </ul>
 <p>Standart dışı marka seçimleri fiyatı yukarı yönlü değiştirir. Marka seçimi kutu harf, krom harf ve LED’li dekupe için sunulur; germe tabelada standart modül kullanılır ve marka seçimi yoktur. Seçiminizi sihirbazda işaretler, şartnamede görürsünüz; sihirbaz her adımda <em>en uygun</em> seçeneği belirtir.</p>
@@ -131,7 +131,7 @@ export const guides = [
 <li><strong>Harf sistemi:</strong> Baskı/folyo en ekonomik, kabartma düz harf ve dekupe orta, ışıklı kutu harf ve krom harf daha üst seviyedir.</li>
 <li><strong>Pleksi kalınlığı:</strong> 2,8 mm en uygundur; kalınlık arttıkça fiyat oldukça yükselir.</li>
 <li><strong>Yan yüzey ve derinlik:</strong> Pleksi ışıklı bant ve 8–10 cm derinlik maliyeti artırır.</li>
-<li><strong>LED markası ve rengi:</strong> Standart LED (Epistar çipli) en uygundur; Epistar Lüks Seri ve Samsung fiyatı yukarı taşıyabilir.</li>
+<li><strong>LED markası ve rengi:</strong> Standart LED (Epistar çipli) en uygundur; Diamond Epistar ve Samsung fiyatı yukarı taşıyabilir.</li>
 <li><strong>Zemin malzemesi ve kalınlığı:</strong> Dekota ekonomik, kompozit orta, aynalı malzemeler ve kalın levhalar üst seviyedir.</li>
 <li><strong>İşin zorluğu:</strong> Köşe yuvarlatma, çok sayıda renk veya karmaşık logo işçilik süresini artırır.</li>
 <li><strong>Montaj koşulları:</strong> Yükseklik, cephe malzemesi ve ulaşım zorluğu montaj maliyetini etkiler.</li>
@@ -164,7 +164,7 @@ export const guides = [
 <li><strong>Zemin malzemesini belirleyin.</strong> Kompozit, dekota, aynalı dekota veya zeminsiz uygulama.</li>
 <li><strong>Pleksi kalınlığına karar verin.</strong> Kalın pleksi fiyatı oldukça artırır; ihtiyacınıza uygun en ince seviye genellikle yeterlidir.</li>
 <li><strong>Yan yüzey ve derinliği seçin.</strong> Işıksız bant mı, pleksi ışıklı bant mı; 6, 7, 8 veya 10 cm.</li>
-<li><strong>LED’i seçin.</strong> Marka (standart, Epistar Lüks Seri, Samsung) ve renk.</li>
+<li><strong>LED’i seçin.</strong> Marka (standart, Diamond Epistar, Samsung) ve renk.</li>
 <li><strong>Renkleri kartelayla teyit edin.</strong> Ekran renkleri yaklaşıktır; kesin rengi kartela üzerinde görün.</li>
 <li><strong>Montaj ve elektrik noktasını planlayın.</strong> Keşifte belirlenir.</li>
 <li><strong>Her şeyi yazılı alın.</strong> Şartname; malzeme, kalınlık, renk, ölçü ve notları tek sayfada toplar.</li>

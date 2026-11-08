@@ -135,7 +135,7 @@ async function main() {
     '- Pleksi kalınlıkları: 2,8, 4,5, 5,8, 7,8, 9,8, 12, 14, 18 mm (2,8 mm en uygun; kalın pleksi fiyatı oldukça artırır).',
     '- Dekota: 4,5, 7, 8, 10, 14, 18 mm. Aynalı dekota (gümüş/gold): 4, 8, 13, 18 mm.',
     '- Kutu harf yan derinliği: 6, 7, 8, 10 cm. Yan bant: antrasit, siyah, beyaz, altın, gümüş veya pleksi ışıklı bant.',
-    '- LED markası (kutu harf, krom harf, LED’li dekupe): Standart (Epistar çipli), Epistar Lüks Seri, Samsung; germe tabelada marka seçimi yoktur. Renkler: beyaz, günışığı, amber, kırmızı, mavi, yeşil. Standart dışı tercihlerde fiyat yukarı yönlü değişebilir.',
+    '- LED markası (kutu harf, krom harf, LED’li dekupe): Standart (Epistar çipli), Diamond Epistar, Samsung; germe tabelada marka seçimi yoktur. Renkler: beyaz, günışığı, amber, kırmızı, mavi, yeşil. Standart dışı tercihlerde fiyat yukarı yönlü değişebilir.',
     '- Kayan yazı LED panel: tek renk (kırmızı, yeşil, sarı, mavi, beyaz) veya tam renkli; P10, P8, P6, P5, P4, P3, P2.5 piksel aralığı; ebat LED modül sayısına göre belirlenir; yanıp sönme animasyonu açılıp kapatılabilir.',
     '- Pleksi paleti Akpolimer, kompozit paleti Sistem markasıdır.',
     '- Krom harf: fileli, filesiz veya tam krom; yanlar gümüş ya da altın.',

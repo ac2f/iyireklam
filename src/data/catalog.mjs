@@ -219,11 +219,11 @@ export const KROM_SIDES = [
 
 // Işıklı kutu harf / krom harf / LED'li dekupe için LED modül markaları.
 // Germe tabelada marka seçimi sunulmaz (standart modül kullanılır).
-// Not: 'epistar' kimliği eski paylaşım bağlantılarıyla uyum için korunur; görünen ad "Epistar Lüks Seri"dir.
-// Epistar'ın tabela modülleri için resmî bir "lüks seri" adı doğrulanamadığından ad burada tek yerden değiştirilebilir.
+// Not: 'epistar' kimliği eski paylaşım bağlantılarıyla uyum için korunur; görünen ad "Diamond Epistar"dir
+// (adı değiştirmek için yalnızca buradaki `name` alanı yeterlidir).
 export const LED_BRANDS = [
   { id: 'standart', name: 'Standart LED (Epistar çipli)', desc: 'Atölye standardı LED modül; Epistar çipli, çoğu uygulama için yeterli.', cost: 0 },
-  { id: 'epistar', name: 'Epistar Lüks Seri', desc: 'Epistar çipli üst seri LED modül; marka güvencesi ve daha tutarlı ışık tonu isteyenler için.', cost: 1 },
+  { id: 'epistar', name: 'Diamond Epistar', desc: 'Diamond Epistar serisi; standart modüle göre bir üst kalite Epistar çipli LED modül.', cost: 1 },
   { id: 'samsung', name: 'Samsung', desc: 'Samsung çipli LED modül; en üst marka tercihi.', cost: 2 },
 ];
 

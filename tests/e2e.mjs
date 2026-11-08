@@ -1278,19 +1278,19 @@ await test('Kolay mod: kayan yazı LED panel — mekan, renk ve bütçe P değer
   await page.context().close();
 });
 
-await test('LED markası: kutu harfte Standart (Epistar çipli) / Epistar Lüks Seri / Samsung; germe ve LED panelde marka seçimi yok', async () => {
+await test('LED markası: kutu harfte Standart (Epistar çipli) / Diamond Epistar / Samsung; germe ve LED panelde marka seçimi yok', async () => {
   const page = await newPage();
   // kutu harf (detaylı)
   await openWizard(page);
   await goStep(page, 'detay');
   const names = await page.$$eval('#g-ledmarka .opt-t', (e) => e.map((x) => x.textContent.trim()));
-  assert(JSON.stringify(names) === JSON.stringify(['Standart LED (Epistar çipli)', 'Epistar Lüks Seri', 'Samsung']), 'marka adları: ' + names);
+  assert(JSON.stringify(names) === JSON.stringify(['Standart LED (Epistar çipli)', 'Diamond Epistar', 'Samsung']), 'marka adları: ' + names);
   const vals = await page.$$eval('#g-ledmarka input[name="o.lb"]', (e) => e.map((x) => x.value));
   assert(vals.join() === 'standart,epistar,samsung', 'marka kimlikleri: ' + vals);
   await hit(page.locator('input[name="o.lb"][value="epistar"]'));
   await goStep(page, 'ozet');
   let spec = await page.locator('#spec-sheet').textContent();
-  assert(spec.includes('LED markası') && spec.includes('Epistar Lüks Seri'), 'kutu harf şartnamesinde marka olmalı');
+  assert(spec.includes('LED markası') && spec.includes('Diamond Epistar'), 'kutu harf şartnamesinde marka olmalı');
   // germe (detaylı): marka grubu yok, ışık rengi var
   await openWizard(page, '?urun=germe');
   await goStep(page, 'detay');
@@ -1338,7 +1338,7 @@ await test('Kayan yazı LED panel sayfası: hizmet sayfası, P tablosu, sihirbaz
   const st = await state(page);
   assert(st.p === 'ledpanel' && st.e.t === 'ledpanel', 'sayfadan sihirbaza LED panel olarak geçilmeli');
   const llms = await (await page.request.get(`${BASE}/llms.txt`)).text();
-  assert(llms.includes('kayan-yazi-led-panel') && /Kayan yazı LED panel/.test(llms) && llms.includes('Epistar Lüks Seri'), 'llms.txt güncel olmalı');
+  assert(llms.includes('kayan-yazi-led-panel') && /Kayan yazı LED panel/.test(llms) && llms.includes('Diamond Epistar'), 'llms.txt güncel olmalı');
   noErrs(page);
   await page.context().close();
 });

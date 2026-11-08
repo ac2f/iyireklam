@@ -20,13 +20,13 @@ export const services = [
     desc: 'Ankara İskitler atölyemizde ışıklı ve ışıksız pleksi kutu harf imalatı. 2,8–18 mm pleksi, 6–10 cm yan derinlik, Epistar/Samsung LED seçenekleri. Online sihirbazla tasarlayın.',
     h1: 'Ankara Kutu Harf Tabela <em>İmalatı</em>',
     lead: 'Işıklı ya da ışıksız pleksi kutu harf; ön yüz kalınlığından yan bant rengine, LED markasından ışık rengine kadar her ayrıntıyı siz seçersiniz, biz kendi atölyemizde üretiriz.',
-    tldr: 'Kutu harf; ön yüzü pleksi, yanları metal veya pleksi bantla kapatılmış, içi LED ile aydınlatılabilen hacimli bir harftir. İyi Reklam, Ankara İskitler’deki atölyesinde ışıklı ve ışıksız pleksi kutu harf, krom kutu harf ve fason kutu harf üretir. Pleksi kalınlığı 2,8 mm’den 18 mm’ye, yan derinlik 6–10 cm arasında seçilebilir; kalın pleksi ve Epistar Lüks Seri veya Samsung gibi standart dışı LED tercihleri fiyatı yukarı taşır.',
+    tldr: 'Kutu harf; ön yüzü pleksi, yanları metal veya pleksi bantla kapatılmış, içi LED ile aydınlatılabilen hacimli bir harftir. İyi Reklam, Ankara İskitler’deki atölyesinde ışıklı ve ışıksız pleksi kutu harf, krom kutu harf ve fason kutu harf üretir. Pleksi kalınlığı 2,8 mm’den 18 mm’ye, yan derinlik 6–10 cm arasında seçilebilir; kalın pleksi ve Diamond Epistar veya Samsung gibi standart dışı LED tercihleri fiyatı yukarı taşır.',
     facts: [
       ['Ön yüz', 'Pleksi (Akpolimer paleti)'],
       ['Pleksi kalınlığı', '2,8 · 4,5 · 5,8 · 7,8 · 9,8 · 12 · 14 · 18 mm'],
       ['Yan derinlik', '6 · 7 · 8 · 10 cm'],
       ['Yan bant', 'Antrasit, siyah, beyaz, altın, gümüş veya pleksi ışıklı bant'],
-      ['LED markası', 'Standart (Epistar çipli) · Epistar Lüks Seri · Samsung'],
+      ['LED markası', 'Standart (Epistar çipli) · Diamond Epistar · Samsung'],
       ['LED rengi', 'Beyaz, günışığı, amber, kırmızı, mavi, yeşil'],
     ],
     sections: [
@@ -61,7 +61,7 @@ export const services = [
       },
       {
         h: 'LED markası ve ışık rengi',
-        html: `<p>Işıklı kutu harflerde atölyemizin <strong>standart LED modülü (Epistar çipli)</strong> kullanılır; isterseniz <strong>Epistar Lüks Seri</strong> veya <strong>Samsung</strong> markalı LED tercihi de yapılabilir. Standart dışı marka seçimleri fiyatı yukarı yönlü değiştirebilir. Işık rengi olarak beyaz (soğuk), günışığı (sıcak), amber, kırmızı, mavi ve yeşil seçenekleri sunulur. Pleksi rengi ile LED rengi birlikte nihai ışık tonunu belirler; örneğin beyaz LED arkasında kırmızı pleksi kırmızı ışık verir.</p>
+        html: `<p>Işıklı kutu harflerde atölyemizin <strong>standart LED modülü (Epistar çipli)</strong> kullanılır; isterseniz <strong>Diamond Epistar</strong> veya <strong>Samsung</strong> markalı LED tercihi de yapılabilir. Standart dışı marka seçimleri fiyatı yukarı yönlü değiştirebilir. Işık rengi olarak beyaz (soğuk), günışığı (sıcak), amber, kırmızı, mavi ve yeşil seçenekleri sunulur. Pleksi rengi ile LED rengi birlikte nihai ışık tonunu belirler; örneğin beyaz LED arkasında kırmızı pleksi kırmızı ışık verir.</p>
 <p>Karşılaştırma için {{l:rehber/led-secimi-samsung-epistar|LED seçim rehberimize}} göz atın.</p>`,
       },
       {
@@ -78,7 +78,7 @@ export const services = [
     faq: [
       ['Kutu harf ışıklı olmak zorunda mı?', 'Hayır. Işıksız pleksi kutu harf de yapılır; LED ve trafo maliyeti olmadığı için daha ekonomiktir. Gece görünürlüğü önemliyse ışıklı seçenek önerilir.'],
       ['Hangi pleksi kalınlığını seçmeliyim?', 'Çoğu cephe uygulamasında ince veya orta kalınlık yeterlidir; en uygun fiyatlı seçenek 2,8 mm’dir. Kalın pleksi fiyatı belirgin biçimde artırır. Harf ölçünüze göre doğru kalınlığı birlikte belirleyebiliriz.'],
-      ['Samsung veya Epistar Lüks Seri LED seçmek şart mı?', 'Şart değildir. Standart LED modülümüz zaten Epistar çiplidir ve en uygun seçenektir. Epistar Lüks Seri veya Samsung gibi marka tercihleri fiyatı yukarı taşıyabilir; istiyorsanız sihirbazdan seçebilirsiniz.'],
+      ['Samsung veya Diamond Epistar LED seçmek şart mı?', 'Şart değildir. Standart LED modülümüz zaten Epistar çiplidir ve en uygun seçenektir. Diamond Epistar veya Samsung gibi marka tercihleri fiyatı yukarı taşıyabilir; istiyorsanız sihirbazdan seçebilirsiniz.'],
       ['Kutu harf fiyatı nasıl belirlenir?', 'Fiyat; harf ölçüsü, pleksi kalınlığı, yan yüzey ve derinlik, LED markası ve montaj koşullarına bağlıdır. Sihirbaz sonunda oluşan şartnameyi WhatsApp’tan gönderirseniz fiyatı netleştiririz.'],
     ],
     related: ['isikli-tabela', 'krom-harf-tabela', 'totem-tabela', 'cnc-router-kesim'],
@@ -640,7 +640,7 @@ export const hubs = [
     tldr: 'Işıklı tabela; içine LED yerleştirilerek gece de okunabilen tabelalara denir. İyi Reklam Ankara İskitler atölyesinde başlıca dört ışıklı yöntem üretir: ışıklı pleksi kutu harf, ışıklı krom harf, germe tabela (ışıklı kutu) ve LED’li dekupe; ışıklı totem bu yöntemlerle yapılır. Maliyet; ölçü, pleksi kalınlığı, yan yüzey, LED markası ve montaj koşullarına göre değişir.',
     facts: [
       ['Yöntemler', 'Işıklı kutu harf · Krom harf · Germe · LED’li dekupe'],
-      ['LED markası', 'Standart (Epistar çipli) · Epistar Lüks Seri · Samsung (germe tabelada marka seçilmez)'],
+      ['LED markası', 'Standart (Epistar çipli) · Diamond Epistar · Samsung (germe tabelada marka seçilmez)'],
       ['LED rengi', 'Beyaz, günışığı, amber, kırmızı, mavi, yeşil'],
       ['Işık yayılımı', 'Ön yüz pleksi, pleksi yan bant veya arkadan germe kumaş'],
       ['Önizleme', 'Sihirbazda gündüz ve gece görünümü'],
@@ -671,7 +671,7 @@ export const hubs = [
       },
       {
         h: 'Işık rengi ve LED markası',
-        html: `<p>Işıklı kutu harf, krom harf ve LED’li dekupede LED markası olarak <strong>standart (Epistar çipli)</strong>, <strong>Epistar Lüks Seri</strong> veya <strong>Samsung</strong> seçilebilir; standart dışı tercihlerde fiyat yukarı yönlü değişebilir. Germe tabelada LED markası seçimi sunulmaz, standart LED modül kullanılır. Işık rengi beyaz, günışığı, amber, kırmızı, mavi ya da yeşil olabilir. Pleksi rengi ile LED rengi birlikte nihai ışık tonunu belirler. Ayrıntılar için {{l:rehber/led-secimi-samsung-epistar|LED seçim rehberine}} bakın.</p>`,
+        html: `<p>Işıklı kutu harf, krom harf ve LED’li dekupede LED markası olarak <strong>standart (Epistar çipli)</strong>, <strong>Diamond Epistar</strong> veya <strong>Samsung</strong> seçilebilir; standart dışı tercihlerde fiyat yukarı yönlü değişebilir. Germe tabelada LED markası seçimi sunulmaz, standart LED modül kullanılır. Işık rengi beyaz, günışığı, amber, kırmızı, mavi ya da yeşil olabilir. Pleksi rengi ile LED rengi birlikte nihai ışık tonunu belirler. Ayrıntılar için {{l:rehber/led-secimi-samsung-epistar|LED seçim rehberine}} bakın.</p>`,
       },
       {
         h: 'Gündüz ve gece nasıl görünür?',
