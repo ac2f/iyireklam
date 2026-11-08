@@ -5,10 +5,13 @@ import {
   FIX_TYPES, SERVICE_OPTIONS, PLEXI_COLORS, FOIL_COLORS, COST_LEVELS, fmtMm, PLEXI_THICKNESS_NOTE,
   EASY_TYPES, EASY_BUDGETS, EASY_COLORS, EASY_BG, EASY_LIGHTS, EASY_METALS, QUIZ,
   SMALL_TEXT_CM, SMALL_METHODS, SMALL_BACKINGS,
+  LED_PANEL_ENVS, LED_PANEL_TYPES, LED_PANEL_COLORS, LED_PANEL_RGB_COLORS, LED_PANEL_CONTROLS, LED_PANEL_MAX, LED_PANEL_SIZES,
+  ledPitchesFor, ledPitch, ledPanelInfo, ledGridCm, fmtInt,
 } from '../data/catalog.mjs';
 import { getProduct, paletteFor, LETTER_MATS } from './state.js';
 import {
   visible, hasZemin, cheapest, zeminMat, find, summarize, refNo, costLabel, itemCost, buildRows, smallPlan, BOX_STRATS,
+  ledReadWarning,
 } from './model.js';
 import { easyType, budgetSummary, contrastWarning } from './easy.js';
 
@@ -26,6 +29,16 @@ export function stepsFor(st) {
       { id: 'tur', t: 'Tabela türü' },
       { id: 'olcu', t: 'Ölçü & Yazı' },
       { id: 'gorunum', t: 'Görünüm' },
+      { id: 'ozet', t: 'Şartname' },
+    ];
+  }
+  if (st.p === 'ledpanel') {
+    return [
+      { id: 'urun', t: 'Ürün' },
+      { id: 'panel', t: 'Panel & Çözünürlük' },
+      { id: 'olcu', t: 'Ölçü & Yazı' },
+      { id: 'detay', t: 'Özellikler' },
+      { id: 'montaj', t: 'Montaj' },
       { id: 'ozet', t: 'Şartname' },
     ];
   }
@@ -61,6 +74,7 @@ export function swatchBg(it) {
     case 'stone': return `radial-gradient(circle,${h2}88 0 1px,transparent 1.5px) 0 0/5px 5px,${h}`;
     case 'brushed': return `repeating-linear-gradient(0deg,rgba(255,255,255,.28) 0 1px,transparent 1px 3px),${h}`;
     case 'metal': return `linear-gradient(135deg,rgba(255,255,255,.4),transparent 45%,rgba(0,0,0,.25)),${h}`;
+    case 'rgb': return 'conic-gradient(#ff3b30,#ffd21f,#32ff6a,#2ff0f0,#4f8bff,#b66bff,#ff3b30)';
     default: return it.clear ? `linear-gradient(135deg,rgba(255,255,255,.55),transparent 55%),${h}` : h;
   }
 }
@@ -174,6 +188,7 @@ const ICONS = {
   kapi: '<svg viewBox="0 0 80 48" aria-hidden="true"><rect x="14" y="8" width="52" height="32" rx="3" fill="none" stroke="currentColor" stroke-width="2.4"/><circle cx="20" cy="14" r="1.8" fill="currentColor"/><circle cx="60" cy="14" r="1.8" fill="currentColor"/><circle cx="20" cy="34" r="1.8" fill="currentColor"/><circle cx="60" cy="34" r="1.8" fill="currentColor"/><path d="M26 22h28M30 29h20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>',
   germe: '<svg viewBox="0 0 80 48" aria-hidden="true"><rect x="5" y="8" width="70" height="32" rx="3" fill="none" stroke="currentColor" stroke-width="3.4"/><rect x="11" y="14" width="58" height="20" rx="1.5" fill="currentColor" opacity=".16"/><path d="M24 26h32M30 20h20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><path d="M2 4l4 4M78 4l-4 4M40 1v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>',
 };
+ICONS.ledpanel = '<svg viewBox="0 0 80 48" aria-hidden="true"><rect x="4" y="12" width="72" height="24" rx="3" fill="none" stroke="currentColor" stroke-width="2.4"/><g fill="currentColor" opacity=".3"><circle cx="14" cy="19" r="1.7"/><circle cx="14" cy="29" r="1.7"/><circle cx="20" cy="19" r="1.7"/><circle cx="20" cy="29" r="1.7"/><circle cx="32" cy="19" r="1.7"/><circle cx="32" cy="29" r="1.7"/><circle cx="38" cy="19" r="1.7"/><circle cx="38" cy="24" r="1.7"/><circle cx="38" cy="29" r="1.7"/><circle cx="50" cy="19" r="1.7"/><circle cx="50" cy="29" r="1.7"/><circle cx="56" cy="19" r="1.7"/><circle cx="56" cy="29" r="1.7"/><circle cx="62" cy="19" r="1.7"/><circle cx="62" cy="29" r="1.7"/></g><g fill="currentColor"><circle cx="14" cy="24" r="1.7"/><circle cx="20" cy="24" r="1.7"/><circle cx="26" cy="19" r="1.7"/><circle cx="26" cy="24" r="1.7"/><circle cx="26" cy="29" r="1.7"/><circle cx="32" cy="24" r="1.7"/><circle cx="44" cy="19" r="1.7"/><circle cx="44" cy="24" r="1.7"/><circle cx="44" cy="29" r="1.7"/><circle cx="50" cy="24" r="1.7"/><circle cx="56" cy="24" r="1.7"/><circle cx="62" cy="24" r="1.7"/></g><path d="M22 43h36M53 40l4 3-4 3" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 Object.assign(ICONS, {
   isikli: '<svg viewBox="0 0 80 48" aria-hidden="true"><rect x="4" y="13" width="72" height="28" rx="3" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M13 34l5-12 5 12M15 30h6M32 22v12h5a3.2 3.2 0 0 0 0-6.4h-5h4a2.8 2.8 0 0 0 0-5.6h-4M62 25a6 6 0 1 0 0 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 5l2.5 4M40 2v5.5M66 5l-2.5 4" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></svg>',
   dekupe: '<svg viewBox="0 0 80 48" aria-hidden="true"><rect x="4" y="9" width="72" height="30" rx="3" fill="currentColor" opacity=".18" stroke="currentColor" stroke-width="2.4"/><path d="M13 31l5.5-13 5.5 13M15 26.5h7M31 18v13h5a3.6 3.6 0 0 0 0-7h-5h4.2a3.2 3.2 0 0 0 0-6H31M62 20.5a6.5 6.5 0 1 0 0 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="3.2 2.6"/></svg>',
@@ -181,6 +196,133 @@ Object.assign(ICONS, {
   krom: '<svg viewBox="0 0 80 48" aria-hidden="true"><rect x="4" y="9" width="72" height="30" rx="3" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M28 18h24l6 7-18 13-18-13zM22 25h36M34 18l-3 7 9 13M46 18l3 7-9 13" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
 });
 export const PRODUCT_ICONS = ICONS;
+
+// ---------------------------------------------------------------------------
+// Kayan yazı LED panel bileşenleri
+// ---------------------------------------------------------------------------
+/** Panel özeti: ölçü, çözünürlük, parlaklık, izleme mesafesi + okunurluk uyarısı (app.js canlı günceller) */
+export function ledInfoHTML(st) {
+  const lp = st.lp;
+  const info = ledPanelInfo(lp);
+  const pt = info.pitch;
+  const warn = ledReadWarning(st);
+  const rows = [
+    ['Panel ölçüsü', `${fmt(info.w)} × ${fmt(info.h)} cm`],
+    ['Modül sayısı', `${lp.cols} × ${lp.rows} = ${info.modules} modül (her biri ${fmt(pt.mod[0] / 10)} × ${fmt(pt.mod[1] / 10)} cm)`],
+    ['Çözünürlük', `${fmtInt(info.pxW)} × ${fmtInt(info.pxH)} piksel`],
+    ['Toplam piksel (LED)', fmtInt(info.pixels)],
+    ['Piksel yoğunluğu', `≈ ${fmtInt(info.density)} piksel/m²`],
+    ['Parlaklık', info.bright],
+    ['Koruma', lp.env === 'dis' ? 'IP65 (dış mekan)' : 'Yalnızca iç mekan'],
+    ['En yakın izleme mesafesi', `≈ ${fmt(info.minDist)} m`],
+  ];
+  return (
+    `<h4>Panel özeti (${esc(pt.name)})</h4><dl>${rows.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>` +
+    (warn ? `<p class="lp-warn" role="status">${esc(warn)}</p>` : '')
+  );
+}
+
+/** Modül sayısına göre ebat seçimi: hazır ebatlar + yatay/dikey modül sayısı */
+function ledSizeBody(st) {
+  const lp = st.lp;
+  const pt = ledPitch(lp.pitch);
+  const sizes = LED_PANEL_SIZES.map(([c, r]) => {
+    const g = ledGridCm({ ...lp, cols: c, rows: r });
+    const on = c === lp.cols && r === lp.rows;
+    return (
+      `<button type="button" class="pill" data-act="lpsize" data-c="${c}" data-r="${r}" aria-pressed="${on}">` +
+      `<b>${fmt(g.w)} × ${fmt(g.h)} cm</b><small>${c} × ${r} modül · ${fmtInt(c * pt.px[0])} × ${fmtInt(r * pt.px[1])} piksel</small></button>`
+    );
+  }).join('');
+  return (
+    `<div class="row2">` +
+    `<label class="fld"><span>Yatay modül sayısı</span><input type="number" inputmode="numeric" min="1" max="${LED_PANEL_MAX.cols}" step="1" value="${lp.cols}" data-k="lp.cols" data-num="1" data-min="1" data-max="${LED_PANEL_MAX.cols}"></label>` +
+    `<label class="fld"><span>Dikey modül sayısı</span><input type="number" inputmode="numeric" min="1" max="${LED_PANEL_MAX.rows}" step="1" value="${lp.rows}" data-k="lp.rows" data-num="1" data-min="1" data-max="${LED_PANEL_MAX.rows}"></label>` +
+    `<label class="fld"><span>Adet</span><input type="number" inputmode="numeric" min="1" max="999" step="1" value="${st.q}" data-k="q" data-num="1" data-min="1" data-max="999"></label>` +
+    `</div>` +
+    `<div class="presets"><span>Hazır ebatlar (${esc(pt.name)}):</span></div><div class="lp-sizes" role="group" aria-label="Hazır panel ebatları">${sizes}</div>` +
+    `<div class="lp-info" id="lp-info" aria-live="polite">${ledInfoHTML(st)}</div>` +
+    `<p class="g-hint">Panel ölçüsü LED modüllerin sayısına göre belirlenir: ${esc(pt.name)} modülü ${fmt(pt.mod[0] / 10)} × ${fmt(pt.mod[1] / 10)} cm olduğundan ölçüler bu değerin katlarıdır (en fazla ${LED_PANEL_MAX.cols} × ${LED_PANEL_MAX.rows} modül). Burada görünen ölçü LED görüntü alanıdır; çerçeve payı kesin ölçüde ayrıca netleştirilir. Daha büyük işler için bizi arayın.</p>`
+  );
+}
+
+const reducedMotion = () => typeof matchMedia === 'function' && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function blinkToggle(st) {
+  return toggle(
+    'lp.blink', st.lp.blink, 'Yanıp sönme animasyonu',
+    st.lp.blink && reducedMotion()
+      ? 'Açık. Cihazınızda “hareketi azalt” ayarı açık olduğu için önizleme sabit gösterilir; panelde yazı yanıp söner.'
+      : 'Yazı periyodik olarak yanıp söner. Önizlemede canlı görünür; kapatırsanız yazı sabit (veya kayan) kalır.',
+  );
+}
+
+function stepPanel(app) {
+  const st = app.st;
+  const lp = st.lp;
+  const envs = LED_PANEL_ENVS.map((e) => ({ v: e.id, t: e.name, d: e.desc, cost: e.cost }));
+  const types = LED_PANEL_TYPES.map((t) => ({ v: t.id, t: t.name, d: t.desc, cost: t.cost }));
+  const pitches = ledPitchesFor(lp.env, lp.type).map((p) => ({
+    v: p.id, t: p.name, cost: p.cost,
+    d: `Modül ${fmt(p.mod[0] / 10)} × ${fmt(p.mod[1] / 10)} cm · ${p.px[0]} × ${p.px[1]} piksel (modülde ${fmtInt(p.px[0] * p.px[1])} piksel) · ≈ ${fmtInt(1e6 / (p.p * p.p))} piksel/m² · en yakın izleme ≈ ${fmt(p.p)} m`,
+  }));
+  const colors = lp.type === 'rgb' ? LED_PANEL_RGB_COLORS : LED_PANEL_COLORS;
+  const chips =
+    `<div class="chips led-colors" role="radiogroup" aria-label="${lp.type === 'rgb' ? 'Örnek yazı rengi' : 'Işık rengi'}">` +
+    colors
+      .map(
+        (c) =>
+          `<label class="chip led"><input type="radio" name="lp.col" value="${c.id}" data-k="lp.col"${lp.col === c.id ? ' checked' : ''}><span class="chip-b"><i class="led-dot${c.rainbow ? ' lp-rainbow' : ''}" style="--c:${c.glow}"></i><b>${esc(c.name)}</b></span></label>`,
+      )
+      .join('') +
+    `</div>`;
+  const colorTitle = lp.type === 'rgb' ? 'Örnek yazı rengi (önizleme)' : 'Işık rengi';
+  const colorHelp =
+    lp.type === 'rgb'
+      ? 'Tam renkli panelde yazı rengi kontrol yazılımından istediğiniz an değiştirilir; burada yalnızca önizlemede görmek istediğiniz örnek rengi seçersiniz.'
+      : 'Tek renk panellerde ışık rengi LED’in kendi rengidir ve sonradan değiştirilemez. Bu panel tipinde üretilen renkler:';
+  return (
+    `<div class="step-intro"><h2 class="step-h">Panel ve çözünürlük</h2><p>Kullanım yerini, renk tipini ve piksel aralığını (P değeri) seçin. P küçüldükçe aynı alana daha çok LED sığar; yazı daha net, panel daha pahalı olur.</p></div>` +
+    group({ id: 'lpenv', title: 'Kullanım yeri', body: radios('lp.env', lp.env, envs), hint: costHint(envs), note: 'lp_mekan', st }) +
+    group({ id: 'lptype', title: 'Renk tipi', body: radios('lp.type', lp.type, types), hint: costHint(types), note: 'lp_tip', st }) +
+    group({
+      id: 'lppitch', title: 'Piksel aralığı (P değeri)', help: 'P sayısı, iki LED pikselinin merkezleri arasındaki mesafedir (mm). Sayı küçüldükçe modül başına LED sayısı ve çözünürlük artar.',
+      body: `<div class="lp-pitch">${radios('lp.pitch', lp.pitch, pitches)}</div>`,
+      hint: `${costHint(pitches)} Tek renk paneller P10 olarak üretilir; daha yüksek çözünürlük için tam renkli panel seçin. Yakından bakılacak yerlerde (vitrin içi, kapı önü) küçük P, uzaktan okunacak cephelerde P10 yeterlidir.`,
+      note: 'lp_piksel', st,
+    }) +
+    group({
+      id: 'lpcol', title: colorTitle, help: colorHelp, body: chips,
+      hint: lp.type === 'rgb' ? '' : `${LED_PANEL_COLORS.map((c) => `<b>${esc(c.name)}:</b> ${esc(c.note.charAt(0).toLocaleLowerCase('tr-TR') + c.note.slice(1))}`).join(' · ')}.`,
+      note: 'lp_renk', st,
+    }) +
+    `<div class="lp-info" id="lp-info" aria-live="polite">${ledInfoHTML(st)}</div>`
+  );
+}
+
+function ledFeatureGroups(app) {
+  const st = app.st;
+  const frames = FRAME_COLORS.map((f) => ({ v: f.id, t: f.name, cost: f.cost }));
+  const ctl = LED_PANEL_CONTROLS.map((c) => ({ v: c.id, t: c.name, d: c.desc, cost: c.cost }));
+  return (
+    `<div class="step-intro"><h2 class="step-h">Panel özellikleri</h2><p>Yanıp sönme animasyonunu açıp kapatın; çerçeve rengini, yüz sayısını ve kontrol yöntemini seçin.</p></div>` +
+    group({
+      id: 'lpanim', title: 'Yanıp sönme animasyonu', body: blinkToggle(st),
+      hint: 'Kayma yönü ve hızı, yanıp sönme gibi efektleri panel kontrol yazılımından istediğiniz zaman değiştirebilirsiniz; bu seçim şartnamede tercihiniz olarak yer alır.',
+      note: 'lp_animasyon', st,
+    }) +
+    group({ id: 'cerceve', title: 'Çerçeve (kasa) rengi', body: radios('fr', st.fr, frames, { kind: 'chip' }), hint: costHint(frames), note: 'cerceve', st }) +
+    group({
+      id: 'yuz', title: 'Yüz sayısı',
+      body: radios('sd', st.sd, [
+        { v: 'tek', t: 'Tek taraflı', d: 'Duvara monte, tek yönden görünür.', cost: 0 },
+        { v: 'cift', t: 'Çift taraflı', d: 'Bayrak/askı tipi, iki yönden görünür.', cost: 2 },
+      ]),
+      hint: 'Çift taraflı yapıda modül sayısı iki katına çıkar; fiyat yukarı yönlü değişir.', note: 'yuz', st,
+    }) +
+    group({ id: 'lpctl', title: 'Kontrol yöntemi', body: radios('lp.ctl', st.lp.ctl, ctl), hint: costHint(ctl), note: 'lp_kontrol', st })
+  );
+}
 
 // ---------------------------------------------------------------------------
 // Adım içerikleri
@@ -250,10 +392,40 @@ function easyColorTitle(T) {
   return 'Harf rengi';
 }
 
+function stepGorunumLed(app) {
+  const st = app.st;
+  const e = st.e;
+  const budgets = EASY_BUDGETS.map(
+    (b) =>
+      `<label class="opt"><input type="radio" name="e.b" value="${b.id}" data-k="e.b" data-n="1"${b.id === e.b ? ' checked' : ''}>` +
+      `<span class="opt-b"><span class="opt-t">${esc(b.name)}${b.tag ? ` <i class="tagi">${esc(b.tag)}</i>` : ''}</span>` +
+      `<span class="opt-d">${esc({ 0: 'En uygun fiyatlı çözünürlük ve USB ile yazı yükleme.', 1: 'Daha net yazı ve telefondan Wi-Fi ile kolay kontrol.', 2: 'En yüksek çözünürlük; yakından da net görünür.' }[b.id])}</span>` +
+      `<span class="opt-d opt-s">${esc(budgetSummary(st, b.id))}</span>${badge(b.cost)}</span></label>`,
+  ).join('');
+  const envs = LED_PANEL_ENVS.map((x) => ({ v: x.id, t: x.name, d: x.desc, cost: x.cost }));
+  const rows = buildRows(st, app.meta || {}).filter((r) => ['Panel', 'Özellikler'].includes(r.g));
+  return (
+    `<div class="step-intro"><h2 class="step-h">Görünümü seçin</h2><p>Nerede kullanılacağını, ışık rengini ve bütçenizi seçin; çözünürlük (P değeri), modül ve kontrol ayrıntılarını sizin için biz belirliyoruz.</p></div>` +
+    group({
+      id: 'butce', title: 'Bütçeniz nasıl?', body: `<div class="opts">${budgets}</div>`,
+      hint: '<b>En uygun seçenek: Ekonomik.</b> Bütçe, tam renkli panelde çözünürlüğü (P değerini) ve kontrol yöntemini belirler. Tek renk paneller yalnızca P10 üretildiğinden bütçe sadece kontrol yöntemini değiştirir. Kesin fiyat ölçü ve keşif sonrası netleşir.',
+    }) +
+    group({ id: 'lpenv', title: 'Nerede kullanılacak?', body: radios('e.v', e.v, envs), hint: costHint(envs) }) +
+    group({
+      id: 'renk', title: 'Işık rengi', help: 'Tek renk panelde ışık rengi LED’in kendi rengidir. “Tam renkli” seçerseniz yazı rengini istediğiniz an yazılımdan değiştirirsiniz.',
+      body: swatches('e.c', e.c, EASY_COLORS.filter((c) => c.led)), hint: 'Tam renkli panel tek renkliye göre fiyatı belirgin artırır; tek renk panelde kırmızı, yeşil, sarı, mavi ve beyaz seçenekleri vardır.',
+    }) +
+    group({ id: 'lpanim', title: 'Yanıp sönme animasyonu', body: blinkToggle(st) }) +
+    `<div class="sel-box"><h3>Sizin için seçtiklerimiz</h3><dl>${rows.map((r) => `<div><dt>${esc(r.label)}</dt><dd>${esc(r.value)}</dd></div>`).join('')}</dl>` +
+    `<p><button type="button" class="pill" data-act="pro">Ayrıntıları kendim ayarlayacağım</button></p></div>`
+  );
+}
+
 function stepGorunum(app) {
   const st = app.st;
   const e = st.e;
   const T = easyType(e.t);
+  if (T.id === 'ledpanel') return stepGorunumLed(app);
   const budgets = EASY_BUDGETS.map(
     (b) =>
       `<label class="opt"><input type="radio" name="e.b" value="${b.id}" data-k="e.b" data-n="1"${b.id === e.b ? ' checked' : ''}>` +
@@ -270,7 +442,7 @@ function stepGorunum(app) {
   html += group({
     id: 'renk', title: easyColorTitle(T),
     help: T.id === 'germe' ? 'Baskılı kumaşın zemin rengi. Yazı rengi otomatik olarak okunaklı seçilir.' : T.id === 'krom' ? 'Ön yüzdeki pleksinin rengi; ışıkta bu renk parlar.' : '',
-    body: swatches('e.c', e.c, EASY_COLORS), hint: 'Altın ve gümüş seçenekleri aynalı malzeme kullandığı için fiyatı artırabilir.',
+    body: swatches('e.c', e.c, EASY_COLORS.filter((c) => !c.ledOnly)), hint: 'Altın ve gümüş seçenekleri aynalı malzeme kullandığı için fiyatı artırabilir.',
   });
   if (T.zemin) {
     const warn = contrastWarning(st);
@@ -301,7 +473,8 @@ function stepGorunum(app) {
 function stepOlcu(app) {
   const st = app.st;
   const p = getProduct(st.p);
-  const sizeBody =
+  const isLed = st.p === 'ledpanel';
+  const sizeBody = isLed ? ledSizeBody(st) :
     `<div class="row2">` +
     `<label class="fld"><span>Genişlik (cm)</span><input type="number" inputmode="decimal" min="${p.size.w[0]}" max="${p.size.w[1]}" step="1" value="${st.w}" data-k="w" data-num="1" data-min="${p.size.w[0]}" data-max="${p.size.w[1]}"></label>` +
     `<label class="fld"><span>Yükseklik (cm)</span><input type="number" inputmode="decimal" min="${p.size.h[0]}" max="${p.size.h[1]}" step="1" value="${st.h}" data-k="h" data-num="1" data-min="${p.size.h[0]}" data-max="${p.size.h[1]}"></label>` +
@@ -313,7 +486,9 @@ function stepOlcu(app) {
 
   const lines = [];
   for (let i = 0; i < p.maxLines; i++) {
-    const ph = ['1. satır — ana yazı (firma adı)', '2. satır — alt başlık / slogan', '3. satır — telefon, adres vb.', '4. satır — ek bilgi'][i];
+    const ph = (isLed
+      ? ['1. satır — kayan yazı (örn. kampanya, hoş geldiniz)', '2. satır — ek yazı', '3. satır — ek yazı']
+      : ['1. satır — ana yazı (firma adı)', '2. satır — alt başlık / slogan', '3. satır — telefon, adres vb.', '4. satır — ek bilgi'])[i];
     lines.push(
       `<div class="line"><input type="text" maxlength="60" autocomplete="off" placeholder="${ph}" value="${esc(st.L[i].t)}" data-k="L.${i}.t" aria-label="${i + 1}. satır metni">` +
       radios(`L.${i}.s`, st.L[i].s, [{ v: 'L', t: 'Büyük' }, { v: 'M', t: 'Orta' }, { v: 'S', t: 'Küçük' }], { kind: 'seg' }) +
@@ -326,8 +501,8 @@ function stepOlcu(app) {
   ).join('');
 
   return (
-    `<div class="step-intro"><h2 class="step-h">Ölçü ve yazı</h2><p>Tabelanın dış ölçüsünü ve üzerinde yazacak metni girin. Harfler ölçüye göre otomatik yerleşir.</p></div>` +
-    group({ id: 'olcu', title: 'Ölçü', body: sizeBody, note: 'olcu', st }) +
+    `<div class="step-intro"><h2 class="step-h">Ölçü ve yazı</h2><p>${isLed ? 'Panelin ebadını LED modül sayısıyla seçin ve ekranda görünecek yazıyı girin. Yazı, panelin gerçek çözünürlüğüne göre LED noktalarıyla çizilir.' : 'Tabelanın dış ölçüsünü ve üzerinde yazacak metni girin. Harfler ölçüye göre otomatik yerleşir.'}</p></div>` +
+    group({ id: 'olcu', title: isLed ? 'Panel ölçüsü (modül sayısı)' : 'Ölçü', body: sizeBody, note: 'olcu', st }) +
     group({
       id: 'metin', title: 'Metin', help: 'Boş bıraktığınız satırlar çizilmez. Türkçe karakterler (İ, ı, ğ, ş) desteklenir.',
       hint: BOX_STRATS.includes(st.s) && !(st.p === 'germe')
@@ -339,14 +514,14 @@ function stepOlcu(app) {
       note: 'metin', st,
     }) +
     group({ id: 'font', title: 'Yazı tipi', body: `<div class="fonts" role="radiogroup" aria-label="Yazı tipi">${fonts}</div>`, hint: 'Önizleme yazı tipleri temsilidir; farklı bir font veya kendi logonuzu not olarak iletebilirsiniz.', note: 'yazitipi', st }) +
-    group({
+    (isLed ? '' : group({
       id: 'logo', title: 'Logo / amblem',
       body: toggle('logo', st.logo, 'Logo alanı ekle', 'Önizlemede logo için yer ayırır') +
         (st.logo
           ? `<div class="logo-up"><label class="btn btn-ghost btn-sm" for="logo-file">Logo yükle (önizleme)</label><input id="logo-file" class="sr" type="file" accept="image/png,image/jpeg,image/svg+xml,image/webp" data-act="logo">${app.logoUrl ? '<button type="button" class="pill" data-act="logo-clear">Logoyu kaldır</button>' : ''}<small>Logo yalnızca bu cihazda önizlenir; kesim dosyasını WhatsApp veya e-posta ile ileteceksiniz.</small></div>`
           : ''),
       note: 'logo', st,
-    })
+    }))
   );
 }
 
@@ -437,8 +612,12 @@ function ledGroups(st) {
       )
       .join('') +
     `</div>`;
+  // Germe tabelada LED markası seçimi sunulmaz
+  const brandGroup = st.p === 'germe'
+    ? ''
+    : group({ id: 'ledmarka', title: 'LED markası', body: radios('o.lb', st.o.lb, brands), hint: costHint(brands, 'Epistar Lüks Seri ve Samsung seçimleri standart modüle göre maliyeti yükseltebilir.'), note: 'led_marka', st });
   return (
-    group({ id: 'ledmarka', title: 'LED markası', body: radios('o.lb', st.o.lb, brands), hint: costHint(brands, 'Samsung ve Epistar seçimleri standart modüle göre maliyeti yükseltebilir.'), note: 'led_marka', st }) +
+    brandGroup +
     group({ id: 'ledrenk', title: 'LED rengi', body: chips, hint: 'Beyaz ve günışığı en yaygın seçimlerdir. Renkli LED’ler ve özel tonlar için not ekleyebilirsiniz.', note: 'led_renk', st })
   );
 }
@@ -477,8 +656,10 @@ function stepDetay(app) {
   const o = st.o;
   let html = '';
 
+  if (st.p === 'ledpanel') return ledFeatureGroups(app);
+
   if (st.p === 'germe') {
-    html += `<div class="step-intro"><h2 class="step-h">Aydınlatma</h2><p>Germe tabela arkadan LED ile aydınlatılır. LED markasını ve ışık rengini seçin.</p></div>`;
+    html += `<div class="step-intro"><h2 class="step-h">Aydınlatma</h2><p>Germe tabela arkadan standart LED modülle aydınlatılır; LED markası seçimi sunulmaz. Işık rengini seçin.</p></div>`;
     return html + ledGroups(st);
   }
 
@@ -710,6 +891,7 @@ export function renderStep(app, specPart = '') {
     case 'tur': return stepTur(app);
     case 'gorunum': return stepGorunum(app);
     case 'urun': return stepUrun(app);
+    case 'panel': return stepPanel(app);
     case 'olcu': return stepOlcu(app);
     case 'zemin': return stepZemin(app);
     case 'sistem': return stepSistem(app);

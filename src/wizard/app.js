@@ -1,14 +1,14 @@
 // Tabela sihirbazı: durum yönetimi, olaylar, önizleme ve paylaşım eylemleri.
 import { FONTS, PRESETS, EASY_TYPES } from '../data/catalog.mjs';
 import {
-  defaultState, normalize, switchProduct, encodeState, decodeState, getProduct, applyPreset,
+  defaultState, normalize, switchProduct, encodeState, decodeState, getProduct, applyPreset, retargetLp,
 } from './state.js';
 import {
   find, summarize, refNo, specText, whatsappText, isLit, activeLines,
 } from './model.js';
 import { buildScene, clearMeasureCache } from './render.js';
 import { deriveEasy, applyEasyChange, setEasyType, recommend } from './easy.js';
-import { stepsFor, renderStep, specHTML, levelMeter } from './ui.js';
+import { stepsFor, renderStep, specHTML, levelMeter, ledInfoHTML } from './ui.js';
 import {
   waLink, copyText, buildCard, canvasToBlob, downloadBlob,
 } from './share.js';
@@ -55,7 +55,7 @@ export function mountWizard(root) {
     const mod = params.get('mod');
     const tur = params.get('tur');
     const urun = params.get('urun');
-    const typeOfProduct = { cephe: 'isikli_harf', totem: 'totem', kapi: 'kapi', germe: 'germe' };
+    const typeOfProduct = { cephe: 'isikli_harf', totem: 'totem', kapi: 'kapi', germe: 'germe', ledpanel: 'ledpanel' };
     // Kayıtlı/paylaşılan tasarım yoksa ve doğrudan detaylı mod istendiyse sade (ekonomik) varsayılanlarla başla
     if (!banner && mod === 'detayli') app.st = normalize({ ...defaultState('cephe'), m: 'p' });
     if (tur && EASY_TYPES.some((t) => t.id === tur)) {
@@ -254,6 +254,9 @@ export function mountWizard(root) {
     persist();
     if (rerender) renderPanel();
     else if (app.stepId === 'ozet' && spec) updateSpec();
+    // LED panel özeti (ölçü, çözünürlük, okunurluk uyarısı) yazarken/ölçü değişirken canlı güncellenir
+    const li = root.querySelector('#lp-info');
+    if (li && app.st.p === 'ledpanel') li.innerHTML = ledInfoHTML(app.st);
     renderSteps();
   }
 
@@ -311,6 +314,7 @@ export function mountWizard(root) {
         let n = Number(String(t.value).replace(',', '.'));
         if (!Number.isFinite(n)) n = min;
         n = Math.min(max, Math.max(min, n));
+        if (t.dataset.k.startsWith('lp.')) n = Math.round(n); // modül sayısı tam sayıdır
         t.value = n;
         setPath(app.st, t.dataset.k, n);
         const err = root.querySelector('#size-err');
@@ -326,7 +330,15 @@ export function mountWizard(root) {
       return;
     }
     if (t.dataset.act === 'product') app.st = switchProduct(app.st, String(val));
-    else setPath(app.st, t.dataset.k, val);
+    else {
+      // LED panelde kullanım yeri / renk tipi / P değeri değişince panelin yaklaşık fiziksel ölçüsü korunur
+      const keep = ['lp.env', 'lp.type', 'lp.pitch'].includes(t.dataset.k) ? { w: app.st.w, h: app.st.h } : null;
+      setPath(app.st, t.dataset.k, val);
+      if (keep) {
+        app.st = normalize(app.st);
+        app.st.lp = retargetLp(app.st.lp, keep.w, keep.h);
+      }
+    }
     // toggle'lar ve radyo seçimleri adımın görünümünü değiştirebilir
     commit({ rerender: true });
   });
@@ -376,6 +388,10 @@ export function mountWizard(root) {
         app.st.w = Number(b.dataset.w); app.st.h = Number(b.dataset.h);
         commit({ rerender: true });
         break;
+      case 'lpsize':
+        app.st.lp = { ...app.st.lp, cols: Number(b.dataset.c), rows: Number(b.dataset.r) };
+        commit({ rerender: true });
+        break;
       case 'note': {
         const wrap = b.closest('.note');
         const ta = wrap.querySelector('textarea');
@@ -389,7 +405,7 @@ export function mountWizard(root) {
       case 'pro': {
         app.st = normalize({ ...app.st, m: 'p' });
         commit({ rerender: true });
-        go(app.st.p === 'germe' ? 'zemin' : 'sistem');
+        go(app.st.p === 'germe' ? 'zemin' : app.st.p === 'ledpanel' ? 'panel' : 'sistem');
         break;
       }
       case 'reset': {

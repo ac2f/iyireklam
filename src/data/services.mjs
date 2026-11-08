@@ -1,4 +1,10 @@
 // Hizmet sayfaları içeriği. {{l:slug|metin}} biçimi derleme sırasında göreli bağlantıya çevrilir.
+import { LED_PANEL_PITCHES, LED_PANEL_COLORS, fmtInt } from './catalog.mjs';
+
+const cm = (mm) => String(mm / 10).replace('.', ',');
+const pitchRows = LED_PANEL_PITCHES
+  .map((p) => `<tr><td>${p.name}</td><td>${cm(p.mod[0])} × ${cm(p.mod[1])} cm</td><td>${p.px[0]} × ${p.px[1]}</td><td>${fmtInt(1e6 / (p.p * p.p))}</td><td>≈ ${String(p.p).replace('.', ',')} m</td></tr>`)
+  .join('\n');
 
 export const services = [
   // ---------------------------------------------------------------------------
@@ -11,16 +17,16 @@ export const services = [
     wizard: 'cephe',
     tur: 'isikli_harf',
     title: 'Kutu Harf Tabela Ankara | Işıklı & Işıksız Pleksi Kutu Harf',
-    desc: 'Ankara İskitler atölyemizde ışıklı ve ışıksız pleksi kutu harf imalatı. 2,8–18 mm pleksi, 6–10 cm yan derinlik, Samsung/Epistar LED. Online sihirbazla tasarlayın.',
+    desc: 'Ankara İskitler atölyemizde ışıklı ve ışıksız pleksi kutu harf imalatı. 2,8–18 mm pleksi, 6–10 cm yan derinlik, Epistar/Samsung LED seçenekleri. Online sihirbazla tasarlayın.',
     h1: 'Ankara Kutu Harf Tabela <em>İmalatı</em>',
     lead: 'Işıklı ya da ışıksız pleksi kutu harf; ön yüz kalınlığından yan bant rengine, LED markasından ışık rengine kadar her ayrıntıyı siz seçersiniz, biz kendi atölyemizde üretiriz.',
-    tldr: 'Kutu harf; ön yüzü pleksi, yanları metal veya pleksi bantla kapatılmış, içi LED ile aydınlatılabilen hacimli bir harftir. İyi Reklam, Ankara İskitler’deki atölyesinde ışıklı ve ışıksız pleksi kutu harf, krom kutu harf ve fason kutu harf üretir. Pleksi kalınlığı 2,8 mm’den 18 mm’ye, yan derinlik 6–10 cm arasında seçilebilir; kalın pleksi ve Samsung/Epistar gibi standart dışı LED tercihleri fiyatı yukarı taşır.',
+    tldr: 'Kutu harf; ön yüzü pleksi, yanları metal veya pleksi bantla kapatılmış, içi LED ile aydınlatılabilen hacimli bir harftir. İyi Reklam, Ankara İskitler’deki atölyesinde ışıklı ve ışıksız pleksi kutu harf, krom kutu harf ve fason kutu harf üretir. Pleksi kalınlığı 2,8 mm’den 18 mm’ye, yan derinlik 6–10 cm arasında seçilebilir; kalın pleksi ve Epistar Lüks Seri veya Samsung gibi standart dışı LED tercihleri fiyatı yukarı taşır.',
     facts: [
       ['Ön yüz', 'Pleksi (Akpolimer paleti)'],
       ['Pleksi kalınlığı', '2,8 · 4,5 · 5,8 · 7,8 · 9,8 · 12 · 14 · 18 mm'],
       ['Yan derinlik', '6 · 7 · 8 · 10 cm'],
       ['Yan bant', 'Antrasit, siyah, beyaz, altın, gümüş veya pleksi ışıklı bant'],
-      ['LED markası', 'Standart · Epistar · Samsung'],
+      ['LED markası', 'Standart (Epistar çipli) · Epistar Lüks Seri · Samsung'],
       ['LED rengi', 'Beyaz, günışığı, amber, kırmızı, mavi, yeşil'],
     ],
     sections: [
@@ -55,7 +61,7 @@ export const services = [
       },
       {
         h: 'LED markası ve ışık rengi',
-        html: `<p>Işıklı kutu harflerde standart LED modülün yanında <strong>Epistar</strong> ve <strong>Samsung</strong> markalı LED tercihi de yapılabilir. Standart dışı marka seçimleri fiyatı yukarı yönlü değiştirebilir. Işık rengi olarak beyaz (soğuk), günışığı (sıcak), amber, kırmızı, mavi ve yeşil seçenekleri sunulur. Pleksi rengi ile LED rengi birlikte nihai ışık tonunu belirler; örneğin beyaz LED arkasında kırmızı pleksi kırmızı ışık verir.</p>
+        html: `<p>Işıklı kutu harflerde atölyemizin <strong>standart LED modülü (Epistar çipli)</strong> kullanılır; isterseniz <strong>Epistar Lüks Seri</strong> veya <strong>Samsung</strong> markalı LED tercihi de yapılabilir. Standart dışı marka seçimleri fiyatı yukarı yönlü değiştirebilir. Işık rengi olarak beyaz (soğuk), günışığı (sıcak), amber, kırmızı, mavi ve yeşil seçenekleri sunulur. Pleksi rengi ile LED rengi birlikte nihai ışık tonunu belirler; örneğin beyaz LED arkasında kırmızı pleksi kırmızı ışık verir.</p>
 <p>Karşılaştırma için {{l:rehber/led-secimi-samsung-epistar|LED seçim rehberimize}} göz atın.</p>`,
       },
       {
@@ -72,7 +78,7 @@ export const services = [
     faq: [
       ['Kutu harf ışıklı olmak zorunda mı?', 'Hayır. Işıksız pleksi kutu harf de yapılır; LED ve trafo maliyeti olmadığı için daha ekonomiktir. Gece görünürlüğü önemliyse ışıklı seçenek önerilir.'],
       ['Hangi pleksi kalınlığını seçmeliyim?', 'Çoğu cephe uygulamasında ince veya orta kalınlık yeterlidir; en uygun fiyatlı seçenek 2,8 mm’dir. Kalın pleksi fiyatı belirgin biçimde artırır. Harf ölçünüze göre doğru kalınlığı birlikte belirleyebiliriz.'],
-      ['Samsung veya Epistar LED seçmek şart mı?', 'Şart değildir. Standart LED modül en uygun seçenektir. Samsung veya Epistar gibi marka tercihleri fiyatı yukarı taşıyabilir; marka istiyorsanız sihirbazdan seçebilirsiniz.'],
+      ['Samsung veya Epistar Lüks Seri LED seçmek şart mı?', 'Şart değildir. Standart LED modülümüz zaten Epistar çiplidir ve en uygun seçenektir. Epistar Lüks Seri veya Samsung gibi marka tercihleri fiyatı yukarı taşıyabilir; istiyorsanız sihirbazdan seçebilirsiniz.'],
       ['Kutu harf fiyatı nasıl belirlenir?', 'Fiyat; harf ölçüsü, pleksi kalınlığı, yan yüzey ve derinlik, LED markası ve montaj koşullarına bağlıdır. Sihirbaz sonunda oluşan şartnameyi WhatsApp’tan gönderirseniz fiyatı netleştiririz.'],
     ],
     related: ['isikli-tabela', 'krom-harf-tabela', 'totem-tabela', 'cnc-router-kesim'],
@@ -144,11 +150,11 @@ export const services = [
     desc: 'Ankara’da germe tabela (ışıklı kutu tabela) imalatı: alüminyum çerçeve, baskılı germe kumaş, LED aydınlatma. Tek veya çift yüz. Sihirbazla tasarlayın.',
     h1: 'Germe Tabela <em>(Işıklı Kutu Tabela)</em> İmalatı',
     lead: 'Alüminyum çerçeve, dijital baskılı germe kumaş ve arkadan LED aydınlatma. Logonuz ve renkleriniz birebir yansır, tasarım gerektiğinde kolayca yenilenir.',
-    tldr: 'Germe tabela; alüminyum profil çerçeveye gerilmiş baskılı kumaş yüzeyin arkadan LED ile aydınlatıldığı ışıklı kutu tabeladır. İyi Reklam Ankara’da tek veya çift yüzlü germe tabela üretir; çerçeve rengi, kumaş baskısı ve LED seçimi müşteriye göre belirlenir. Kumaş yüzeyi, ileride tasarım değişimi gerektiğinde yenilenebilir.',
+    tldr: 'Germe tabela; alüminyum profil çerçeveye gerilmiş baskılı kumaş yüzeyin arkadan LED ile aydınlatıldığı ışıklı kutu tabeladır. İyi Reklam Ankara’da tek veya çift yüzlü germe tabela üretir; çerçeve rengi ve kumaş baskısı müşteriye göre belirlenir; aydınlatmada standart LED modül kullanılır, LED markası seçimi sunulmaz. Kumaş yüzeyi, ileride tasarım değişimi gerektiğinde yenilenebilir.',
     facts: [
       ['Çerçeve', 'Alüminyum profil (beyaz, antrasit, siyah, eloksal)'],
       ['Yüzey', 'Dijital baskılı germe kumaş'],
-      ['Aydınlatma', 'Arkadan LED (marka ve renk seçilebilir)'],
+      ['Aydınlatma', 'Arkadan standart LED modül (ışık rengi seçilebilir)'],
       ['Yüz sayısı', 'Tek taraflı veya çift taraflı'],
       ['Ölçü', 'Sihirbazda 30–1000 cm genişlik'],
       ['Kullanım', 'Mağaza, market, eczane, restoran, ofis'],
@@ -289,6 +295,71 @@ export const services = [
       ['Montajı siz yapıyor musunuz?', 'Ankara içinde montaj hizmeti veriyoruz. Dilerseniz atölyemizden teslim alabilirsiniz.'],
     ],
     related: ['krom-harf-tabela', 'cnc-router-kesim', 'cnc-lazer-kesim', 'tabela-montaj'],
+  },
+
+  // ---------------------------------------------------------------------------
+  {
+    slug: 'kayan-yazi-led-panel',
+    name: 'Kayan Yazı LED Panel',
+    nav: 'Kayan Yazı LED Panel',
+    navDesc: 'Tek renk ve tam renkli elektronik tabela',
+    icon: 'ledpanel',
+    wizard: 'ledpanel',
+    tur: 'ledpanel',
+    title: 'Kayan Yazı LED Tabela Ankara | Tek Renk ve Tam Renkli LED Panel',
+    desc: 'Ankara’da kayan yazı LED panel imalatı: dış/iç mekan, tek renk veya tam renkli, P10’dan P2.5’e piksel aralığı, modül sayısına göre ebat. Sihirbazla tasarlayın.',
+    h1: 'Ankara Kayan Yazı LED Panel <em>(Elektronik Tabela)</em>',
+    lead: 'Yazısı kayan, yanıp sönen veya sabit duran programlanabilir LED tabela. Kullanım yerini, renk tipini, piksel aralığını ve ebadı siz seçersiniz; önizleme yazıyı panelin gerçek çözünürlüğünde gösterir.',
+    tldr: 'Kayan yazı LED panel; LED modüllerin yan yana birleştirilmesiyle oluşan, yazısı bilgisayar, USB bellek veya telefondan istediğiniz zaman değiştirilebilen elektronik tabeladır. İyi Reklam tek renk (kırmızı, yeşil, sarı, mavi, beyaz) ve tam renkli (RGB) paneller üretir. Panelin çözünürlüğünü P değeri belirler: P küçüldükçe LED sayısı ve fiyat artar. Ebat, LED modül sayısına göre seçilir; yanıp sönme animasyonu sihirbazda açılıp kapatılabilir.',
+    facts: [
+      ['Kullanım yeri', 'Dış mekan (IP65) veya iç mekan'],
+      ['Renk tipi', 'Tek renk: kırmızı, yeşil, sarı, mavi, beyaz · Tam renkli (RGB)'],
+      ['Piksel aralığı', 'P10 · P8 · P6 · P5 · P4 · P3 · P2.5'],
+      ['Ebat', 'LED modül sayısına göre (örn. P10: 96 × 16, 128 × 16, 160 × 16 cm)'],
+      ['Animasyon', 'Kayan yazı, yanıp sönme ve sabit yazı; yanıp sönme sihirbazda açılıp kapatılır'],
+      ['Kontrol', 'USB bellek veya Wi-Fi / telefon uygulaması'],
+      ['Yüz sayısı', 'Tek veya çift taraflı'],
+    ],
+    sections: [
+      {
+        h: 'P değeri nedir? P10, P5 ve P4 arasındaki fark',
+        html: `<p><strong>P</strong>, iki LED pikselinin merkezleri arasındaki mesafedir (milimetre). P değeri küçüldükçe aynı alana daha çok LED sığar; <strong>çözünürlük, modül başına LED (piksel) sayısı ve fiyat artar</strong>, panele en az ne kadar uzaktan bakılması gerektiği ise azalır. Yazılar piksel piksel oluştuğu için düşük çözünürlükte (büyük P) harfler iri noktalı, yüksek çözünürlükte (küçük P) daha pürüzsüz görünür.</p>
+<div class="tbl"><table>
+<thead><tr><th>P değeri</th><th>Modül ölçüsü</th><th>Modül çözünürlüğü (piksel)</th><th>Piksel / m²</th><th>En yakın izleme</th></tr></thead>
+<tbody>
+${pitchRows}
+</tbody></table></div>
+<p>Modül ölçüleri ve çözünürlükler sektörde yaygın standart modüllere göredir; üreticiye göre küçük farklar olabilir. En yakın izleme mesafesi için pratik kural: P değeri kadar metre (P10 için yaklaşık 10 m). Uzaktan okunacak cephelerde P10 genellikle yeterlidir; vitrin içi ve yakından bakılan yerlerde daha küçük P tercih edilir.</p>`,
+      },
+      {
+        h: 'Tek renk mi, tam renkli mi?',
+        html: `<p><strong>Tek renk paneller</strong> tek renkli LED kullanır; kayan yazı ve fiyat/duyuru panoları için en sade ve en ekonomik çözümdür, gün ışığında da net okunur. Tek renk paneller P10 modüllerle üretilir. Işık rengi LED’in kendi rengidir ve sonradan değiştirilemez; seçenekler <strong>${LED_PANEL_COLORS.map((c) => c.name.toLocaleLowerCase('tr-TR')).join(', ')}</strong> renklerdir.</p>
+<p><strong>Tam renkli (RGB) paneller</strong> her pikseli kırmızı-yeşil-mavi LED’lerden oluşan panellerdir. Yazı rengi yazılımdan istediğiniz an değiştirilebilir; renk geçişli yazılar, logo ve görsel gösterilebilir. P10’dan P2.5’e kadar farklı çözünürlüklerde üretilir ve tek renge göre fiyatı belirgin artırır.</p>`,
+      },
+      {
+        h: 'Ebat nasıl belirlenir?',
+        html: `<p>Panel ölçüsü serbest girilmez; LED modüllerin yatay ve dikey sayısıyla belirlenir. Örneğin P10 modülü 32 × 16 cm olduğundan 3 modül yan yana <strong>96 × 16 cm</strong>, 4 modül <strong>128 × 16 cm</strong>, 2 sıra yüksekliğinde 6 modül <strong>192 × 32 cm</strong> panel eder. Sihirbazda hazır ebatları seçebilir ya da yatay ve dikey modül sayısını girebilirsiniz; ölçüyle birlikte toplam çözünürlük (piksel) anında görünür.</p>
+<p>Tek sıra (16 cm) yüksekliğindeki panelde tek satır yazı önerilir. İki veya üç satır yazı için panelin dikey modül sayısını artırın ya da daha küçük P (daha yüksek çözünürlük) seçin; sihirbaz okunaklı sığmayacak satır sayısında sizi uyarır. Görünen ölçü LED görüntü alanıdır; çerçeve payı kesin ölçüde ayrıca netleştirilir.</p>`,
+      },
+      {
+        h: 'Dış mekan ve iç mekan paneller',
+        html: `<p><strong>Dış mekan panellerde</strong> modüller su geçirmez (IP65) üretilir ve güneş ışığında okunabilmesi için yüksek parlaklıkla çalışır (tek renk yaklaşık 3.500–4.500 nit, tam renkli yaklaşık 4.500 nit ve üzeri). <strong>İç mekan paneller</strong> mağaza içi, vitrin arkası, ofis ve salon için uygundur; daha düşük parlaklıkta (yaklaşık 600–1.000 nit) çalışır ve yağmura dayanıklı değildir. Parlaklık değerleri yaklaşıktır; kesin değer modül modeline göre atölyede teyit edilir.</p>`,
+      },
+      {
+        h: 'Yanıp sönme animasyonu ve kontrol',
+        html: `<p>Yazının kayma yönü ve hızı, yanıp sönme gibi efektler panel kontrol yazılımından istediğiniz zaman değiştirilir. {{l:tabela-sihirbazi|Tabela sihirbazında}} <strong>yanıp sönme animasyonunu açıp kapatabilir</strong>, önizlemede canlı görebilirsiniz; tercihiniz şartnamede yer alır. Kontrol için <strong>USB bellek</strong> (yazıyı bilgisayarda hazırlayıp panele takarsınız) veya <strong>Wi-Fi / telefon uygulaması</strong> (yazıyı telefondan kablosuz değiştirirsiniz) seçilebilir.</p>
+<p>Kayan yazı paneli için {{l:tabela-montaj|montaj hizmetimizden}} yararlanabilir, elektrik bağlantı noktasını keşifte belirleyebiliriz. Işıklı kutu harf veya {{l:germe-tabela|germe tabela}} ile birlikte kullanılacaksa {{l:isikli-tabela|ışıklı tabela çeşitlerine}} da göz atın.</p>`,
+      },
+    ],
+    faq: [
+      ['Kayan yazı LED panel hangi ölçülerde yapılır?', 'Ölçü, LED modül sayısına göre belirlenir. En yaygın örnek P10 modüldür (32 × 16 cm): 3 modül 96 × 16 cm, 4 modül 128 × 16 cm eder. Sihirbazda yatay ve dikey modül sayısını seçerek ebadı ve toplam çözünürlüğü görebilirsiniz.'],
+      ['P10, P5 ve P4 panel arasında ne fark var?', 'P değeri iki LED arasındaki mesafedir. P küçüldükçe aynı alanda daha çok LED olur; yazı daha net görünür, panel daha pahalı olur ve yakından bakmak mümkün hale gelir. P10 uzaktan okunan cephelerde, daha küçük P yakından bakılan yerlerde tercih edilir.'],
+      ['Panel hangi renklerde yapılıyor?', 'Tek renk panellerde kırmızı, yeşil, sarı, mavi ve beyaz seçenekleri vardır. Tam renkli (RGB) panelde yazı rengini yazılımdan istediğiniz an değiştirirsiniz.'],
+      ['Yazıyı sonradan değiştirebilir miyim?', 'Evet. Yazıyı USB bellek veya Wi-Fi / telefon uygulaması ile istediğiniz zaman değiştirebilirsiniz; kontrol yöntemini sihirbazdan seçersiniz.'],
+      ['Yanıp sönme animasyonu zorunlu mu?', 'Hayır. Sihirbazda yanıp sönme animasyonunu açıp kapatabilirsiniz; efektleri panel kontrol yazılımından da istediğiniz zaman değiştirebilirsiniz.'],
+      ['Dış mekanda yağmurda çalışır mı?', 'Dış mekan paneller su geçirmez (IP65) modüllerle üretilir. İç mekan paneller yağmura dayanıklı değildir; kullanım yerinizi sihirbazdan seçmeniz yeterlidir.'],
+    ],
+    related: ['isikli-tabela', 'germe-tabela', 'tabela-montaj', 'kutu-harf-tabela'],
   },
 
   // ---------------------------------------------------------------------------
@@ -569,7 +640,7 @@ export const hubs = [
     tldr: 'Işıklı tabela; içine LED yerleştirilerek gece de okunabilen tabelalara denir. İyi Reklam Ankara İskitler atölyesinde başlıca dört ışıklı yöntem üretir: ışıklı pleksi kutu harf, ışıklı krom harf, germe tabela (ışıklı kutu) ve LED’li dekupe; ışıklı totem bu yöntemlerle yapılır. Maliyet; ölçü, pleksi kalınlığı, yan yüzey, LED markası ve montaj koşullarına göre değişir.',
     facts: [
       ['Yöntemler', 'Işıklı kutu harf · Krom harf · Germe · LED’li dekupe'],
-      ['LED markası', 'Standart · Epistar · Samsung'],
+      ['LED markası', 'Standart (Epistar çipli) · Epistar Lüks Seri · Samsung (germe tabelada marka seçilmez)'],
       ['LED rengi', 'Beyaz, günışığı, amber, kırmızı, mavi, yeşil'],
       ['Işık yayılımı', 'Ön yüz pleksi, pleksi yan bant veya arkadan germe kumaş'],
       ['Önizleme', 'Sihirbazda gündüz ve gece görünümü'],
@@ -600,7 +671,7 @@ export const hubs = [
       },
       {
         h: 'Işık rengi ve LED markası',
-        html: `<p>Işıklı tabelalarda LED markası olarak <strong>standart</strong>, <strong>Epistar</strong> veya <strong>Samsung</strong> seçilebilir; standart dışı tercihlerde fiyat yukarı yönlü değişebilir. Işık rengi beyaz, günışığı, amber, kırmızı, mavi ya da yeşil olabilir. Pleksi rengi ile LED rengi birlikte nihai ışık tonunu belirler. Ayrıntılar için {{l:rehber/led-secimi-samsung-epistar|LED seçim rehberine}} bakın.</p>`,
+        html: `<p>Işıklı kutu harf, krom harf ve LED’li dekupede LED markası olarak <strong>standart (Epistar çipli)</strong>, <strong>Epistar Lüks Seri</strong> veya <strong>Samsung</strong> seçilebilir; standart dışı tercihlerde fiyat yukarı yönlü değişebilir. Germe tabelada LED markası seçimi sunulmaz, standart LED modül kullanılır. Işık rengi beyaz, günışığı, amber, kırmızı, mavi ya da yeşil olabilir. Pleksi rengi ile LED rengi birlikte nihai ışık tonunu belirler. Ayrıntılar için {{l:rehber/led-secimi-samsung-epistar|LED seçim rehberine}} bakın.</p>`,
       },
       {
         h: 'Gündüz ve gece nasıl görünür?',

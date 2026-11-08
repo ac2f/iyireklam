@@ -1,11 +1,13 @@
 // Tabela önizleme motoru: seçimlerden SVG sahne üretir (gündüz / gece).
 import {
   FONTS, SIDE_COLORS, LED_COLORS, FRAME_COLORS, GERME_COLORS, GERME_INK, LASER_FINISH, FOIL_COLORS, SMALL_TEXT_CM,
+  ledPanelInfo, LED_PANEL_ENVS, fmtInt,
 } from '../data/catalog.mjs';
 import { getProduct } from './state.js';
 import {
-  find, activeLines, hasZemin, plexiOf, zeminColor, kabartmaColor, visible, smallPlan,
+  find, activeLines, hasZemin, plexiOf, zeminColor, kabartmaColor, visible, smallPlan, ledPanelColor,
 } from './model.js';
+import { renderLedLayers, renderLedGrid, clearLedCache } from './ledraster.js';
 
 // ---------------------------------------------------------------------------
 // Renk yardımcıları
@@ -56,7 +58,7 @@ export function capRatio(font) {
   capCache.set(font.id, v);
   return v;
 }
-export function clearMeasureCache() { mcache.clear(); capCache.clear(); }
+export function clearMeasureCache() { mcache.clear(); capCache.clear(); clearLedCache(); }
 
 // ---------------------------------------------------------------------------
 // Dolgu / doku üretimi
@@ -223,7 +225,7 @@ export function buildScene(st, opts = {}) {
     const maxW = st.p === 'kapi' ? 620 : 780;
     const maxH = st.p === 'kapi' ? 400 : 360;
     if (aspect >= maxW / maxH) { sw = maxW; sh = sw / aspect; } else { sh = maxH; sw = sh * aspect; }
-    sh = Math.max(sh, 26);
+    sh = Math.max(sh, st.p === 'ledpanel' ? 10 : 26); // LED panelde piksel kareliği bozulmasın
     CH = Math.max(st.p === 'kapi' ? 600 : 330, Math.round(sh + 230));
     sx = (CW - sw) / 2; sy = (CH - sh) / 2 + 14;
   }
@@ -261,9 +263,18 @@ export function buildScene(st, opts = {}) {
     : clamp(Math.min(sw, sh) * 0.04, 2, 16);
   const frameT = st.p === 'germe' ? clamp(Math.min(sw, sh) * 0.055, 6, 20) : 0;
   let area = { x: sx + pad + frameT, y: sy + pad + frameT, w: sw - 2 * (pad + frameT), h: sh - 2 * (pad + frameT) };
+  // Kayan yazı LED panel: yazı, LED piksel ızgarasına göre yerleşir (üst/alt boşluk aksan işaretleri için)
+  const isLed = st.p === 'ledpanel';
+  const ledInfo = isLed ? ledPanelInfo(st.lp) : null;
+  const ledCell = isLed ? sw / ledInfo.pxW : 0; // bir LED pikselinin SVG birimindeki kenarı
+  if (isLed) {
+    const px = Math.max(ledCell * 2, sw * 0.012);
+    const py = Math.max(ledCell * 1.5, sh * 0.09);
+    area = { x: sx + px, y: sy + py, w: sw - 2 * px, h: sh - 2 * py };
+  }
 
   let logoBox = null;
-  if (st.logo) {
+  if (st.logo && !isLed) {
     if (st.p === 'totem') {
       const size = Math.min(area.w * 0.7, area.h * 0.3);
       logoBox = { x: area.x + (area.w - size) / 2, y: area.y, w: size, h: size };
@@ -402,6 +413,63 @@ export function buildScene(st, opts = {}) {
     s += logoSVG();
     s += U(`fill="${ink}"`);
     litLayer.push(s);
+  } else if (isLed) {
+    // =======================================================================
+    // KAYAN YAZI LED PANEL: siyah yüz üzerinde gerçek çözünürlükte LED noktaları
+    // =======================================================================
+    const lp = st.lp;
+    const fr = find(FRAME_COLORS, st.fr);
+    const lc = ledPanelColor(lp);
+    const ft = clamp(Math.min(sw, sh) * 0.09, 3, 11);
+    const depth = clamp(sh * 0.12, 4, 14);
+    defs.push(`<linearGradient id="${idp}fr" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${shade(fr.hex, 0.22)}"/><stop offset=".5" stop-color="${fr.hex}"/><stop offset="1" stop-color="${shade(fr.hex, -0.28)}"/></linearGradient>`);
+    defs.push(`<filter id="${idp}psh" x="-10%" y="-20%" width="125%" height="150%"><feDropShadow dx="${night ? 2 : 4}" dy="${night ? 4 : 8}" stdDeviation="${night ? 6 : 7}" flood-color="#000" flood-opacity="${night ? 0.6 : 0.3}"/></filter>`);
+    // Çerçeve (kasa): görüntü alanının dışına doğru
+    let frame = '';
+    frame += `<polygon points="${sx + sw + ft},${sy - ft} ${sx + sw + ft + depth},${sy - ft + depth * 0.7} ${sx + sw + ft + depth},${sy + sh + ft + depth * 0.7} ${sx + sw + ft},${sy + sh + ft}" fill="${shade(fr.hex, -0.45)}"/>`;
+    frame += `<polygon points="${sx - ft},${sy + sh + ft} ${sx - ft + depth},${sy + sh + ft + depth * 0.7} ${sx + sw + ft + depth},${sy + sh + ft + depth * 0.7} ${sx + sw + ft},${sy + sh + ft}" fill="${shade(fr.hex, -0.55)}"/>`;
+    frame += `<rect x="${r1(sx - ft)}" y="${r1(sy - ft)}" width="${r1(sw + 2 * ft)}" height="${r1(sh + 2 * ft)}" rx="3" fill="url(#${idp}fr)" filter="url(#${idp}psh)"/>`;
+    baseLayer.push(frame);
+
+    // LED katmanları (PNG): tuval kullanılamazsa düz yazıyla gösterilir
+    const k = Math.min(2, 2400 / sw);
+    const outW = Math.max(1, Math.round(sw * k));
+    const outH = Math.max(1, Math.round(sh * k));
+    const rainbow = (ix, w) => `hsl(${Math.round((ix / Math.max(1, w - 1)) * 300)} 100% 58%)`;
+    const layers = mainLaid.length
+      ? renderLedLayers({
+        pxW: ledInfo.pxW, pxH: ledInfo.pxH, outW, outH, lines: mainLaid, font, night,
+        origin: { x: sx, y: sy, cell: ledCell },
+        color: lc.rainbow ? rainbow : () => lc.hex,
+        colorKey: lc.rainbow ? 'rainbow' : lc.hex,
+      })
+      : null;
+    const grid = renderLedGrid({ pxW: ledInfo.pxW, pxH: ledInfo.pxH, outW, outH, night });
+    if (grid) baseLayer.push(`<image href="${grid}" x="${sx}" y="${sy}" width="${sw}" height="${sh}" preserveAspectRatio="none"/>`);
+    else baseLayer.push(`<rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" fill="#07080c"/>`);
+    // cam yansıması
+    baseLayer.push(`<rect x="${sx}" y="${sy}" width="${sw}" height="${sh}" fill="url(#${idp}shine)" opacity="${night ? 0.05 : 0.1}"/>`);
+    baseLayer.push(`<rect x="${sx - 0.5}" y="${sy - 0.5}" width="${sw + 1}" height="${sh + 1}" fill="none" stroke="rgba(0,0,0,.5)"/>`);
+
+    let lit = '';
+    if (layers) {
+      defs.push(`<filter id="${idp}lglow" x="-5%" y="-60%" width="110%" height="220%"><feGaussianBlur stdDeviation="${r1(clamp(ledCell * 0.9, 2, 14))}"/></filter>`);
+      lit += `<image id="${idp}litimg" href="${layers.lit}" x="${sx}" y="${sy}" width="${sw}" height="${sh}" preserveAspectRatio="none"/>`;
+      if (night) lit += `<use href="#${idp}litimg" filter="url(#${idp}lglow)" opacity=".9"/>`;
+    } else if (mainLaid.length) {
+      // yedek: tuval yoksa düz renkli yazı
+      lit += `<g fill="${lc.hex}" ${gAttr}>${textEls(mainLaid)}</g>`;
+    }
+    // Yanıp sönme animasyonu: yalnızca yanan LED katmanı söner (CSS: wizard.css .led-blink)
+    litLayer.push(`<g${lp.blink ? ' class="led-blink"' : ''} data-blink="${lp.blink ? 1 : 0}">${lit}</g>`);
+
+    // Etiket: P değeri ve gerçek çözünürlük
+    const label = `${ledInfo.pitch.name} · ${fmtInt(ledInfo.pxW)} × ${fmtInt(ledInfo.pxH)} piksel · ${find(LED_PANEL_ENVS, lp.env).name}${lp.blink ? ' · yanıp söner' : ''}`;
+    const lw = label.length * 8.9 + 34;
+    hud.push(
+      `<g transform="translate(14 14)"><rect width="${r1(lw)}" height="32" rx="16" fill="${night ? '#1b2231' : '#fff'}" stroke="${night ? '#38425a' : '#d6cfbf'}"/>` +
+      `<circle cx="17" cy="16" r="4.5" fill="${lc.rainbow ? '#b8913a' : lc.glow}"/><text x="30" y="21" font-size="15.5" font-family="Inter, Arial, sans-serif" font-weight="600" fill="${dimLabel}">${esc(label)}</text></g>`,
+    );
   } else {
     // =======================================================================
     // Panel (zemin)

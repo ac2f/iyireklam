@@ -1,7 +1,7 @@
 import cfg from '../site.config.mjs';
 import { services } from '../data/services.mjs';
 import { guides } from '../data/guides.mjs';
-import { THICKNESS, DEPTHS, LED_BRANDS, LED_COLORS, SIDE_COLORS, fmtMm } from '../data/catalog.mjs';
+import { THICKNESS, DEPTHS, LED_BRANDS, LED_COLORS, SIDE_COLORS, LED_PANEL_PITCHES, LED_PANEL_COLORS, fmtMm } from '../data/catalog.mjs';
 import { icon } from '../lib/icons.mjs';
 import { esc, ctaBand, faqHTML, faqLD } from '../lib/layout.mjs';
 
@@ -9,6 +9,7 @@ const BLURB = {
   'kutu-harf-tabela': 'Işıklı ve ışıksız pleksi kutu harf; kalınlık, yan bant, derinlik ve LED seçimiyle.',
   'krom-harf-tabela': 'Fileli ve filesiz krom kutu harf; altın veya gümüş yan, renkli pleksi ön yüz.',
   'germe-tabela': 'Alüminyum çerçeve, baskılı germe kumaş ve arkadan LED ile ışıklı kutu tabela.',
+  'kayan-yazi-led-panel': 'Tek renk veya tam renkli kayan yazı LED panel; P değeri, ebat ve animasyon seçimiyle.',
   'totem-tabela': 'Yol kenarı, site ve iş merkezi girişleri için dikey ışıklı veya ışıksız totem.',
   'kapi-tabelasi': 'Ofis, klinik ve plaza kapıları için aynalı, kompozit ve pleksi tabelalar.',
   'cnc-router-kesim': 'Pleksi, dekota, aynalı dekota, kompozit ve ahşap için hassas CNC router kesim.',
@@ -20,12 +21,12 @@ const BLURB = {
 
 export const HOME_FAQ = [
   ['Ankara’da tabela imalatı için nereye gelmeliyim?', 'Atölyemiz Ankara Altındağ İskitler, Sebze Bahçeleri Caddesi No: 107/22 adresindedir. Gelmeden önce 0531 520 90 01 numaralı telefondan bilgi alabilir veya WhatsApp’tan yazabilirsiniz.'],
-  ['Hangi tabela türlerini üretiyorsunuz?', 'Işıklı ve ışıksız pleksi kutu harf, krom harf, germe tabela, totem tabela, kapı ve ofis tabelaları üretiyoruz. Ayrıca CNC router kesim, CNC lazer kesim, dijital baskı ve tabela montajı yapıyoruz.'],
+  ['Hangi tabela türlerini üretiyorsunuz?', 'Işıklı ve ışıksız pleksi kutu harf, krom harf, germe tabela, totem tabela, kapı ve ofis tabelaları ile kayan yazı LED panel üretiyoruz. Ayrıca CNC router kesim, CNC lazer kesim, dijital baskı ve tabela montajı yapıyoruz.'],
   ['Online tabela sihirbazı ücretli mi?', 'Hayır, tabela sihirbazı ücretsizdir. Ürünü, ölçüyü, malzemeyi ve renkleri seçip önizlemede görür, sonunda şartnameyi WhatsApp, PNG veya PDF olarak paylaşabilirsiniz.'],
   ['Tabela fiyatı nasıl belirleniyor?', 'Fiyat; ölçü, harf sistemi, pleksi kalınlığı, yan yüzey ve derinlik, LED markası, zemin malzemesi ve montaj koşullarına göre değişir. Sihirbaz her seçeneğin fiyat etkisini gösterir; kesin fiyat şartname ve ölçü/keşif sonrası verilir.'],
   ['Reklamcılara fason üretim yapıyor musunuz?', 'Evet. Reklam ajansları ve tabelacılar için fason kutu harf, fason tabela imalatı, CNC router ve lazer kesim yapıyoruz. Şartname usulüyle sipariş alıyoruz.'],
   ['Montaj hizmeti veriyor musunuz?', 'Evet, Ankara içinde tabela montajı yapıyoruz. Keşifte cephe ve elektrik durumuna göre en uygun sabitleme yöntemini planlıyoruz.'],
-  ['Pleksi kalınlığı ve LED markası fiyatı etkiler mi?', 'Evet. Kalın pleksi tercihleri fiyatı oldukça artırır; Samsung ve Epistar gibi standart dışı LED tercihleri de fiyatı yukarı taşıyabilir. Sihirbazda en uygun seçenek her adımda belirtilir.'],
+  ['Pleksi kalınlığı ve LED markası fiyatı etkiler mi?', 'Evet. Kalın pleksi tercihleri fiyatı oldukça artırır; Epistar Lüks Seri veya Samsung gibi standart dışı LED tercihleri de fiyatı yukarı taşıyabilir. Sihirbazda en uygun seçenek her adımda belirtilir.'],
 ];
 
 const BRAND_UP = cfg.brand.toLocaleUpperCase('tr-TR');
@@ -83,7 +84,7 @@ export function homePage(ctx) {
   <div>
     <span class="eyebrow">Ankara · İskitler · ${cfg.experienceYears} deneyim</span>
     <h1 class="h1">Ankara Tabela İmalatı <em>ve Kutu Harf Atölyesi</em></h1>
-    <p class="lead">Işıklı ve ışıksız pleksi kutu harf, krom harf, germe tabela, totem ve kapı tabelaları; CNC router ve lazer kesim. Hepsi kendi atölyemizde, kendi makinalarımızla ve doğru malzeme seçimiyle.</p>
+    <p class="lead">Işıklı ve ışıksız pleksi kutu harf, krom harf, germe tabela, totem ve kapı tabelaları, kayan yazı LED paneller; CNC router ve lazer kesim. Hepsi kendi atölyemizde, kendi makinalarımızla ve doğru malzeme seçimiyle.</p>
     <div class="hero-cta">
       <a class="btn btn-gold btn-lg" href="${a('tabela-sihirbazi')}">${icon('spark')}Tabelanı Tasarla</a>
       <a class="btn btn-light btn-lg" href="https://wa.me/${cfg.whatsapp}" rel="noopener">${icon('whatsapp')}WhatsApp’tan Yaz</a>
@@ -103,7 +104,7 @@ export function homePage(ctx) {
 </div></div>
 
 <section class="sec" id="hizmetler"><div class="wrap">
-  <div class="tldr" style="max-width:880px"><b>İyi Reklam bir bakışta</b><p>İyi Reklam, Ankara Altındağ İskitler’de (Sebze Bahçeleri Caddesi No: 107/22) ${cfg.experienceYears} deneyimle kendi atölyesinde tabela imalatı yapan bir reklam atölyesidir. Işıklı ve ışıksız pleksi kutu harf, krom harf, germe tabela, totem, kapı ve ofis tabelaları üretir; CNC router kesim, CNC lazer kesim, dijital baskı ve Ankara içi tabela montajı yapar; reklamcılara fason imalat hizmeti verir. Telefon ve WhatsApp: ${cfg.phoneHtml}.</p></div>
+  <div class="tldr" style="max-width:880px"><b>İyi Reklam bir bakışta</b><p>İyi Reklam, Ankara Altındağ İskitler’de (Sebze Bahçeleri Caddesi No: 107/22) ${cfg.experienceYears} deneyimle kendi atölyesinde tabela imalatı yapan bir reklam atölyesidir. Işıklı ve ışıksız pleksi kutu harf, krom harf, germe tabela, totem, kapı ve ofis tabelaları ile kayan yazı LED panel üretir; CNC router kesim, CNC lazer kesim, dijital baskı ve Ankara içi tabela montajı yapar; reklamcılara fason imalat hizmeti verir. Telefon ve WhatsApp: ${cfg.phoneHtml}.</p></div>
   <div class="sec-head"><span class="eyebrow">Hizmetlerimiz</span><h2 class="h2">Tabeladan kesime, <em>her şey</em> tek atölyede</h2>
   <p class="lead">Işıklı veya ışıksız her türlü tabelayı; makinalarımız ve ${cfg.experienceYears} deneyimimizle en uygun ve kaliteli malzeme seçimiyle üretiyoruz.</p></div>
   <div class="grid g5">${svcCards}</div>
@@ -131,6 +132,7 @@ export function homePage(ctx) {
     <a class="card" href="${a('tabela-sihirbazi')}?tur=krom"><span class="ico">${icon('gem')}</span><h3>Lüks krom harf</h3><p>Altın / gümüş yan</p></a>
     <a class="card" href="${a('tabela-sihirbazi')}?tur=totem"><span class="ico">${icon('totem')}</span><h3>Totem</h3><p>Yol kenarı ve site girişi</p></a>
     <a class="card" href="${a('tabela-sihirbazi')}?tur=kapi"><span class="ico">${icon('door')}</span><h3>Kapı / ofis tabelası</h3><p>Küçük, şık plaka</p></a>
+    <a class="card" href="${a('tabela-sihirbazi')}?tur=ledpanel" style="grid-column:1/-1"><span class="ico">${icon('ledpanel')}</span><h3>Kayan yazı LED panel</h3><p>Tek renk veya tam renkli · P10’dan P2.5’e · yanıp sönme animasyonu</p></a>
   </div>
 </div></section>
 
@@ -142,8 +144,9 @@ export function homePage(ctx) {
     <div class="card"><h3>Dekota &amp; aynalı dekota</h3><p>Düz dekota ve gümüş/gold aynalı dekota.</p><div class="chips-row" style="margin-top:14px">${chips(THICKNESS.dekota.map((t) => 'Dekota ' + fmtMm(t.v)))}${chips(THICKNESS.aynali.map((t) => 'Aynalı ' + fmtMm(t.v)))}</div></div>
     <div class="card"><h3>Alüminyum kompozit (Sistem)</h3><p>Düz, metalik, aynalı gold/gümüş, fırçalı, ahşap ve taş desen paleti.</p><div class="chips-row" style="margin-top:14px">${chips(['Aynalı gold', 'Aynalı gümüş', 'Ahşap desenler', 'Mermer & taş', 'Metalik', 'Fırçalı'])}</div></div>
     <div class="card"><h3>Yan yüzey ve derinlik</h3><p>Işıksız yan bant veya pleksi ışıklı bant.</p><div class="chips-row" style="margin-top:14px">${chips(SIDE_COLORS.map((c) => c.name))}${chips(DEPTHS.map((d) => d.v + ' cm'))}</div></div>
-    <div class="card"><h3>LED markası ve rengi</h3><p>Standart, Epistar ve Samsung. Standart dışı tercihlerde fiyat yukarı yönlü değişebilir.</p><div class="chips-row" style="margin-top:14px">${chips(LED_BRANDS.map((b) => b.name))}${chips(LED_COLORS.map((c) => c.name))}</div></div>
+    <div class="card"><h3>LED markası ve rengi</h3><p>Kutu harfte Standart (Epistar çipli), Epistar Lüks Seri ve Samsung. Germe tabelada marka seçimi yoktur. Standart dışı tercihlerde fiyat yukarı yönlü değişebilir.</p><div class="chips-row" style="margin-top:14px">${chips(LED_BRANDS.map((b) => b.name))}${chips(LED_COLORS.map((c) => c.name))}</div></div>
     <div class="card"><h3>Krom harf seçenekleri</h3><p>Fileli, filesiz ve tam krom; yanlar gümüş veya altın, ön pleksi rengi seçilebilir.</p><div class="chips-row" style="margin-top:14px">${chips(['Fileli', 'Filesiz', 'Tam krom', 'Gümüş yan', 'Altın yan'])}</div></div>
+    <div class="card" style="grid-column:1/-1"><h3>Kayan yazı LED panel</h3><p>Dış veya iç mekan; tek renk ya da tam renkli (RGB). P değeri küçüldükçe LED sayısı ve çözünürlük artar; ebat, LED modül sayısına göre seçilir. Yanıp sönme animasyonu sihirbazda açılıp kapatılabilir.</p><div class="chips-row" style="margin-top:14px">${chips(LED_PANEL_PITCHES.map((p) => p.name))}${chips(LED_PANEL_COLORS.map((c) => c.name))}${chips(['Tam renkli (RGB)'])}</div></div>
   </div>
 </div></section>
 

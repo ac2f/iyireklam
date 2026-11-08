@@ -217,10 +217,14 @@ export const KROM_SIDES = [
   { id: 'altin', name: 'Altın (gold krom)', hex: '#d8b04a', cost: 1, metal: 'gold' },
 ];
 
+// Işıklı kutu harf / krom harf / LED'li dekupe için LED modül markaları.
+// Germe tabelada marka seçimi sunulmaz (standart modül kullanılır).
+// Not: 'epistar' kimliği eski paylaşım bağlantılarıyla uyum için korunur; görünen ad "Epistar Lüks Seri"dir.
+// Epistar'ın tabela modülleri için resmî bir "lüks seri" adı doğrulanamadığından ad burada tek yerden değiştirilebilir.
 export const LED_BRANDS = [
-  { id: 'standart', name: 'Standart LED', desc: 'Atölye standardı LED modül', cost: 0 },
-  { id: 'epistar', name: 'Epistar', desc: 'Epistar çipli LED modül', cost: 1 },
-  { id: 'samsung', name: 'Samsung', desc: 'Samsung çipli LED modül', cost: 2 },
+  { id: 'standart', name: 'Standart LED (Epistar çipli)', desc: 'Atölye standardı LED modül; Epistar çipli, çoğu uygulama için yeterli.', cost: 0 },
+  { id: 'epistar', name: 'Epistar Lüks Seri', desc: 'Epistar çipli üst seri LED modül; marka güvencesi ve daha tutarlı ışık tonu isteyenler için.', cost: 1 },
+  { id: 'samsung', name: 'Samsung', desc: 'Samsung çipli LED modül; en üst marka tercihi.', cost: 2 },
 ];
 
 export const LED_COLORS = [
@@ -238,6 +242,72 @@ export const FRAME_COLORS = [
   { id: 'siyah', name: 'Siyah', hex: '#17181c', cost: 0 },
   { id: 'eloksal', name: 'Eloksal (Gümüş)', hex: '#c3c8ce', cost: 1 },
 ];
+
+// ---------------------------------------------------------------------------
+// KAYAN YAZI LED PANEL
+//
+// "P" değeri piksel aralığıdır (iki LED pikselinin merkezleri arası mm). P küçüldükçe aynı alana daha çok
+// LED sığar, çözünürlük ve fiyat artar; en yakın izleme mesafesi de azalır.
+// Modül ölçüleri ve çözünürlükleri sektörde yaygın standart modüllere göredir (üreticiye göre küçük
+// farklar olabilir); parlaklık değerleri yaklaşıktır. Kesin değerler atölyede teyit edilir.
+// Yeni bir P değeri/modül eklemek için LED_PANEL_PITCHES listesine bir satır eklemek yeterlidir.
+// ---------------------------------------------------------------------------
+export const LED_PANEL_ENVS = [
+  { id: 'dis', name: 'Dış mekan', desc: 'Su geçirmez (IP65) modüller, güneş ışığında okunacak yüksek parlaklık. Cephe, vitrin önü ve açık alan için.', cost: 1 },
+  { id: 'ic', name: 'İç mekan', desc: 'Mağaza içi, vitrin arkası, ofis ve salon için. Yağmur ve neme dayanıklı değildir, daha düşük parlaklıkta çalışır.', cost: 0 },
+];
+
+export const LED_PANEL_TYPES = [
+  { id: 'tek', name: 'Tek renk', desc: 'Tek renkli LED (kırmızı, yeşil, sarı, mavi veya beyaz). En sade ve ekonomik, gün ışığında da net okunan klasik kayan yazı.', cost: 0 },
+  { id: 'rgb', name: 'Tam renkli (RGB)', desc: 'Her piksel kırmızı-yeşil-mavi çipli; yazı her renkte olabilir, renk geçişleri, logo ve görsel gösterilebilir.', cost: 2 },
+];
+
+/**
+ * p: piksel aralığı (mm) · mod: modül ölçüsü [genişlik, yükseklik] mm · px: modül çözünürlüğü [yatay, dikey]
+ * avail: kullanım yerine göre hangi renk tipinde üretildiği · cost: fiyat etkisi (çözünürlük arttıkça yükselir)
+ */
+export const LED_PANEL_PITCHES = [
+  { id: 'p10', name: 'P10', p: 10, mod: [320, 160], px: [32, 16], avail: { dis: ['tek', 'rgb'], ic: ['tek'] }, cost: 0 },
+  { id: 'p8', name: 'P8', p: 8, mod: [256, 128], px: [32, 16], avail: { dis: ['rgb'] }, cost: 1 },
+  { id: 'p6', name: 'P6', p: 6, mod: [192, 192], px: [32, 32], avail: { dis: ['rgb'], ic: ['rgb'] }, cost: 1 },
+  { id: 'p5', name: 'P5', p: 5, mod: [320, 160], px: [64, 32], avail: { dis: ['rgb'], ic: ['rgb'] }, cost: 2 },
+  { id: 'p4', name: 'P4', p: 4, mod: [320, 160], px: [80, 40], avail: { dis: ['rgb'], ic: ['rgb'] }, cost: 2 },
+  { id: 'p3', name: 'P3', p: 3, mod: [192, 192], px: [64, 64], avail: { dis: ['rgb'], ic: ['rgb'] }, cost: 3 },
+  { id: 'p25', name: 'P2.5', p: 2.5, mod: [320, 160], px: [128, 64], avail: { dis: ['rgb'], ic: ['rgb'] }, cost: 3 },
+];
+
+/** Kullanım yeri + renk tipi birleşiminde seçim değişince varsayılan olarak seçilecek P değeri */
+export const LED_PANEL_DEFAULT_PITCH = { 'dis:tek': 'p10', 'dis:rgb': 'p10', 'ic:tek': 'p10', 'ic:rgb': 'p5' };
+
+/** Tek renk panellerde donanım rengi (LED çipinin rengi) */
+export const LED_PANEL_COLORS = [
+  { id: 'kirmizi', name: 'Kırmızı', hex: '#ff3b30', glow: '#ff1f1f', note: 'Klasik kayan yazı rengi' },
+  { id: 'yesil', name: 'Yeşil', hex: '#32ff6a', glow: '#12e052', note: 'Gün ışığında da çok parlak görünür' },
+  { id: 'sari', name: 'Sarı', hex: '#ffd21f', glow: '#ffb800', note: 'Dikkat çekici, sıcak ton' },
+  { id: 'mavi', name: 'Mavi', hex: '#4f8bff', glow: '#2463ff', note: 'Soğuk ton, kurumsal görünüm' },
+  { id: 'beyaz', name: 'Beyaz', hex: '#f4f8ff', glow: '#cfe2ff', note: 'Net ve modern; gün ışığında çok parlak' },
+];
+
+/** Tam renkli panelde yazı rengi yazılımla seçilir; buradaki liste önizleme (örnek yazı) rengidir */
+export const LED_PANEL_RGB_COLORS = [
+  ...LED_PANEL_COLORS,
+  { id: 'turkuaz', name: 'Turkuaz', hex: '#2ff0f0', glow: '#00d8e0' },
+  { id: 'mor', name: 'Mor', hex: '#b66bff', glow: '#9a3dff' },
+  { id: 'turuncu', name: 'Turuncu', hex: '#ff8a2a', glow: '#ff6a00' },
+  { id: 'cok', name: 'Çok renkli (renk geçişli)', hex: '#ffffff', glow: '#ffffff', rainbow: true },
+];
+
+export const LED_PANEL_CONTROLS = [
+  { id: 'usb', name: 'USB bellek', desc: 'Yazıyı bilgisayarda hazırlayıp USB belleğe kaydedersiniz, panele takarsınız.', cost: 0 },
+  { id: 'wifi', name: 'Wi-Fi / telefon uygulaması', desc: 'Yazı ve efektleri telefondan kablosuz değiştirirsiniz.', cost: 1 },
+];
+
+/** Sihirbazın izin verdiği modül sayısı sınırları (yatay × dikey) */
+export const LED_PANEL_MAX = { cols: 20, rows: 8 };
+/** Ölçü adımındaki hazır ebatlar: [yatay modül, dikey modül] */
+export const LED_PANEL_SIZES = [[1, 1], [2, 1], [3, 1], [4, 1], [5, 1], [6, 1], [3, 2], [4, 2], [6, 2], [8, 2], [6, 3], [8, 4]];
+
+export const DEFAULT_LP = { env: 'dis', type: 'tek', pitch: 'p10', col: 'kirmizi', cols: 3, rows: 1, blink: 0, ctl: 'usb' };
 
 // ---------------------------------------------------------------------------
 // Yazı tipleri (önizleme + şartname)
@@ -299,6 +369,18 @@ export const PRODUCTS = [
     defaultStrategy: 'baski',
     maxLines: 3,
   },
+  {
+    id: 'ledpanel',
+    name: 'Kayan Yazı LED Panel',
+    desc: 'Programlanabilir, kayan yazılı elektronik LED tabela (tek renk veya tam renkli)',
+    // Ölçü serbest girilmez: LED modüllerin sayısına göre belirlenir (ledGridCm). Buradaki aralık yalnızca güvenlik sınırıdır.
+    size: { w: [12, 800, 96], h: [12, 320, 16] },
+    presets: [],
+    zemin: 'none',
+    strategies: ['ledpanel'],
+    defaultStrategy: 'ledpanel',
+    maxLines: 3,
+  },
 ];
 
 export const STRATEGIES = {
@@ -351,6 +433,14 @@ export const STRATEGIES = {
     short: 'Baskı / folyo',
     desc: 'Harfler kesim folyo veya dijital baskı ile yüzeye uygulanır. Hacim yoktur, en ekonomik yöntemdir.',
     cost: 0,
+  },
+  ledpanel: {
+    id: 'ledpanel',
+    name: 'Kayan Yazı LED Panel',
+    short: 'Kayan yazı LED panel',
+    desc: 'LED modüllerden oluşan, yazısı kayan veya yanıp sönen programlanabilir elektronik tabela. Tek renk veya tam renkli üretilir.',
+    cost: 2,
+    lit: true,
   },
 };
 
@@ -424,6 +514,53 @@ export function byId(list, id) {
   return list.find((x) => x.id === id) || list[0];
 }
 
+// ---- Kayan yazı LED panel yardımcıları -----------------------------------
+/** 12345 -> "12.345" (Türkçe binlik ayırıcı; ICU farklarından bağımsız) */
+export const fmtInt = (n) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+export const ledPitch = (id) => LED_PANEL_PITCHES.find((x) => x.id === id) || LED_PANEL_PITCHES[0];
+
+/** Kullanım yeri ve renk tipine göre üretilen P değerleri */
+export function ledPitchesFor(env, type) {
+  return LED_PANEL_PITCHES.filter((x) => (x.avail[env] || []).includes(type));
+}
+
+/** Modül sayısından panelin görüntü alanı (cm) */
+export function ledGridCm(lp) {
+  const pt = ledPitch(lp.pitch);
+  return { w: Math.round(lp.cols * pt.mod[0]) / 10, h: Math.round(lp.rows * pt.mod[1]) / 10 };
+}
+
+/** Verilen ölçüye (cm) en yakın modül sayısı */
+export function ledGridFor(pitchId, wCm, hCm) {
+  const pt = ledPitch(pitchId);
+  return {
+    cols: Math.min(LED_PANEL_MAX.cols, Math.max(1, Math.round((wCm * 10) / pt.mod[0]))),
+    rows: Math.min(LED_PANEL_MAX.rows, Math.max(1, Math.round((hCm * 10) / pt.mod[1]))),
+  };
+}
+
+export function ledPanelBright(env, type) {
+  if (env === 'ic') return '≈ 600–1.000 nit';
+  return type === 'rgb' ? '≥ 4.500 nit' : '≈ 3.500–4.500 nit';
+}
+
+/** Panelin teknik özeti: çözünürlük, piksel sayısı, parlaklık, en yakın izleme mesafesi */
+export function ledPanelInfo(lp) {
+  const pt = ledPitch(lp.pitch);
+  const g = ledGridCm(lp);
+  const pxW = lp.cols * pt.px[0];
+  const pxH = lp.rows * pt.px[1];
+  return {
+    pitch: pt, w: g.w, h: g.h, modules: lp.cols * lp.rows, pxW, pxH, pixels: pxW * pxH,
+    perModule: pt.px[0] * pt.px[1],
+    density: Math.round(1e6 / (pt.p * pt.p)),
+    bright: ledPanelBright(lp.env, lp.type),
+    ip: lp.env === 'dis' ? 'IP65' : 'İç mekan tipi',
+    minDist: pt.p,
+  };
+}
+
 export const PLEXI_THICKNESS_NOTE =
   'Pleksi kalınlığı arttıkça malzeme ve işçilik maliyeti hızla yükselir. Kutu harf ön yüzü için en uygun seçenek 2,8 mm\'dir.';
 
@@ -456,6 +593,10 @@ export const PRESETS = [
   {
     id: 'dekupe', name: 'Işıklı dekupe', desc: 'Siyah zeminden oyma harf, arkadan LED',
     patch: { p: 'cephe', w: 200, h: 60, zm: 'kompozit', zt: 4, zc: 'k-siyah', s: 'dekupe', o: { df: 'led', pc: 'opal', pt: 2.8, lb: 'standart', lc: 'gunisigi' }, L: [{ t: 'FİRMA ADI', s: 'L' }] },
+  },
+  {
+    id: 'kayanyazi', name: 'Kayan yazı LED panel', desc: 'Dış mekan, kırmızı tek renk, 96 × 16 cm',
+    patch: { p: 'ledpanel', s: 'ledpanel', lp: { env: 'dis', type: 'tek', pitch: 'p10', col: 'kirmizi', cols: 3, rows: 1 }, L: [{ t: 'HOŞ GELDİNİZ', s: 'L' }] },
   },
   {
     id: 'ahsap', name: 'Ahşap desenli cephe', desc: 'Meşe kompozit zemin, aynalı gold düz harf',
@@ -504,6 +645,11 @@ export const EASY_TYPES = [
     desc: 'Oda, ofis, klinik veya plaza kapısı için şık küçük tabela.',
     defaults: { c: 'siyah', g: 'k-beyaz' },
   },
+  {
+    id: 'ledpanel', name: 'Kayan yazı LED panel', sub: 'Elektronik tabela', icon: 'ledpanel', product: 'ledpanel', strategy: 'ledpanel', lit: true, zemin: false,
+    desc: 'Yazısı kayan, yanıp sönen veya sabit duran elektronik tabela. Kampanya ve duyurular için; yazıyı istediğiniz zaman değiştirirsiniz.',
+    defaults: { c: 'kirmizi', g: 'k-antrasit' },
+  },
 ];
 
 export const EASY_BUDGETS = [
@@ -514,17 +660,19 @@ export const EASY_BUDGETS = [
 
 /** Ana renk (harf / ışık / baskı rengi). Her rengin ilgili malzemedeki karşılığı tanımlıdır. */
 export const EASY_COLORS = [
-  { id: 'beyaz', name: 'Beyaz', hex: '#f5f4ef', plexi: 'opal', dek: 'd-beyaz', germe: 'g-beyaz' },
+  { id: 'beyaz', name: 'Beyaz', hex: '#f5f4ef', led: true, plexi: 'opal', dek: 'd-beyaz', germe: 'g-beyaz' },
   { id: 'siyah', name: 'Siyah', hex: '#14161a', plexi: 'siyah', dek: 'd-siyah', germe: 'g-siyah' },
-  { id: 'kirmizi', name: 'Kırmızı', hex: '#d3202a', plexi: 'kirmizi', dek: 'd-kirmizi', germe: 'g-kirmizi' },
+  { id: 'kirmizi', name: 'Kırmızı', hex: '#d3202a', led: true, plexi: 'kirmizi', dek: 'd-kirmizi', germe: 'g-kirmizi' },
   { id: 'turuncu', name: 'Turuncu', hex: '#f26a1b', plexi: 'turuncu', dek: 'd-turuncu', germe: 'g-turuncu' },
-  { id: 'sari', name: 'Sarı', hex: '#f6d216', plexi: 'sari', dek: 'd-sari', germe: 'g-sari' },
-  { id: 'yesil', name: 'Yeşil', hex: '#1f9d55', plexi: 'yesil', dek: 'd-yesil', germe: 'g-yesil' },
-  { id: 'mavi', name: 'Mavi', hex: '#1c6fd1', plexi: 'mavi', dek: 'd-mavi', germe: 'g-mavi' },
+  { id: 'sari', name: 'Sarı', hex: '#f6d216', led: true, plexi: 'sari', dek: 'd-sari', germe: 'g-sari' },
+  { id: 'yesil', name: 'Yeşil', hex: '#1f9d55', led: true, plexi: 'yesil', dek: 'd-yesil', germe: 'g-yesil' },
+  { id: 'mavi', name: 'Mavi', hex: '#1c6fd1', led: true, plexi: 'mavi', dek: 'd-mavi', germe: 'g-mavi' },
   { id: 'lacivert', name: 'Lacivert', hex: '#14275c', plexi: 'lacivert', dek: 'd-lacivert', germe: 'g-lacivert' },
   { id: 'bordo', name: 'Bordo', hex: '#7b1226', plexi: 'bordo', dek: 'd-bordo', germe: 'g-bordo' },
   { id: 'altin', name: 'Altın', hex: '#d8b457', mirror: 'gold', metal: 'gold', plexi: 'amber', dek: null, germe: 'g-krem' },
   { id: 'gumus', name: 'Gümüş', hex: '#cfd5db', mirror: 'silver', metal: 'silver', plexi: 'buzlu', dek: null, germe: 'g-gri' },
+  // Yalnızca kayan yazı LED panelde seçilir (tam renkli panel)
+  { id: 'rgb', name: 'Tam renkli (RGB)', hex: '#7a5cff', pat: 'rgb', led: true, ledOnly: true },
 ];
 
 /** Zemin (arka plan) renkleri: alüminyum kompozit paletinden seçilmiş popüler olanlar */
@@ -541,7 +689,7 @@ export const EASY_METALS = [
   { id: 'gumus', name: 'Gümüş krom', hex: '#cfd5db', mirror: 'silver' },
 ];
 
-export const DEFAULT_EASY = { t: 'isikli_harf', b: 1, c: 'beyaz', g: 'k-antrasit', l: 'beyaz', m: 'altin' };
+export const DEFAULT_EASY = { t: 'isikli_harf', b: 1, c: 'beyaz', g: 'k-antrasit', l: 'beyaz', m: 'altin', v: 'dis' };
 
 /** "Bana öner" soruları */
 export const QUIZ = {
@@ -550,6 +698,7 @@ export const QUIZ = {
     { v: 'yol', t: 'Yol kenarı / site girişi' },
     { v: 'kapi', t: 'Ofis, oda veya kapı' },
     { v: 'pano', t: 'Geniş reklam panosu' },
+    { v: 'led', t: 'Kayan yazılı elektronik ekran' },
   ],
   light: [
     { v: 'evet', t: 'Evet, gece de parlasın' },

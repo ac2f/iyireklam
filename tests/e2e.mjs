@@ -16,6 +16,8 @@ await mkdir(OUT, { recursive: true });
 const results = [];
 let current = '';
 async function test(name, fn) {
+  // Geliştirme kolaylığı: E2E_ONLY="LED panel" gibi bir düzenli ifade yalnızca eşleşen testleri çalıştırır
+  if (process.env.E2E_ONLY && !new RegExp(process.env.E2E_ONLY, 'i').test(name)) return;
   current = name;
   const t0 = Date.now();
   try {
@@ -75,7 +77,7 @@ async function checkSvg(page, label) {
   const info = await page.evaluate(() => {
     const s = document.querySelector('#wz-view svg');
     if (!s) return { ok: false, why: 'svg yok' };
-    const h = s.outerHTML;
+    const h = s.outerHTML.replace(/href="data:[^"]*"/g, 'href="data:"'); // gömülü PNG (base64) tesadüfen "NaN" içerebilir
     const bad = /NaN|undefined|\[object|Infinity/.test(h);
     const vb = s.getAttribute('viewBox');
     return { ok: !bad, why: bad ? (h.match(/.{30}(NaN|undefined|\[object|Infinity).{30}/) || [''])[0] : '', vb };
@@ -193,9 +195,9 @@ await test('Sihirbaz detaylı modda açılır; varsayılan durum, 7 adım, hata 
   await page.context().close();
 });
 
-await test('?urun= parametresi ürünü seçer (4 ürün)', async () => {
+await test('?urun= parametresi ürünü seçer (5 ürün)', async () => {
   const page = await newPage();
-  for (const p of ['cephe', 'totem', 'kapi', 'germe']) {
+  for (const p of ['cephe', 'totem', 'kapi', 'germe', 'ledpanel']) {
     await openWizard(page, `?urun=${p}`);
     const st = await state(page);
     assert(st.p === p, `${p} seçilmeli, gelen ${st.p}`);
@@ -240,7 +242,7 @@ async function fuzzStep(page, label, { night = false } = {}) {
   return n;
 }
 
-for (const product of ['cephe', 'totem', 'kapi', 'germe']) {
+for (const product of ['cephe', 'totem', 'kapi', 'germe', 'ledpanel']) {
   await test(`Her seçenek denenir: ${product} (tüm adımlar, tüm harf sistemleri, gündüz+gece)`, async () => {
     const page = await newPage();
     await openWizard(page, `?urun=${product}`);
@@ -264,7 +266,7 @@ for (const product of ['cephe', 'totem', 'kapi', 'germe']) {
           }
         } else if (id === 'detay') {
           // germe için sistem adımı yok; detay (aydınlatma) burada denenir
-          if (product === 'germe') total += await fuzzStep(page, `${product}/detay`, { night });
+          if (product === 'germe' || product === 'ledpanel') total += await fuzzStep(page, `${product}/detay`, { night });
         } else {
           total += await fuzzStep(page, `${product}/${id}`, { night });
         }
@@ -282,7 +284,7 @@ await test('Hazır şablonlar: her biri uygulanır, ürün/sistem doğru, metin 
   await openWizard(page);
   const n = await page.locator('.tpl').count();
   assert(n >= 6, 'şablon sayısı ' + n);
-  const expect = [['cephe', 'kutu_isikli'], ['cephe', 'krom'], ['kapi', 'kabartma'], ['kapi', 'kabartma'], ['totem', 'kutu_isikli'], ['germe', 'baski'], ['cephe', 'dekupe'], ['cephe', 'kabartma']];
+  const expect = [['cephe', 'kutu_isikli'], ['cephe', 'krom'], ['kapi', 'kabartma'], ['kapi', 'kabartma'], ['totem', 'kutu_isikli'], ['germe', 'baski'], ['cephe', 'dekupe'], ['ledpanel', 'ledpanel'], ['cephe', 'kabartma']];
   for (let i = 0; i < n; i++) {
     await goStep(page, 'urun');
     await page.locator('.tpl').nth(i).click();
@@ -567,12 +569,20 @@ await test('Şartname: satırlar, harf yüksekliği, gündüz+gece görünümü,
 
 await test('Durum bağlantıyla paylaşılır ve aynen geri yüklenir (tüm ürünler)', async () => {
   const page = await newPage();
-  for (const product of ['cephe', 'totem', 'kapi', 'germe']) {
+  for (const product of ['cephe', 'totem', 'kapi', 'germe', 'ledpanel']) {
     await openWizard(page, `?urun=${product}`);
+    if (product === 'ledpanel') {
+      // LED panel: tam renkli P5, yanıp sönme açık, 5 modül
+      await goStep(page, 'panel');
+      await hit(page.locator('input[name="lp.type"][value="rgb"]'));
+      await hit(page.locator('input[name="lp.pitch"][value="p5"]'));
+      await goStep(page, 'detay');
+      await hit(page.locator('input[data-k="lp.blink"]'));
+    }
     await goStep(page, 'olcu');
     await page.locator('input[data-k="L.0.t"]').fill('Paylaşım Ğüşiö');
-    await page.locator('input[data-k="w"]').fill('123');
-    if (product !== 'germe') {
+    await page.locator(product === 'ledpanel' ? 'input[data-k="lp.cols"]' : 'input[data-k="w"]').fill(product === 'ledpanel' ? '5' : '123');
+    if (product !== 'germe' && product !== 'ledpanel') {
       await goStep(page, 'sistem');
       await hit(page.locator('input[name=s][value=krom]'));
       await goStep(page, 'detay');
@@ -717,7 +727,7 @@ await test('Paylaşım: WhatsApp bağlantısı, panoya kopyalama, bağlantı kop
 
 await test('PNG şartname görseli indirilir (geçerli PNG, doğru boyut) — her ürün için', async () => {
   const page = await newPage();
-  for (const product of ['cephe', 'totem', 'kapi', 'germe']) {
+  for (const product of ['cephe', 'totem', 'kapi', 'germe', 'ledpanel']) {
     await openWizard(page, `?urun=${product}`);
     await goStep(page, 'ozet');
     const [dl] = await Promise.all([page.waitForEvent('download', { timeout: 20000 }), page.locator('[data-act="png"]').click()]);
@@ -794,14 +804,14 @@ console.log('\n▶ Kolay mod');
 // ---------------------------------------------------------------------------
 const EASY = {
   isikli_harf: ['cephe', 'kutu_isikli'], dekupe: ['cephe', 'dekupe'], germe: ['germe', 'baski'], krom: ['cephe', 'krom'],
-  kabartma: ['cephe', 'kabartma'], totem: ['totem', 'kutu_isikli'], kapi: ['kapi', 'kabartma'],
+  kabartma: ['cephe', 'kabartma'], totem: ['totem', 'kutu_isikli'], kapi: ['kapi', 'kabartma'], ledpanel: ['ledpanel', 'ledpanel'],
 };
 
-await test('Kolay mod varsayılan açılır: 4 adım, 7 tür kartı, anahtar, geçerli önizleme', async () => {
+await test('Kolay mod varsayılan açılır: 4 adım, 8 tür kartı, anahtar, geçerli önizleme', async () => {
   const page = await newPage();
   await openWizard(page, '', { mode: null });
   assert((await page.locator('.wz-steps button').count()) === 4, '4 adım');
-  assert((await page.locator('.tcard').count()) === 7, '7 tür kartı');
+  assert((await page.locator('.tcard').count()) === 8, '8 tür kartı');
   assert(await page.locator('input[name=mode][value=e]').isChecked(), 'kolay mod seçili');
   const st = await state(page);
   assert(st.m === 'e' && st.p === 'cephe' && st.s === 'kutu_isikli', 'başlangıç durumu ' + JSON.stringify([st.m, st.p, st.s]));
@@ -826,7 +836,7 @@ await test('Kolay mod: her tür × bütçe × renk × zemin × ışık denenir (
       assert(st.p === prod && st.s === strat && st.e.t === type, `${type}: ${st.p}/${st.s}`);
       await checkSvg(page, `${type} tür`);
       await goStep(page, 'gorunum');
-      for (const name of ['e.b', 'e.c', 'e.g', 'e.l', 'e.m']) {
+      for (const name of ['e.b', 'e.c', 'e.g', 'e.l', 'e.m', 'e.v']) {
         const vals = await page.$$eval(`#wz-step input[name="${name}"]`, (els) => els.map((e) => e.value));
         for (const v of vals) {
           await hit(page.locator(`#wz-step input[name="${name}"][value="${v}"]`));
@@ -870,7 +880,7 @@ await test('Kolay mod: "Bana öner" soruları doğru türü seçer', async () =>
   const cases = [
     [['kapi', 'evet', 'canli'], 'kapi'], [['yol', 'evet', 'luks'], 'totem'], [['pano', 'fark', 'sade'], 'germe'],
     [['cephe', 'hayir', 'canli'], 'kabartma'], [['cephe', 'evet', 'luks'], 'krom'], [['cephe', 'evet', 'modern'], 'dekupe'],
-    [['cephe', 'evet', 'canli'], 'isikli_harf'], [['cephe', 'fark', 'sade'], 'isikli_harf'],
+    [['cephe', 'evet', 'canli'], 'isikli_harf'], [['led', 'fark', 'canli'], 'ledpanel'], [['cephe', 'fark', 'sade'], 'isikli_harf'],
   ];
   for (const [[where, light, look], type] of cases) {
     await hit(page.locator(`input[data-q=where][value=${where}]`));
@@ -964,6 +974,371 @@ await test('Kolay mod: PNG şartname indirilir ve mobilde kullanılabilir', asyn
   assert(buf.slice(0, 8).toString('hex') === '89504e470d0a1a0a' && buf.length > 30000, 'geçerli PNG');
   await checkSvg(page, 'kolay mobil');
   await page.screenshot({ path: path.join(OUT, 'mobile-easy-final.png') });
+  noErrs(page);
+  await page.context().close();
+});
+
+// ---------------------------------------------------------------------------
+console.log('\n▶ Kayan yazı LED panel ve LED markası');
+// ---------------------------------------------------------------------------
+// Beklenen katalog kuralları (src/data/catalog.mjs ile aynı olmalı)
+const LP_PITCHES = {
+  'dis:tek': ['p10'],
+  'dis:rgb': ['p10', 'p8', 'p6', 'p5', 'p4', 'p3', 'p25'],
+  'ic:tek': ['p10'],
+  'ic:rgb': ['p6', 'p5', 'p4', 'p3', 'p25'],
+};
+const LP_MODULE_MM = { p10: [320, 160], p8: [256, 128], p6: [192, 192], p5: [320, 160], p4: [320, 160], p3: [192, 192], p25: [320, 160] };
+const LP_PX = { p10: [32, 16], p8: [32, 16], p6: [32, 32], p5: [64, 32], p4: [80, 40], p3: [64, 64], p25: [128, 64] };
+const litPixels = (page) => page.evaluate(async () => {
+  const img = document.querySelector('#wz-view image[id$="litimg"]');
+  if (!img) return null;
+  const im = new Image();
+  im.src = img.getAttribute('href');
+  await im.decode();
+  const c = document.createElement('canvas');
+  c.width = im.width; c.height = im.height;
+  const x = c.getContext('2d');
+  x.drawImage(im, 0, 0);
+  const d = x.getImageData(0, 0, c.width, c.height).data;
+  let n = 0; let r = 0; let g = 0; let b = 0;
+  for (let i = 0; i < d.length; i += 4) if (d[i + 3] > 200) { n++; r += d[i]; g += d[i + 1]; b += d[i + 2]; }
+  return { n, r: n ? r / n : 0, g: n ? g / n : 0, b: n ? b / n : 0, w: c.width, h: c.height };
+});
+
+await test('Kayan yazı LED panel: adımlar; kullanım yeri × renk tipi × P kuralları; ölçü modül sayısından gelir', async () => {
+  const page = await newPage();
+  await openWizard(page, '?urun=ledpanel');
+  const ids = await page.$$eval('.wz-steps button', (b) => b.map((x) => x.dataset.step));
+  assert(JSON.stringify(ids) === JSON.stringify(['urun', 'panel', 'olcu', 'detay', 'montaj', 'ozet']), 'adımlar: ' + ids);
+  let st = await state(page);
+  assert(st.p === 'ledpanel' && st.s === 'ledpanel' && st.w === 96 && st.h === 16 && st.lp.pitch === 'p10' && st.lp.type === 'tek' && st.lp.blink === 0, 'varsayılan: ' + JSON.stringify([st.p, st.w, st.h, st.lp]));
+  await goStep(page, 'panel');
+  let n = 0;
+  for (const env of ['dis', 'ic']) {
+    for (const type of ['tek', 'rgb']) {
+      await hit(page.locator(`input[name="lp.env"][value="${env}"]`));
+      await hit(page.locator(`input[name="lp.type"][value="${type}"]`));
+      const pitches = await page.$$eval('#wz-step input[name="lp.pitch"]', (e) => e.map((x) => x.value));
+      assert(JSON.stringify(pitches) === JSON.stringify(LP_PITCHES[`${env}:${type}`]), `${env}/${type}: P listesi ${pitches}`);
+      const colors = await page.$$eval('#wz-step input[name="lp.col"]', (e) => e.map((x) => x.value));
+      assert(type === 'tek' ? colors.join() === 'kirmizi,yesil,sari,mavi,beyaz' : colors.length === 9 && colors.includes('cok'), `${env}/${type}: renkler ${colors}`);
+      for (const pid of pitches) {
+        const before = await state(page);
+        await hit(page.locator(`input[name="lp.pitch"][value="${pid}"]`));
+        await page.waitForTimeout(30);
+        st = await state(page);
+        const [mw, mh] = LP_MODULE_MM[pid];
+        assert(st.lp.pitch === pid && st.lp.env === env && st.lp.type === type, `${env}/${type}/${pid}: seçim uygulanmadı ${JSON.stringify(st.lp)}`);
+        assert(Math.abs(st.w - (st.lp.cols * mw) / 10) < 0.01 && Math.abs(st.h - (st.lp.rows * mh) / 10) < 0.01, `${pid}: ölçü modül sayısından gelmeli (${st.w}x${st.h}, ${st.lp.cols}x${st.lp.rows})`);
+        assert(Math.abs(st.w - before.w) <= mw / 20 + 0.01 && Math.abs(st.h - before.h) <= mh / 20 + 0.01, `${pid}: yaklaşık ölçü korunmalı (${before.w}x${before.h} -> ${st.w}x${st.h})`);
+        const label = await page.locator('#wz-view').textContent();
+        const [px, py] = LP_PX[pid];
+        assert(label.includes(`${st.lp.cols * px} × ${st.lp.rows * py} piksel`), `${pid}: önizleme etiketinde gerçek çözünürlük olmalı`);
+        await checkSvg(page, `led ${env}/${type}/${pid}`);
+        n++;
+      }
+    }
+  }
+  assert(n === 14, 'denenen birleşim: ' + n);
+  // tek renkte olmayan P seçeneği (iç mekan + tek renk) seçilince geçerli bir P'ye döner
+  await hit(page.locator('input[name="lp.env"][value="ic"]'));
+  await hit(page.locator('input[name="lp.type"][value="rgb"]'));
+  await hit(page.locator('input[name="lp.pitch"][value="p4"]'));
+  await hit(page.locator('input[name="lp.type"][value="tek"]'));
+  st = await state(page);
+  assert(st.lp.pitch === 'p10' && st.lp.type === 'tek', 'tek renkte P10 olmalı: ' + JSON.stringify(st.lp));
+  noErrs(page);
+  await page.context().close();
+});
+
+await test('Kayan yazı LED panel: önizleme gerçek çözünürlükte LED noktalarıdır; renk ve P değişince güncellenir', async () => {
+  const page = await newPage();
+  await openWizard(page, '?urun=ledpanel');
+  const href = () => page.evaluate(() => { const i = document.querySelector('#wz-view image[id$="litimg"]'); return i ? i.getAttribute('href') : null; });
+  const h10 = await href();
+  assert(h10 && h10.startsWith('data:image/png;base64,'), 'yanan LED katmanı PNG olmalı');
+  const red = await litPixels(page);
+  assert(red.n > 300, 'yanan LED noktası az: ' + red.n);
+  assert(red.r > red.g + 80 && red.r > red.b + 80, `kırmızı LED beklenir (${red.r | 0},${red.g | 0},${red.b | 0})`);
+  await goStep(page, 'panel');
+  await hit(page.locator('input[name="lp.col"][value="yesil"]'));
+  await page.waitForTimeout(40);
+  const green = await litPixels(page);
+  assert(green.g > green.r + 80, `yeşil LED beklenir (${green.r | 0},${green.g | 0},${green.b | 0})`);
+  await hit(page.locator('input[name="lp.type"][value="rgb"]'));
+  await hit(page.locator('input[name="lp.pitch"][value="p4"]'));
+  await page.waitForTimeout(40);
+  const h4 = await href();
+  assert(h4 && h4 !== h10, 'P değişince LED katmanı değişmeli');
+  await hit(page.locator('input[name="lp.col"][value="cok"]'));
+  await page.waitForTimeout(40);
+  const rainbow = await litPixels(page);
+  assert(rainbow.n > 300 && rainbow.r > 60 && rainbow.g > 60 && rainbow.b > 60, `çok renkli yazı üç kanalı da içermeli (${rainbow.r | 0},${rainbow.g | 0},${rainbow.b | 0})`);
+  // gece: parlama katmanı
+  await page.locator('input[name=view][value=night]').check({ force: true });
+  await page.waitForTimeout(60);
+  assert((await page.locator('#wz-view use[href$="litimg"]').count()) === 1, 'gece görünümünde parlama katmanı olmalı');
+  // boş metinde yanan LED yok
+  await goStep(page, 'olcu');
+  await page.locator('input[data-k="L.0.t"]').fill('');
+  await page.waitForTimeout(80);
+  assert((await page.locator('#wz-view image[id$="litimg"]').count()) === 0, 'metin yokken yanan LED katmanı olmamalı');
+  await checkSvg(page, 'led boş metin');
+  noErrs(page);
+  await page.context().close();
+});
+
+await test('Kayan yazı LED panel: yanıp sönme animasyonu açılıp kapanır (önizleme, şartname, hareket azaltma, kolay mod)', async () => {
+  const page = await newPage();
+  await openWizard(page, '?urun=ledpanel');
+  await goStep(page, 'detay');
+  assert((await state(page)).lp.blink === 0, 'varsayılan: animasyon kapalı');
+  assert((await page.locator('#wz-view .led-blink').count()) === 0, 'kapalıyken .led-blink olmamalı');
+  const tg = page.locator('input[data-k="lp.blink"]');
+  await hit(tg);
+  await page.waitForTimeout(60);
+  assert((await state(page)).lp.blink === 1, 'açılınca durum 1 olmalı');
+  assert((await page.locator('#wz-view .led-blink').count()) === 1, 'açıkken .led-blink olmalı');
+  const anim = await page.evaluate(() => getComputedStyle(document.querySelector('#wz-view .led-blink')).animationName);
+  assert(anim === 'ledblink', 'animasyon çalışmalı: ' + anim);
+  assert((await page.locator('#wz-view').textContent()).includes('yanıp söner'), 'önizleme etiketi');
+  // gerçekten sönüp yanıyor mu: opaklık zamanla değişir
+  const seen = new Set();
+  for (let i = 0; i < 14; i++) {
+    seen.add(await page.evaluate(() => Math.round(+getComputedStyle(document.querySelector('#wz-view .led-blink')).opacity)));
+    await page.waitForTimeout(120);
+  }
+  assert(seen.has(0) && seen.has(1), 'opaklık 0 ve 1 arasında değişmeli: ' + [...seen]);
+  await goStep(page, 'ozet');
+  const spec = await page.locator('#spec-sheet').textContent();
+  assert(/Yanıp sönme animasyonu/.test(spec) && /Açık/.test(spec), 'şartnamede animasyon açık yazmalı');
+  await goStep(page, 'detay');
+  await hit(page.locator('input[data-k="lp.blink"]'));
+  await page.waitForTimeout(60);
+  assert((await state(page)).lp.blink === 0 && (await page.locator('#wz-view .led-blink').count()) === 0, 'kapatılınca animasyon kalkmalı');
+  await goStep(page, 'ozet');
+  assert(/Yanıp sönme animasyonu[\s\S]{0,40}Kapalı/.test(await page.locator('#spec-sheet').textContent()), 'şartnamede kapalı yazmalı');
+  // hareketi azalt tercihi: önizleme sabit kalır
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await goStep(page, 'detay');
+  await hit(page.locator('input[data-k="lp.blink"]'));
+  await page.waitForTimeout(60);
+  const still = await page.evaluate(() => getComputedStyle(document.querySelector('#wz-view .led-blink')).animationName);
+  assert(still === 'none', 'hareketi azalt açıkken animasyon çalışmamalı: ' + still);
+  assert(/hareketi azalt/.test(await page.locator('#g-lpanim').textContent()), 'kullanıcıya bilgi verilmeli');
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  // kolay mod
+  await openWizard(page, '?tur=ledpanel', { mode: null });
+  await goStep(page, 'gorunum');
+  await hit(page.locator('input[data-k="lp.blink"]'));
+  assert((await state(page)).lp.blink === 1, 'kolay modda animasyon açılmalı');
+  await hit(page.locator('input[name="e.b"][value="2"]'));
+  await hit(page.locator('input[name="e.c"][value="rgb"]'));
+  assert((await state(page)).lp.blink === 1, 'bütçe/renk değişince animasyon tercihi korunmalı');
+  assert((await page.locator('#wz-view .led-blink').count()) === 1, 'kolay modda önizleme animasyonlu');
+  // paylaşım bağlantısı animasyon tercihini taşır
+  await page.waitForTimeout(500);
+  const p2 = await newPage();
+  await p2.goto(page.url(), { waitUntil: 'networkidle' });
+  await p2.waitForSelector('.wz-steps button');
+  assert((await state(p2)).lp.blink === 1 && (await p2.locator('#wz-view .led-blink').count()) === 1, 'bağlantı animasyon tercihini taşımalı');
+  await p2.context().close();
+  noErrs(page);
+  await page.context().close();
+});
+
+await test('Kayan yazı LED panel: ebat modül sayısıyla seçilir, hazır ebatlar, sınırlar, okunurluk uyarısı', async () => {
+  const page = await newPage();
+  await openWizard(page, '?urun=ledpanel');
+  await goStep(page, 'olcu');
+  assert((await page.locator('input[data-k="w"]').count()) === 0, 'serbest ölçü alanı olmamalı');
+  assert((await page.locator('#wz-step [data-act="lpsize"]').count()) === 12, '12 hazır ebat');
+  await page.locator('[data-act="lpsize"][data-c="6"][data-r="2"]').click();
+  let st = await state(page);
+  assert(st.lp.cols === 6 && st.lp.rows === 2 && st.w === 192 && st.h === 32, `6x2: ${st.w}x${st.h}`);
+  assert((await page.locator('[data-act="lpsize"][data-c="6"][data-r="2"]').getAttribute('aria-pressed')) === 'true', 'seçili ebat işaretli olmalı');
+  const info = await page.locator('#lp-info').textContent();
+  assert(info.includes('192 × 32 cm') && info.includes('192 × 32 piksel') && info.includes('12 modül'), 'özet: ' + info);
+  const cols = page.locator('input[data-k="lp.cols"]');
+  await cols.fill('99');
+  await cols.blur();
+  assert((await state(page)).lp.cols === 20 && (await state(page)).w === 640, 'üst sınıra çekilmeli');
+  await cols.fill('0');
+  await cols.blur();
+  assert((await state(page)).lp.cols === 1, 'alt sınıra çekilmeli');
+  await cols.fill('3');
+  await cols.blur();
+  await page.locator('input[data-k="lp.rows"]').fill('1');
+  // okunurluk: tek sıra (16 piksel) panelde 3 satır sığmaz
+  await page.locator('input[data-k="L.1.t"]').fill('ikinci satır');
+  await page.locator('input[data-k="L.2.t"]').fill('üçüncü satır');
+  await page.waitForTimeout(60);
+  assert(await page.locator('#lp-info .lp-warn').isVisible(), 'okunurluk uyarısı görünmeli');
+  await page.locator('input[data-k="lp.rows"]').fill('4');
+  await page.waitForTimeout(60);
+  assert((await page.locator('#lp-info .lp-warn').count()) === 0, 'yeterli yükseklikte uyarı kalkmalı');
+  await checkSvg(page, 'led ebat');
+  // logo alanı LED panelde sunulmaz
+  assert((await page.locator('#g-logo').count()) === 0, 'LED panelde logo grubu olmamalı');
+  noErrs(page);
+  await page.context().close();
+});
+
+await test('Kayan yazı LED panel: şartname satırları, fiyat etkisi, gündüz+gece, WhatsApp metni', async () => {
+  const page = await newPage();
+  await openWizard(page, '?urun=ledpanel');
+  await goStep(page, 'panel');
+  const lv0 = await page.locator('#wz-mini b').first().textContent();
+  await hit(page.locator('input[name="lp.type"][value="rgb"]'));
+  await hit(page.locator('input[name="lp.pitch"][value="p3"]'));
+  await goStep(page, 'detay');
+  await hit(page.locator('input[name="sd"][value="cift"]'));
+  await hit(page.locator('input[name="lp.ctl"][value="wifi"]'));
+  const lv1 = await page.locator('#wz-mini b').first().textContent();
+  assert(lv0 !== lv1, `fiyat seviyesi artmalı (${lv0} -> ${lv1})`);
+  await goStep(page, 'ozet');
+  const spec = await page.locator('#spec-sheet').textContent();
+  for (const needle of ['Kayan Yazı LED Panel', 'Kullanım yeri', 'Dış mekan', 'Tam renkli', 'Piksel aralığı', 'P3', 'Toplam çözünürlük', '320 × 64 piksel', 'Parlaklık', 'En yakın izleme mesafesi', 'Çift taraflı', 'Wi-Fi', 'Yanıp sönme animasyonu']) {
+    assert(spec.includes(needle), `şartnamede "${needle}" yok`);
+  }
+  assert(!spec.includes('LED markası'), 'LED panelde LED markası satırı olmamalı');
+  assert((await page.locator('#spec-sheet .spec-prev figure').count()) === 2, 'LED panelde gündüz+gece görünümü');
+  assert(/maliyet düşer/.test(await page.locator('.spec-tips').textContent()), 'tasarruf ipucu');
+  // WhatsApp metni
+  await page.evaluate(() => { window.__wa = null; window.open = (u) => { window.__wa = u; return null; }; });
+  await page.locator('[data-act="whatsapp"]').click();
+  const wa = decodeURIComponent(await page.evaluate(() => window.__wa));
+  assert(wa.includes('Kayan Yazı LED Panel') && wa.includes('Piksel aralığı') && wa.includes('Yanıp sönme animasyonu'), 'WhatsApp metni LED panel satırlarını içermeli');
+  noErrs(page);
+  await page.context().close();
+});
+
+await test('Kayan yazı LED panel: tüm P değerlerinde uç ebatlar ve uzun metin önizlemeyi bozmaz (gündüz+gece)', async () => {
+  const page = await newPage();
+  await openWizard(page, '?urun=ledpanel');
+  await goStep(page, 'panel');
+  await hit(page.locator('input[name="lp.type"][value="rgb"]'));
+  const t0 = Date.now();
+  let n = 0;
+  for (const pid of LP_PITCHES['dis:rgb']) {
+    await goStep(page, 'panel');
+    await hit(page.locator(`input[name="lp.pitch"][value="${pid}"]`));
+    await goStep(page, 'olcu');
+    await page.locator('input[data-k="L.0.t"]').fill('Çok Uzun Bir Kampanya Yazısı: Tüm Ürünlerde %50 İndirim');
+    for (const night of [false, true]) {
+      await page.locator(`input[name=view][value=${night ? 'night' : 'day'}]`).check({ force: true });
+      for (const [c, r] of night ? [[1, 1], [20, 8]] : [[1, 1], [20, 1], [1, 8], [20, 8]]) {
+        await page.locator('input[data-k="lp.cols"]').fill(String(c));
+        await page.locator('input[data-k="lp.rows"]').fill(String(r));
+        await page.waitForTimeout(50);
+        const st = await state(page);
+        assert(st.lp.cols === c && st.lp.rows === r, `${pid}: ${c}x${r} uygulanmadı`);
+        await checkSvg(page, `led ${pid} ${c}x${r}${night ? ' gece' : ''}`);
+        n++;
+      }
+    }
+  }
+  console.log(`      (${n} ebat denendi, ${((Date.now() - t0) / 1000).toFixed(1)} sn)`);
+  noErrs(page);
+  await page.context().close();
+});
+
+await test('Kolay mod: kayan yazı LED panel — mekan, renk ve bütçe P değerini, renk tipini ve kontrolü belirler', async () => {
+  const page = await newPage();
+  await openWizard(page, '?tur=ledpanel', { mode: null });
+  await goStep(page, 'gorunum');
+  const PITCH = { 'dis:tek': ['p10', 'p10', 'p10'], 'dis:rgb': ['p10', 'p6', 'p4'], 'ic:tek': ['p10', 'p10', 'p10'], 'ic:rgb': ['p5', 'p4', 'p3'] };
+  const colors = await page.$$eval('#wz-step input[name="e.c"]', (e) => e.map((x) => x.value));
+  assert(colors.join() === 'beyaz,kirmizi,sari,yesil,mavi,rgb', 'LED panel renkleri: ' + colors);
+  for (const env of ['dis', 'ic']) {
+    for (const c of ['kirmizi', 'rgb']) {
+      await hit(page.locator(`#wz-step input[name="e.v"][value="${env}"]`));
+      await hit(page.locator(`#wz-step input[name="e.c"][value="${c}"]`));
+      const type = c === 'rgb' ? 'rgb' : 'tek';
+      for (const b of [0, 1, 2]) {
+        const before = await state(page);
+        await hit(page.locator(`#wz-step input[name="e.b"][value="${b}"]`));
+        await page.waitForTimeout(30);
+        const st = await state(page);
+        assert(st.lp.env === env && st.lp.type === type && st.lp.pitch === PITCH[`${env}:${type}`][b], `${env}/${c}/b${b}: ${JSON.stringify(st.lp)}`);
+        assert(st.lp.ctl === (b === 0 ? 'usb' : 'wifi'), `${env}/${c}/b${b}: kontrol ${st.lp.ctl}`);
+        assert(st.p === 'ledpanel' && st.s === 'ledpanel', 'ürün/strateji bozulmamalı');
+        const [mw, mh] = LP_MODULE_MM[st.lp.pitch];
+        assert(Math.abs(st.w - before.w) <= Math.max(mw, LP_MODULE_MM[before.lp.pitch][0]) / 20 + 0.01 && Math.abs(st.h - before.h) <= Math.max(mh, LP_MODULE_MM[before.lp.pitch][1]) / 20 + 0.01, `yaklaşık ölçü korunmalı ${before.w}x${before.h} -> ${st.w}x${st.h}`);
+        await checkSvg(page, `kolay led ${env}/${c}/b${b}`);
+      }
+    }
+  }
+  // "Tam renkli" yalnızca LED panelde bulunur
+  await openWizard(page, '?tur=isikli_harf', { mode: null });
+  await goStep(page, 'gorunum');
+  assert((await page.locator('#wz-step input[name="e.c"][value="rgb"]').count()) === 0, 'ışıklı harfte "Tam renkli" seçeneği olmamalı');
+  noErrs(page);
+  await page.context().close();
+});
+
+await test('LED markası: kutu harfte Standart (Epistar çipli) / Epistar Lüks Seri / Samsung; germe ve LED panelde marka seçimi yok', async () => {
+  const page = await newPage();
+  // kutu harf (detaylı)
+  await openWizard(page);
+  await goStep(page, 'detay');
+  const names = await page.$$eval('#g-ledmarka .opt-t', (e) => e.map((x) => x.textContent.trim()));
+  assert(JSON.stringify(names) === JSON.stringify(['Standart LED (Epistar çipli)', 'Epistar Lüks Seri', 'Samsung']), 'marka adları: ' + names);
+  const vals = await page.$$eval('#g-ledmarka input[name="o.lb"]', (e) => e.map((x) => x.value));
+  assert(vals.join() === 'standart,epistar,samsung', 'marka kimlikleri: ' + vals);
+  await hit(page.locator('input[name="o.lb"][value="epistar"]'));
+  await goStep(page, 'ozet');
+  let spec = await page.locator('#spec-sheet').textContent();
+  assert(spec.includes('LED markası') && spec.includes('Epistar Lüks Seri'), 'kutu harf şartnamesinde marka olmalı');
+  // germe (detaylı): marka grubu yok, ışık rengi var
+  await openWizard(page, '?urun=germe');
+  await goStep(page, 'detay');
+  assert((await page.locator('#g-ledmarka').count()) === 0 && (await page.locator('input[name="o.lb"]').count()) === 0, 'germede LED markası seçimi olmamalı');
+  assert((await page.locator('#g-ledrenk').count()) === 1, 'germede ışık rengi seçimi kalmalı');
+  await goStep(page, 'ozet');
+  spec = await page.locator('#spec-sheet').textContent();
+  assert(!spec.includes('LED markası') && spec.includes('LED rengi'), 'germe şartnamesinde marka olmamalı, renk olmalı');
+  // germe (kolay): bütçe ne olursa olsun standart modül
+  await openWizard(page, '?tur=germe', { mode: null });
+  await goStep(page, 'gorunum');
+  for (const b of ['0', '1', '2']) {
+    await hit(page.locator(`#wz-step input[name="e.b"][value="${b}"]`));
+    const st = await state(page);
+    assert(st.o.lb === 'standart', `germe bütçe ${b}: LED markası standart kalmalı (${st.o.lb})`);
+  }
+  const sel = await page.locator('.sel-box').textContent();
+  assert(!/LED markası/.test(sel) && !/Samsung|Epistar/.test(await page.locator('#g-butce').textContent()), 'germe kolay modda LED markası gösterilmemeli');
+  // LED panel: marka seçimi yok
+  await openWizard(page, '?urun=ledpanel');
+  for (const id of ['panel', 'detay']) {
+    await goStep(page, id);
+    assert((await page.locator('input[name="o.lb"]').count()) === 0, `LED panel ${id}: marka seçimi olmamalı`);
+  }
+  // eski bağlantı (germe + samsung) bozulmadan açılır
+  const code = await page.evaluate(() => btoa(JSON.stringify({ p: 'germe', v: 1, o: { lb: 'samsung' } })).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, ''));
+  await page.goto(`${BASE}/tabela-sihirbazi/#d=${code}`, { waitUntil: 'networkidle' });
+  await page.waitForSelector('.wz-steps button');
+  await goStep(page, 'ozet');
+  assert(!(await page.locator('#spec-sheet').textContent()).includes('LED markası'), 'eski germe bağlantısında da marka satırı olmamalı');
+  await checkSvg(page, 'eski germe bağlantısı');
+  noErrs(page);
+  await page.context().close();
+});
+
+await test('Kayan yazı LED panel sayfası: hizmet sayfası, P tablosu, sihirbaz bağlantısı, menü ve llms', async () => {
+  const page = await newPage();
+  await page.goto(`${BASE}/kayan-yazi-led-panel/`, { waitUntil: 'networkidle' });
+  const text = await page.locator('main, body').first().textContent();
+  for (const needle of ['P10', 'P2.5', '32 × 16 cm', 'yanıp sönme animasyonunu açıp kapatabilir', 'USB bellek']) assert(text.includes(needle), `sayfada "${needle}" yok`);
+  const href = await page.locator('a.btn-gold').first().getAttribute('href');
+  assert(/tabela-sihirbazi\/\?tur=ledpanel$/.test(href), 'sihirbaz bağlantısı: ' + href);
+  await page.locator('a.btn-gold').first().click();
+  await page.waitForSelector('.wz-steps button');
+  const st = await state(page);
+  assert(st.p === 'ledpanel' && st.e.t === 'ledpanel', 'sayfadan sihirbaza LED panel olarak geçilmeli');
+  const llms = await (await page.request.get(`${BASE}/llms.txt`)).text();
+  assert(llms.includes('kayan-yazi-led-panel') && /Kayan yazı LED panel/.test(llms) && llms.includes('Epistar Lüks Seri'), 'llms.txt güncel olmalı');
   noErrs(page);
   await page.context().close();
 });

@@ -5,6 +5,8 @@ import {
   LASER_MATERIALS, LASER_FINISH, FIX_TYPES, SERVICE_OPTIONS, PLEXI_COLORS, FOIL_COLORS, PRESETS,
   DEKOTA_COLORS, COMPOSITE_COLORS, MIRROR_DEKOTA_COLORS,
   EASY_TYPES, EASY_COLORS, EASY_BG_IDS, EASY_LIGHTS, EASY_METALS, DEFAULT_EASY, SMALL_METHODS, SMALL_BACKINGS,
+  LED_PANEL_ENVS, LED_PANEL_TYPES, LED_PANEL_COLORS, LED_PANEL_RGB_COLORS, LED_PANEL_CONTROLS, LED_PANEL_MAX,
+  LED_PANEL_DEFAULT_PITCH, DEFAULT_LP, ledPitchesFor, ledGridCm, ledGridFor,
 } from '../data/catalog.mjs';
 
 export const STATE_VERSION = 1;
@@ -61,6 +63,7 @@ export function defaultState(product = 'cephe') {
     o: defaultOpts(),
     sv: 'montaj', fx: 'distans',
     fr: 'beyaz', sd: 'tek', gc: 'g-lacivert', gi: 'auto',
+    lp: { ...DEFAULT_LP }, // kayan yazı LED panel seçimleri
     n: {},
     c: { name: '', phone: '', firm: '', city: '', b2b: 0 },
   };
@@ -68,7 +71,38 @@ export function defaultState(product = 'cephe') {
   if (p.id === 'totem') { s.zc = 'k-antrasit'; s.L[1].t = 'Slogan veya alt başlık'; }
   if (p.id === 'cephe') { s.zc = 'k-antrasit'; s.L[1] = { t: 'Slogan veya telefon', s: 'S' }; }
   if (p.id === 'germe') { s.L[1].t = 'alt başlık / slogan'; }
+  if (p.id === 'ledpanel') {
+    s.L[0].t = 'HOŞ GELDİNİZ'; s.L[1] = { t: '', s: 'M' };
+    s.fr = 'siyah'; // LED panel kasası genellikle siyahtır
+    const g = ledGridCm(s.lp);
+    s.w = g.w; s.h = g.h;
+  }
   return s;
+}
+
+/** Kayan yazı LED panel seçimlerini doğrular; birbirine bağlı alanları (kullanım yeri, renk tipi, P değeri, renk) uyumlu tutar */
+export function normalizeLp(input) {
+  const src = input && typeof input === 'object' ? input : {};
+  const d = DEFAULT_LP;
+  const lp = {};
+  lp.env = pick(ids(LED_PANEL_ENVS), src.env, d.env);
+  lp.type = pick(ids(LED_PANEL_TYPES), src.type, d.type);
+  const pitches = ledPitchesFor(lp.env, lp.type);
+  // seçili P bu kullanım yeri/renk tipinde üretilmiyorsa uygun varsayılana geçilir
+  lp.pitch = pick(ids(pitches), src.pitch, LED_PANEL_DEFAULT_PITCH[`${lp.env}:${lp.type}`]);
+  const colors = lp.type === 'rgb' ? LED_PANEL_RGB_COLORS : LED_PANEL_COLORS;
+  lp.col = pick(ids(colors), src.col, lp.type === 'rgb' ? 'beyaz' : d.col);
+  lp.cols = clamp(Math.round(num(src.cols, d.cols)), 1, LED_PANEL_MAX.cols);
+  lp.rows = clamp(Math.round(num(src.rows, d.rows)), 1, LED_PANEL_MAX.rows);
+  lp.blink = src.blink === 1 || src.blink === true ? 1 : 0;
+  lp.ctl = pick(ids(LED_PANEL_CONTROLS), src.ctl, d.ctl);
+  return lp;
+}
+
+/** Kullanım yeri / renk tipi / P değeri değişince panelin yaklaşık fiziksel ölçüsünü korumak için modül sayısını yeniden hesaplar */
+export function retargetLp(lp, wCm, hCm) {
+  const g = ledGridFor(lp.pitch, wCm, hCm);
+  return { ...lp, cols: g.cols, rows: g.rows };
 }
 
 const clamp = (n, a, b) => Math.min(b, Math.max(a, n));
@@ -96,6 +130,7 @@ export function normalize(input) {
     g: pick(EASY_BG_IDS, e.g, DEFAULT_EASY.g),
     l: pick(ids(EASY_LIGHTS), e.l, DEFAULT_EASY.l),
     m: pick(ids(EASY_METALS), e.m, DEFAULT_EASY.m),
+    v: pick(ids(LED_PANEL_ENVS), e.v, DEFAULT_EASY.v),
   };
 
   s.w = clamp(num(src.w, p.size.w[2]), p.size.w[0], p.size.w[1]);
@@ -114,7 +149,7 @@ export function normalize(input) {
   s.fit = clamp(num(src.fit, 90), 40, 100);
   s.sm = pick(ids(SMALL_METHODS), src.sm, 'auto');
   s.sb = pick(ids(SMALL_BACKINGS), src.sb, 'auto');
-  s.logo = src.logo ? 1 : 0;
+  s.logo = src.logo && p.id !== 'ledpanel' ? 1 : 0; // LED panelde logo alanı ayrılmaz
 
   s.z = p.zemin === 'none' ? 0 : p.zemin === 'required' ? 1 : src.z === 0 || src.z === false ? 0 : 1;
   s.zm = pick(ids(ZEMIN_MATERIALS), src.zm, base.zm);
@@ -158,6 +193,12 @@ export function normalize(input) {
   s.sd = pick(['tek', 'cift'], src.sd, 'tek');
   s.gc = pick(ids(GERME_COLORS), src.gc, 'g-lacivert');
   s.gi = pick(ids(GERME_INK), src.gi, 'auto');
+  s.lp = normalizeLp(src.lp);
+  // LED panelin ölçüsü serbest değil, modül sayısından gelir
+  if (p.id === 'ledpanel') {
+    const g = ledGridCm(s.lp);
+    s.w = g.w; s.h = g.h;
+  }
 
   s.n = {};
   if (src.n && typeof src.n === 'object') {
@@ -186,7 +227,10 @@ export function switchProduct(prev, productId) {
     o: { ...prev.o },
     zm: prev.zm, zt: prev.zt, cr: prev.cr,
     fr: prev.fr, sd: prev.sd, gc: prev.gc, gi: prev.gi,
+    lp: { ...prev.lp },
   };
+  // Çerçeve rengi yalnızca varsayılan olarak bırakıldıysa yeni ürünün varsayılanına geçer (LED panel: siyah, germe: beyaz)
+  if (prev.fr === defaultState(prev.p).fr) merged.fr = next.fr;
   // Ürüne özgü örnek metinler: kullanıcı değiştirmediyse yenisini göster
   const prevDefaults = defaultState(prev.p).L.map((x) => x.t);
   merged.L = prev.L.map((x, i) => ({ ...x, t: x.t === prevDefaults[i] ? next.L[i].t : x.t }));

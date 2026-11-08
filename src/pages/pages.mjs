@@ -154,12 +154,15 @@ function guideIndex(ctx) {
 // Sihirbaz sayfası
 // ---------------------------------------------------------------------------
 const WIZARD_FAQ = [
-  ['Hangi tabelayı seçeceğimi bilmiyorum, ne yapmalıyım?', 'Sihirbazın Kolay modunu kullanın. Tabelanın nereye yapılacağını, geceleri ışık verip vermeyeceğini ve nasıl bir görünüm istediğinizi seçmeniz yeterli; ışıklı harf, dekupe, germe, krom, kabartma harf, totem veya kapı tabelasından size uygun olanı önerir. Kalınlık, derinlik ve LED gibi teknik ayrıntıları da sizin için otomatik belirler.'],
+  ['Hangi tabelayı seçeceğimi bilmiyorum, ne yapmalıyım?', 'Sihirbazın Kolay modunu kullanın. Tabelanın nereye yapılacağını, geceleri ışık verip vermeyeceğini ve nasıl bir görünüm istediğinizi seçmeniz yeterli; ışıklı harf, dekupe, germe, krom, kabartma harf, totem, kapı tabelası veya kayan yazı LED panelden size uygun olanı önerir. Kalınlık, derinlik ve LED gibi teknik ayrıntıları da sizin için otomatik belirler.'],
   ['Kolay mod ile Detaylı mod arasındaki fark nedir?', 'Kolay modda yalnızca tür, ölçü, yazı, bütçe, renk ve ışık seçersiniz; malzeme ayrıntılarını sistem belirler. Detaylı modda zemin malzemesi, pleksi kalınlığı, yan yüzey, derinlik, LED markası gibi her şeyi kendiniz seçersiniz. İstediğiniz an iki mod arasında geçiş yapabilirsiniz.'],
   ['Tabela sihirbazı ücretsiz mi?', 'Evet, tabela sihirbazı ücretsizdir ve üyelik gerektirmez. Seçimlerinizi önizlemede görür, şartnameyi dilediğiniz gibi paylaşırsınız.'],
   ['Sihirbaz kesin fiyat gösteriyor mu?', 'Hayır. Sihirbaz her seçeneğin fiyat etkisini (En uygun, Hafif fark, Fiyatı artırır, Belirgin artış) gösterir ve genel bir fiyat seviyesi verir. Kesin fiyat ölçü ve keşif sonrası, şartnameye göre bildirilir.'],
   ['Verilerim saklanıyor mu?', 'Tasarımınız yalnızca tarayıcınızda (bu cihazda) saklanır; sunucuya gönderilmez. Paylaşmak istediğinizde WhatsApp, PNG veya PDF ile siz iletirsiniz.'],
   ['Şartnameyi nasıl paylaşırım?', 'Son adımda WhatsApp ile gönder, görseli paylaş/indir (PNG), yazdır/PDF, metni kopyala ve bağlantıyı kopyala seçenekleri bulunur. Bağlantıyı açan kişi aynı tasarımı görür.'],
+  ['Kayan yazı LED panelde neleri seçebilirim?', 'Kullanım yerini (dış/iç mekan), renk tipini (tek renk: kırmızı, yeşil, sarı, mavi, beyaz; ya da tam renkli RGB), piksel aralığını (P10, P8, P6, P5, P4, P3, P2.5) ve LED modül sayısına göre panel ebadını seçersiniz. Yanıp sönme animasyonunu açıp kapatabilir, çerçeve rengini, yüz sayısını ve kontrol yöntemini (USB / Wi-Fi) belirleyebilirsiniz. Önizleme yazıyı panelin gerçek çözünürlüğünde LED noktaları olarak gösterir.'],
+  ['P10, P5, P4 farkı nedir?', 'P değeri iki LED pikselinin merkezleri arasındaki mesafedir (mm). P küçüldükçe aynı alana daha çok LED sığar; çözünürlük ve fiyat artar, panelden en az ne kadar uzaktan bakılması gerektiği azalır. P10 uzaktan okunan cephelerde, P5–P2.5 vitrin içi ve yakından bakılan yerlerde tercih edilir.'],
+  ['LED markası seçimini nerede yapabilirim?', 'Kutu harf, krom harf ve LED’li dekupede LED markasını seçebilirsiniz: Standart (Epistar çipli), Epistar Lüks Seri veya Samsung. Germe tabelada ve kayan yazı LED panelde LED markası seçimi sunulmaz.'],
   ['Her seçeneğe not ekleyebilir miyim?', 'Evet. Her seçenek grubunun altındaki “+ Not ekle” bağlantısıyla özel isteklerinizi (farklı kalınlık, renk, ölçü vb.) yazabilirsiniz; notlar şartnamede ilgili satırın altında görünür.'],
   ['Telefondan kullanılabilir mi?', 'Evet. Sihirbaz mobil uyumludur; önizleme ekranın üstünde sabit kalır, seçenekler altta kaydırılır.'],
 ];
@@ -175,7 +178,7 @@ function wizardPage(ctx) {
 <noscript><div class="noscript">Tabela sihirbazı için JavaScript gereklidir. Dilerseniz bizi arayın: <a href="tel:${cfg.phone}">${cfg.phoneHtml}</a> veya <a href="https://wa.me/${cfg.whatsapp}">WhatsApp</a>’tan yazın.</div></noscript></div></div>
 
 <section class="sec"><div class="wrap">
-<div class="sec-head"><span class="eyebrow">Sihirbazla neler yapabilirsiniz?</span><h2 class="h2">Dört ürün, <em>yüzlerce kombinasyon</em></h2></div>
+<div class="sec-head"><span class="eyebrow">Sihirbazla neler yapabilirsiniz?</span><h2 class="h2">Beş ürün, <em>yüzlerce kombinasyon</em></h2></div>
 <div class="grid g4">${prodCards}</div>
 </div></section>
 
@@ -190,11 +193,12 @@ function wizardPage(ctx) {
 <tr><td>Dekota</td><td>${THICKNESS.dekota.map((t) => fmtMm(t.v)).join(' · ')}</td></tr>
 <tr><td>Aynalı dekota</td><td>Gümüş ve gold; ${THICKNESS.aynali.map((t) => fmtMm(t.v)).join(' · ')}</td></tr>
 <tr><td>Yan yüzey</td><td>Antrasit, siyah, beyaz, altın, gümüş veya pleksi ışıklı bant; ${DEPTHS.map((d) => d.v + ' cm').join(' · ')} derinlik</td></tr>
-<tr><td>LED</td><td>Standart, Epistar, Samsung; beyaz, günışığı, amber, kırmızı, mavi, yeşil</td></tr>
-<tr><td>Germe tabela</td><td>Çerçeve rengi, tek/çift yüz, baskı zemin ve yazı rengi</td></tr>
+<tr><td>LED (kutu harf, krom, dekupe)</td><td>Standart (Epistar çipli), Epistar Lüks Seri, Samsung; beyaz, günışığı, amber, kırmızı, mavi, yeşil</td></tr>
+<tr><td>Germe tabela</td><td>Çerçeve rengi, tek/çift yüz, baskı zemin ve yazı rengi, LED ışık rengi (LED markası seçilmez)</td></tr>
+<tr><td>Kayan yazı LED panel</td><td>Dış/iç mekan; tek renk (kırmızı, yeşil, sarı, mavi, beyaz) veya tam renkli; P10 · P8 · P6 · P5 · P4 · P3 · P2.5; modül sayısına göre ebat; yanıp sönme animasyonu açık/kapalı; USB veya Wi-Fi kontrol</td></tr>
 <tr><td>Montaj</td><td>Ankara içi montaj, atölyeden teslim, sevkiyat; kapı tabelasında sabitleme şekli</td></tr>
 </tbody></table></div>
-<div class="callout"><strong>Fiyat hakkında:</strong> Standart dışı seçimlerde (kalın pleksi, Samsung/Epistar LED, aynalı malzeme, derin harf vb.) fiyat yukarı yönlü değişebilir. Sihirbaz her adımda <em>en uygun</em> seçeneği belirtir.</div>
+<div class="callout"><strong>Fiyat hakkında:</strong> Standart dışı seçimlerde (kalın pleksi, Epistar Lüks Seri/Samsung LED, aynalı malzeme, derin harf, yüksek çözünürlüklü LED panel vb.) fiyat yukarı yönlü değişebilir. Sihirbaz her adımda <em>en uygun</em> seçeneği belirtir.</div>
 <h2>Sık sorulan sorular</h2>
 ${faqHTML(WIZARD_FAQ, ctx)}
 </article></div></section>
@@ -225,10 +229,11 @@ ${ctaBand(ctx, { title: 'Takıldığınız yer mi var?', text: 'Sihirbazı kulla
         offers: { '@type': 'Offer', price: '0', priceCurrency: 'TRY' },
         provider: BIZ,
         featureList: [
-          'Cephe, totem, kapı ve germe tabela tasarımı',
+          'Cephe, totem, kapı, germe tabela ve kayan yazı LED panel tasarımı',
           'Gündüz ve gece önizleme',
           'Pleksi, dekota, aynalı dekota ve kompozit seçenekleri',
-          'LED markası ve rengi seçimi',
+          'LED markası (kutu harf) ve rengi seçimi',
+          'LED panel: P değeri, çözünürlük, renk ve yanıp sönme animasyonu',
           'Her seçenek için not alanı',
           'WhatsApp, PNG ve PDF olarak paylaşılabilir şartname',
         ],
@@ -239,7 +244,7 @@ ${ctaBand(ctx, { title: 'Takıldığınız yer mi var?', text: 'Sihirbazı kulla
         name: 'Online tabela nasıl tasarlanır ve şartname nasıl paylaşılır?',
         totalTime: 'PT5M',
         step: [
-          { '@type': 'HowToStep', name: 'Ürünü seçin', text: 'Cephe tabelası, totem, kapı tabelası veya germe tabela seçin.' },
+          { '@type': 'HowToStep', name: 'Ürünü seçin', text: 'Cephe tabelası, totem, kapı tabelası, germe tabela veya kayan yazı LED panel seçin.' },
           { '@type': 'HowToStep', name: 'Ölçü ve yazıyı girin', text: 'Genişlik, yükseklik, metin ve yazı tipini belirleyin.' },
           { '@type': 'HowToStep', name: 'Zemin ve harf sistemini seçin', text: 'Zemin malzemesi, kalınlık, renk ve harf işleme yöntemini seçin.' },
           { '@type': 'HowToStep', name: 'Detayları ayarlayın', text: 'Pleksi kalınlığı ve rengi, yan yüzey, derinlik, LED markası ve rengini seçin.' },

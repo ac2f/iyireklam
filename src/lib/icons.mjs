@@ -19,6 +19,7 @@ const P = {
   book: '<path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v16H6.5A2.5 2.5 0 0 0 4 21.5z"/><path d="M4 5.5v16M8 7h8M8 11h6"/>',
   shield: '<path d="M12 3 4.5 6v6c0 4.5 3.2 7.8 7.5 9 4.3-1.2 7.5-4.5 7.5-9V6z"/><path d="m9 12 2.2 2.2L15.5 10"/>',
   clock: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/>',
+  ledpanel: '<rect x="3" y="6" width="18" height="11" rx="2"/><path d="M7 10h.01M10 10h.01M13 10h.01M7 13h.01M10 13h.01M13 13h.01M16.5 11.5h2M17.5 9.8l1.7 1.7-1.7 1.7M7 21h10"/>',
   layers: '<path d="m12 3 9 5-9 5-9-5z"/><path d="m3 13 9 5 9-5M3 17.5l9 5 9-5" opacity=".6"/>',
 };
 

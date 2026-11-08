@@ -4,7 +4,7 @@ Ankara Altındağ İskitler’deki tabela / kutu harf / CNC atölyesi için haz�
 
 - **Adres:** Sebze Bahçeleri Caddesi No: 107/22, İskitler, Altındağ / Ankara
 - **Telefon / WhatsApp:** 0531 520 90 01
-- 26 sayfa: ana sayfa, 11 hizmet sayfası, tabela sihirbazı, 6 rehber, İskitler, hakkımızda, iletişim, SSS, gizlilik, 404
+- 27 sayfa: ana sayfa, 12 hizmet sayfası, tabela sihirbazı, 6 rehber, İskitler, hakkımızda, iletişim, SSS, gizlilik, 404
 - Sayfa başına ~110–140 KB (yazı tipleri dahil), Lighthouse: Performans 96–100 · Erişilebilirlik 98–100 · En iyi uygulamalar 100 · SEO 100
 
 ## Yayına alma (GitHub Pages)
@@ -30,8 +30,9 @@ Depodaki dosyalar **derlenmiş hâlde** olduğundan ek bir derleme ayarı gerekm
 | Ne? | Nerede? |
 |---|---|
 | Telefon, adres, **marka adı**, alan adı, Google Analytics / Search Console kodu | `src/site.config.mjs` |
-| Pleksi / dekota / kompozit renkleri, kalınlıklar, LED seçenekleri, fiyat etkisi seviyeleri, **Kolay mod türleri/renkleri** | `src/data/catalog.mjs` |
-| Kolay modun bütçeye göre otomatik seçtiği kalınlık, derinlik, LED vb. | `src/wizard/easy.js` (`deriveEasy`) |
+| Pleksi / dekota / kompozit renkleri, kalınlıklar, **LED markaları** (`LED_BRANDS`), LED renkleri, fiyat etkisi seviyeleri, **Kolay mod türleri/renkleri** | `src/data/catalog.mjs` |
+| **Kayan yazı LED panel:** P değerleri, modül ölçüsü/çözünürlüğü, renkler, kontrol seçenekleri, hazır ebatlar | `src/data/catalog.mjs` (`LED_PANEL_*`) |
+| Kolay modun bütçeye göre otomatik seçtiği kalınlık, derinlik, LED, LED panel P değeri vb. | `src/wizard/easy.js` (`deriveEasy`, `LP_PITCH`) |
 | Hizmet sayfası metinleri, SSS | `src/data/services.mjs` |
 | Rehber yazıları | `src/data/guides.mjs` |
 | Ana sayfa | `src/pages/home.mjs` |
@@ -58,13 +59,25 @@ npm run serve      # http://localhost:4173 (yerel önizleme)
 - `easy.js` — **Kolay mod**: tür/bütçe/renk/ışık seçimlerinden tüm teknik ayrıntıları (pleksi kalınlığı, derinlik, LED markası, zemin, sabitleme…) otomatik üretir; “Bana öner” soruları
 - `model.js` — şartname satırları, fiyat etkisi seviyesi, bütçe ipuçları, WhatsApp/metin çıktıları
 - `render.js` — SVG önizleme motoru (gündüz/gece, parlama, dokular, otomatik satır yerleşimi)
+- `ledraster.js` — kayan yazı LED panel önizlemesi: yazıyı panelin gerçek piksel çözünürlüğünde rasterleştirip LED noktaları olarak çizer (PNG katmanları)
 - `ui.js`, `app.js` — adımlar, notlar, olaylar, erişilebilirlik
 - `share.js` — PNG şartname kartı, panoya kopyalama
 
-**İki mod vardır:** *Kolay mod* (varsayılan) teknik bilgisi olmayanlar içindir — 3 soruyla tabela türü önerilir (ışıklı harf, ışıklı oyma yazı/dekupe, germe, krom, kabartma harf, totem, kapı tabelası); kullanıcı yalnızca ölçü, yazı, bütçe (Ekonomik/Dengeli/Gösterişli), renk ve ışık seçer. *Detaylı mod* tüm malzeme ayrıntılarını tek tek ayarlatır. İki mod arasında istenildiği an geçiş yapılır. Bağlantılar: `?tur=isikli_harf|dekupe|germe|krom|kabartma|totem|kapi`, `?mod=detayli|kolay`.
+**İki mod vardır:** *Kolay mod* (varsayılan) teknik bilgisi olmayanlar içindir — 3 soruyla tabela türü önerilir (ışıklı harf, ışıklı oyma yazı/dekupe, germe, krom, kabartma harf, totem, kapı tabelası, kayan yazı LED panel); kullanıcı yalnızca ölçü, yazı, bütçe (Ekonomik/Dengeli/Gösterişli), renk ve ışık seçer. *Detaylı mod* tüm malzeme ayrıntılarını tek tek ayarlatır. İki mod arasında istenildiği an geçiş yapılır. Bağlantılar: `?tur=isikli_harf|dekupe|germe|krom|kabartma|totem|kapi|ledpanel`, `?urun=cephe|totem|kapi|germe|ledpanel`, `?mod=detayli|kolay`.
 
-Ürünler: cephe tabelası, totem, kapı/ofis tabelası, germe tabela.  
+Ürünler: cephe tabelası, totem, kapı/ofis tabelası, germe tabela, **kayan yazı LED panel**.  
 Harf sistemleri: ışıklı / ışıksız kutu harf, krom harf (fileli/filesiz/tam krom), kabartma düz harf, dekupe, lazer kesim metal harf, baskı/folyo.  
+**LED markası:** ışıklı kutu harf, krom harf ve LED’li dekupede *Standart LED (Epistar çipli)*, *Epistar Lüks Seri* ve *Samsung* seçilir. **Germe tabelada ve LED panelde marka seçimi sunulmaz.** (`epistar` kimliği eski paylaşım bağlantılarıyla uyum için korunur.)
+
+**Kayan yazı LED panel:** Detaylı modda adımlar *Ürün → Panel & Çözünürlük → Ölçü & Yazı → Özellikler → Montaj → Şartname*’dir.
+- *Kullanım yeri* (dış/iç mekan) ve *renk tipi* (tek renk: kırmızı, yeşil, sarı, mavi, beyaz · tam renkli RGB) seçildikten sonra yalnızca o birleşimde üretilen **P değerleri** listelenir (P10, P8, P6, P5, P4, P3, P2.5). Her P için modül ölçüsü, modül çözünürlüğü, piksel/m² ve en yakın izleme mesafesi gösterilir.
+- **Ebat serbest girilmez**; yatay × dikey **LED modül sayısı** (hazır ebatlar veya sayı alanları) belirler. Kullanım yeri/renk tipi/P değişince panelin yaklaşık fiziksel ölçüsü korunur. Toplam çözünürlük (piksel) ve okunurluk uyarısı (panel yüksekliği satır sayısına yetmiyorsa) canlı gösterilir.
+- Önizleme yazıyı panelin **gerçek çözünürlüğünde LED noktaları** olarak çizer (P10 ile P4 farkı görünür); gece görünümünde parlama eklenir.
+- **Yanıp sönme animasyonu** *Özellikler* adımında (Kolay modda *Görünüm* adımında) açılıp kapatılır; önizlemede canlı görünür (`prefers-reduced-motion` açıksa sabit kalır), şartnamede ve paylaşım bağlantısında yer alır. Varsayılan kapalıdır.
+- Çerçeve rengi, tek/çift yüz ve kontrol yöntemi (USB / Wi-Fi) de seçilir.
+
+> **Not (LED panel verileri):** Modül ölçüleri/çözünürlükleri sektörde yaygın standart modüllere (P10 320×160 mm 32×16 px; P8 256×128 mm; P6 192×192 mm; P5/P4/P2.5 320×160 mm; P3 192×192 mm) göre, parlaklık ve izleme mesafesi değerleri yaklaşıktır. Üretici föyleri farklıysa `src/data/catalog.mjs` içindeki `LED_PANEL_PITCHES` satırını düzeltmeniz yeterlidir. “Epistar Lüks Seri” için resmî bir ürün adı doğrulanamadı; görünen ad `LED_BRANDS` içinden değiştirilebilir.
+
 **Küçük yazılar:** kutu harf / krom harf tasarımlarında harf yüksekliği 10 cm’nin altındaki satırlar (slogan, telefon vb.) otomatik olarak **dekupe** (panelden oyma, ışıklıysa arkadan LED) çizilir; önizlemede etiketle gösterilir, şartnameye yazılır. Detaylı modda yöntem (dekupe / kabartma / folyo / hepsi kutu harf) ve dekupe arkası değiştirilebilir. Sınır `SMALL_TEXT_CM` ile `src/data/catalog.mjs` içinde ayarlanır.  
 Her seçenek grubunda **not alanı**, **fiyat etkisi etiketi** ve “**en uygun seçenek**” ipucu bulunur; fiyat rakamı gösterilmez.
 

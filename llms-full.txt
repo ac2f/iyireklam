@@ -1,6 +1,6 @@
 # İyi Reklam — tam içerik özeti
 
-> İyi Reklam, Ankara Altındağ İskitler’de (Sebze Bahçeleri Caddesi No: 107/22) 20 yılı aşkın deneyimle kendi atölyesinde tabela imalatı yapan bir reklam atölyesidir: ışıklı ve ışıksız pleksi kutu harf, krom harf, germe tabela, totem tabela, kapı ve ofis tabelaları, CNC router kesim, CNC lazer kesim, dijital baskı, tabela montajı ve reklamcılara fason imalat. Ücretsiz çevrimiçi tabela sihirbazıyla ürün, ölçü, malzeme, renk ve LED seçilip paylaşılabilir şartname oluşturulur.
+> İyi Reklam, Ankara Altındağ İskitler’de (Sebze Bahçeleri Caddesi No: 107/22) 20 yılı aşkın deneyimle kendi atölyesinde tabela imalatı yapan bir reklam atölyesidir: ışıklı ve ışıksız pleksi kutu harf, krom harf, germe tabela, totem tabela, kapı ve ofis tabelaları, kayan yazı LED panel, CNC router kesim, CNC lazer kesim, dijital baskı, tabela montajı ve reklamcılara fason imalat. Ücretsiz çevrimiçi tabela sihirbazıyla ürün, ölçü, malzeme, renk ve LED seçilip paylaşılabilir şartname oluşturulur.
 
 ## Işıklı Tabela
 URL: https://ac2f.github.io/iyireklam/isikli-tabela/
@@ -8,7 +8,7 @@ URL: https://ac2f.github.io/iyireklam/isikli-tabela/
 Işıklı tabela; içine LED yerleştirilerek gece de okunabilen tabelalara denir. İyi Reklam Ankara İskitler atölyesinde başlıca dört ışıklı yöntem üretir: ışıklı pleksi kutu harf, ışıklı krom harf, germe tabela (ışıklı kutu) ve LED’li dekupe; ışıklı totem bu yöntemlerle yapılır. Maliyet; ölçü, pleksi kalınlığı, yan yüzey, LED markası ve montaj koşullarına göre değişir.
 
 - Yöntemler: Işıklı kutu harf · Krom harf · Germe · LED’li dekupe
-- LED markası: Standart · Epistar · Samsung
+- LED markası: Standart (Epistar çipli) · Epistar Lüks Seri · Samsung (germe tabelada marka seçilmez)
 - LED rengi: Beyaz, günışığı, amber, kırmızı, mavi, yeşil
 - Işık yayılımı: Ön yüz pleksi, pleksi yan bant veya arkadan germe kumaş
 - Önizleme: Sihirbazda gündüz ve gece görünümü
@@ -35,7 +35,7 @@ Site ve iş merkezleri: uzaktan fark edilen ışıklı totem.
 
 
 ### Işık rengi ve LED markası
-Işıklı tabelalarda LED markası olarak standart, Epistar veya Samsung seçilebilir; standart dışı tercihlerde fiyat yukarı yönlü değişebilir. Işık rengi beyaz, günışığı, amber, kırmızı, mavi ya da yeşil olabilir. Pleksi rengi ile LED rengi birlikte nihai ışık tonunu belirler. Ayrıntılar için LED seçim rehberine bakın.
+Işıklı kutu harf, krom harf ve LED’li dekupede LED markası olarak standart (Epistar çipli), Epistar Lüks Seri veya Samsung seçilebilir; standart dışı tercihlerde fiyat yukarı yönlü değişebilir. Germe tabelada LED markası seçimi sunulmaz, standart LED modül kullanılır. Işık rengi beyaz, günışığı, amber, kırmızı, mavi ya da yeşil olabilir. Pleksi rengi ile LED rengi birlikte nihai ışık tonunu belirler. Ayrıntılar için LED seçim rehberine bakın.
 
 ### Gündüz ve gece nasıl görünür?
 Işıklı tabelanın gündüz ve gece görünümü farklıdır. Tabela sihirbazında “Gündüz / Gece” anahtarıyla seçimlerinizin her iki durumda nasıl görüneceğini önceden görebilir; şartnamede iki görünümü birlikte paylaşabilirsiniz.
@@ -52,13 +52,13 @@ Işıklı tabelalarda trafo yeri ve elektrik bağlantı noktası keşifte belirl
 ## Kutu Harf Tabela
 URL: https://ac2f.github.io/iyireklam/kutu-harf-tabela/
 
-Kutu harf; ön yüzü pleksi, yanları metal veya pleksi bantla kapatılmış, içi LED ile aydınlatılabilen hacimli bir harftir. İyi Reklam, Ankara İskitler’deki atölyesinde ışıklı ve ışıksız pleksi kutu harf, krom kutu harf ve fason kutu harf üretir. Pleksi kalınlığı 2,8 mm’den 18 mm’ye, yan derinlik 6–10 cm arasında seçilebilir; kalın pleksi ve Samsung/Epistar gibi standart dışı LED tercihleri fiyatı yukarı taşır.
+Kutu harf; ön yüzü pleksi, yanları metal veya pleksi bantla kapatılmış, içi LED ile aydınlatılabilen hacimli bir harftir. İyi Reklam, Ankara İskitler’deki atölyesinde ışıklı ve ışıksız pleksi kutu harf, krom kutu harf ve fason kutu harf üretir. Pleksi kalınlığı 2,8 mm’den 18 mm’ye, yan derinlik 6–10 cm arasında seçilebilir; kalın pleksi ve Epistar Lüks Seri veya Samsung gibi standart dışı LED tercihleri fiyatı yukarı taşır.
 
 - Ön yüz: Pleksi (Akpolimer paleti)
 - Pleksi kalınlığı: 2,8 · 4,5 · 5,8 · 7,8 · 9,8 · 12 · 14 · 18 mm
 - Yan derinlik: 6 · 7 · 8 · 10 cm
 - Yan bant: Antrasit, siyah, beyaz, altın, gümüş veya pleksi ışıklı bant
-- LED markası: Standart · Epistar · Samsung
+- LED markası: Standart (Epistar çipli) · Epistar Lüks Seri · Samsung
 - LED rengi: Beyaz, günışığı, amber, kırmızı, mavi, yeşil
 
 ### Kutu harf çeşitleri
@@ -88,7 +88,7 @@ Harfin yan yüzeyi iki şekilde yapılabilir: ışıksız yan bant (antrasit, si
 Ayrıntılar için yan bant ve derinlik rehberine bakın.
 
 ### LED markası ve ışık rengi
-Işıklı kutu harflerde standart LED modülün yanında Epistar ve Samsung markalı LED tercihi de yapılabilir. Standart dışı marka seçimleri fiyatı yukarı yönlü değiştirebilir. Işık rengi olarak beyaz (soğuk), günışığı (sıcak), amber, kırmızı, mavi ve yeşil seçenekleri sunulur. Pleksi rengi ile LED rengi birlikte nihai ışık tonunu belirler; örneğin beyaz LED arkasında kırmızı pleksi kırmızı ışık verir.
+Işıklı kutu harflerde atölyemizin standart LED modülü (Epistar çipli) kullanılır; isterseniz Epistar Lüks Seri veya Samsung markalı LED tercihi de yapılabilir. Standart dışı marka seçimleri fiyatı yukarı yönlü değiştirebilir. Işık rengi olarak beyaz (soğuk), günışığı (sıcak), amber, kırmızı, mavi ve yeşil seçenekleri sunulur. Pleksi rengi ile LED rengi birlikte nihai ışık tonunu belirler; örneğin beyaz LED arkasında kırmızı pleksi kırmızı ışık verir.
 Karşılaştırma için LED seçim rehberimize göz atın.
 
 ### Üretim süreci
@@ -103,7 +103,7 @@ Montaj: Ankara içi tabela montajı ekibimizce yapılır.
 ### Sık sorulan sorular
 **Kutu harf ışıklı olmak zorunda mı?** Hayır. Işıksız pleksi kutu harf de yapılır; LED ve trafo maliyeti olmadığı için daha ekonomiktir. Gece görünürlüğü önemliyse ışıklı seçenek önerilir.
 **Hangi pleksi kalınlığını seçmeliyim?** Çoğu cephe uygulamasında ince veya orta kalınlık yeterlidir; en uygun fiyatlı seçenek 2,8 mm’dir. Kalın pleksi fiyatı belirgin biçimde artırır. Harf ölçünüze göre doğru kalınlığı birlikte belirleyebiliriz.
-**Samsung veya Epistar LED seçmek şart mı?** Şart değildir. Standart LED modül en uygun seçenektir. Samsung veya Epistar gibi marka tercihleri fiyatı yukarı taşıyabilir; marka istiyorsanız sihirbazdan seçebilirsiniz.
+**Samsung veya Epistar Lüks Seri LED seçmek şart mı?** Şart değildir. Standart LED modülümüz zaten Epistar çiplidir ve en uygun seçenektir. Epistar Lüks Seri veya Samsung gibi marka tercihleri fiyatı yukarı taşıyabilir; istiyorsanız sihirbazdan seçebilirsiniz.
 **Kutu harf fiyatı nasıl belirlenir?** Fiyat; harf ölçüsü, pleksi kalınlığı, yan yüzey ve derinlik, LED markası ve montaj koşullarına bağlıdır. Sihirbaz sonunda oluşan şartnameyi WhatsApp’tan gönderirseniz fiyatı netleştiririz.
 
 ## Krom Harf Tabela
@@ -143,11 +143,11 @@ Krom yüzeyler yumuşak bez ve nötr temizleyici ile silinmelidir; aşındırıc
 ## Germe Tabela
 URL: https://ac2f.github.io/iyireklam/germe-tabela/
 
-Germe tabela; alüminyum profil çerçeveye gerilmiş baskılı kumaş yüzeyin arkadan LED ile aydınlatıldığı ışıklı kutu tabeladır. İyi Reklam Ankara’da tek veya çift yüzlü germe tabela üretir; çerçeve rengi, kumaş baskısı ve LED seçimi müşteriye göre belirlenir. Kumaş yüzeyi, ileride tasarım değişimi gerektiğinde yenilenebilir.
+Germe tabela; alüminyum profil çerçeveye gerilmiş baskılı kumaş yüzeyin arkadan LED ile aydınlatıldığı ışıklı kutu tabeladır. İyi Reklam Ankara’da tek veya çift yüzlü germe tabela üretir; çerçeve rengi ve kumaş baskısı müşteriye göre belirlenir; aydınlatmada standart LED modül kullanılır, LED markası seçimi sunulmaz. Kumaş yüzeyi, ileride tasarım değişimi gerektiğinde yenilenebilir.
 
 - Çerçeve: Alüminyum profil (beyaz, antrasit, siyah, eloksal)
 - Yüzey: Dijital baskılı germe kumaş
-- Aydınlatma: Arkadan LED (marka ve renk seçilebilir)
+- Aydınlatma: Arkadan standart LED modül (ışık rengi seçilebilir)
 - Yüz sayısı: Tek taraflı veya çift taraflı
 - Ölçü: Sihirbazda 30–1000 cm genişlik
 - Kullanım: Mağaza, market, eczane, restoran, ofis
@@ -243,6 +243,57 @@ Distanslı vida tabelayı duvardan hafif açık tutarak şık bir görünüm ver
 **Aynalı kapı tabelası yapılıyor mu?** Evet. Aynalı gümüş ve gold dekota ile aynalı kompozit seçenekleri bulunur.
 **Tek adet kapı tabelası üretiyor musunuz?** Evet, tek adetten itibaren üretim yapılır. Çok sayıda oda tabelası için adet bilgisini şartnamede belirtebilirsiniz.
 **Montajı siz yapıyor musunuz?** Ankara içinde montaj hizmeti veriyoruz. Dilerseniz atölyemizden teslim alabilirsiniz.
+
+## Kayan Yazı LED Panel
+URL: https://ac2f.github.io/iyireklam/kayan-yazi-led-panel/
+
+Kayan yazı LED panel; LED modüllerin yan yana birleştirilmesiyle oluşan, yazısı bilgisayar, USB bellek veya telefondan istediğiniz zaman değiştirilebilen elektronik tabeladır. İyi Reklam tek renk (kırmızı, yeşil, sarı, mavi, beyaz) ve tam renkli (RGB) paneller üretir. Panelin çözünürlüğünü P değeri belirler: P küçüldükçe LED sayısı ve fiyat artar. Ebat, LED modül sayısına göre seçilir; yanıp sönme animasyonu sihirbazda açılıp kapatılabilir.
+
+- Kullanım yeri: Dış mekan (IP65) veya iç mekan
+- Renk tipi: Tek renk: kırmızı, yeşil, sarı, mavi, beyaz · Tam renkli (RGB)
+- Piksel aralığı: P10 · P8 · P6 · P5 · P4 · P3 · P2.5
+- Ebat: LED modül sayısına göre (örn. P10: 96 × 16, 128 × 16, 160 × 16 cm)
+- Animasyon: Kayan yazı, yanıp sönme ve sabit yazı; yanıp sönme sihirbazda açılıp kapatılır
+- Kontrol: USB bellek veya Wi-Fi / telefon uygulaması
+- Yüz sayısı: Tek veya çift taraflı
+
+### P değeri nedir? P10, P5 ve P4 arasındaki fark
+P, iki LED pikselinin merkezleri arasındaki mesafedir (milimetre). P değeri küçüldükçe aynı alana daha çok LED sığar; çözünürlük, modül başına LED (piksel) sayısı ve fiyat artar, panele en az ne kadar uzaktan bakılması gerektiği ise azalır. Yazılar piksel piksel oluştuğu için düşük çözünürlükte (büyük P) harfler iri noktalı, yüksek çözünürlükte (küçük P) daha pürüzsüz görünür.
+
+P değeriModül ölçüsüModül çözünürlüğü (piksel)Piksel / m²En yakın izleme
+
+P1032 × 16 cm32 × 1610.000≈ 10 m
+P825,6 × 12,8 cm32 × 1615.625≈ 8 m
+P619,2 × 19,2 cm32 × 3227.778≈ 6 m
+P532 × 16 cm64 × 3240.000≈ 5 m
+P432 × 16 cm80 × 4062.500≈ 4 m
+P319,2 × 19,2 cm64 × 64111.111≈ 3 m
+P2.532 × 16 cm128 × 64160.000≈ 2,5 m
+
+Modül ölçüleri ve çözünürlükler sektörde yaygın standart modüllere göredir; üreticiye göre küçük farklar olabilir. En yakın izleme mesafesi için pratik kural: P değeri kadar metre (P10 için yaklaşık 10 m). Uzaktan okunacak cephelerde P10 genellikle yeterlidir; vitrin içi ve yakından bakılan yerlerde daha küçük P tercih edilir.
+
+### Tek renk mi, tam renkli mi?
+Tek renk paneller tek renkli LED kullanır; kayan yazı ve fiyat/duyuru panoları için en sade ve en ekonomik çözümdür, gün ışığında da net okunur. Tek renk paneller P10 modüllerle üretilir. Işık rengi LED’in kendi rengidir ve sonradan değiştirilemez; seçenekler kırmızı, yeşil, sarı, mavi, beyaz renklerdir.
+Tam renkli (RGB) paneller her pikseli kırmızı-yeşil-mavi LED’lerden oluşan panellerdir. Yazı rengi yazılımdan istediğiniz an değiştirilebilir; renk geçişli yazılar, logo ve görsel gösterilebilir. P10’dan P2.5’e kadar farklı çözünürlüklerde üretilir ve tek renge göre fiyatı belirgin artırır.
+
+### Ebat nasıl belirlenir?
+Panel ölçüsü serbest girilmez; LED modüllerin yatay ve dikey sayısıyla belirlenir. Örneğin P10 modülü 32 × 16 cm olduğundan 3 modül yan yana 96 × 16 cm, 4 modül 128 × 16 cm, 2 sıra yüksekliğinde 6 modül 192 × 32 cm panel eder. Sihirbazda hazır ebatları seçebilir ya da yatay ve dikey modül sayısını girebilirsiniz; ölçüyle birlikte toplam çözünürlük (piksel) anında görünür.
+Tek sıra (16 cm) yüksekliğindeki panelde tek satır yazı önerilir. İki veya üç satır yazı için panelin dikey modül sayısını artırın ya da daha küçük P (daha yüksek çözünürlük) seçin; sihirbaz okunaklı sığmayacak satır sayısında sizi uyarır. Görünen ölçü LED görüntü alanıdır; çerçeve payı kesin ölçüde ayrıca netleştirilir.
+
+### Dış mekan ve iç mekan paneller
+Dış mekan panellerde modüller su geçirmez (IP65) üretilir ve güneş ışığında okunabilmesi için yüksek parlaklıkla çalışır (tek renk yaklaşık 3.500–4.500 nit, tam renkli yaklaşık 4.500 nit ve üzeri). İç mekan paneller mağaza içi, vitrin arkası, ofis ve salon için uygundur; daha düşük parlaklıkta (yaklaşık 600–1.000 nit) çalışır ve yağmura dayanıklı değildir. Parlaklık değerleri yaklaşıktır; kesin değer modül modeline göre atölyede teyit edilir.
+
+### Yanıp sönme animasyonu ve kontrol
+Yazının kayma yönü ve hızı, yanıp sönme gibi efektler panel kontrol yazılımından istediğiniz zaman değiştirilir. Tabela sihirbazında yanıp sönme animasyonunu açıp kapatabilir, önizlemede canlı görebilirsiniz; tercihiniz şartnamede yer alır. Kontrol için USB bellek (yazıyı bilgisayarda hazırlayıp panele takarsınız) veya Wi-Fi / telefon uygulaması (yazıyı telefondan kablosuz değiştirirsiniz) seçilebilir.
+Kayan yazı paneli için montaj hizmetimizden yararlanabilir, elektrik bağlantı noktasını keşifte belirleyebiliriz. Işıklı kutu harf veya germe tabela ile birlikte kullanılacaksa ışıklı tabela çeşitlerine da göz atın.
+
+### Sık sorulan sorular
+**Kayan yazı LED panel hangi ölçülerde yapılır?** Ölçü, LED modül sayısına göre belirlenir. En yaygın örnek P10 modüldür (32 × 16 cm): 3 modül 96 × 16 cm, 4 modül 128 × 16 cm eder. Sihirbazda yatay ve dikey modül sayısını seçerek ebadı ve toplam çözünürlüğü görebilirsiniz.
+**P10, P5 ve P4 panel arasında ne fark var?** P değeri iki LED arasındaki mesafedir. P küçüldükçe aynı alanda daha çok LED olur; yazı daha net görünür, panel daha pahalı olur ve yakından bakmak mümkün hale gelir. P10 uzaktan okunan cephelerde, daha küçük P yakından bakılan yerlerde tercih edilir.
+**Panel hangi renklerde yapılıyor?** Tek renk panellerde kırmızı, yeşil, sarı, mavi ve beyaz seçenekleri vardır. Tam renkli (RGB) panelde yazı rengini yazılımdan istediğiniz an değiştirirsiniz.
+**Yazıyı sonradan değiştirebilir miyim?** Evet. Yazıyı USB bellek veya Wi-Fi / telefon uygulaması ile istediğiniz zaman değiştirebilirsiniz; kontrol yöntemini sihirbazdan seçersiniz.
+**Yanıp sönme animasyonu zorunlu mu?** Hayır. Sihirbazda yanıp sönme animasyonunu açıp kapatabilirsiniz; efektleri panel kontrol yazılımından da istediğiniz zaman değiştirebilirsiniz.
+**Dış mekanda yağmurda çalışır mı?** Dış mekan paneller su geçirmez (IP65) modüllerle üretilir. İç mekan paneller yağmura dayanıklı değildir; kullanım yerinizi sihirbazdan seçmeniz yeterlidir.
 
 ## CNC Router Kesim
 URL: https://ac2f.github.io/iyireklam/cnc-router-kesim/
@@ -441,18 +492,18 @@ Bütçe ne? Sihirbaz her seçeneğin fiyat etkisini gösterir; en uygun kalınl�
 Emin değilseniz sihirbazda 2,8 mm ile başlayın, notlara harf ölçüsünü yazın; birlikte doğru kalınlığı belirleriz.
 Sihirbazda her pleksi seçimi için ayrıca not ekleyebilir, farklı kalınlık taleplerinizi iletebilirsiniz. Işıklı ve ışıksız harf çeşitleri için kutu harf tabela sayfasına, LED seçimi için LED rehberine bakın.
 
-## Kutu Harf LED Seçimi: Standart, Epistar ve Samsung
+## Kutu Harf LED Seçimi: Standart, Epistar Lüks Seri ve Samsung
 URL: https://ac2f.github.io/iyireklam/rehber/led-secimi-samsung-epistar/
 
-Işıklı kutu harflerde LED markası olarak Standart, Epistar veya Samsung seçilebilir. Standart LED modül en uygun fiyatlıdır; Epistar ve Samsung gibi marka tercihleri fiyatı yukarı taşıyabilir. Işık rengi için beyaz, günışığı, amber, kırmızı, mavi ve yeşil seçenekleri vardır.
+Işıklı kutu harflerde LED markası olarak Standart (Epistar çipli), Epistar Lüks Seri veya Samsung seçilebilir. Standart LED modül en uygun fiyatlıdır; Epistar Lüks Seri ve Samsung gibi marka tercihleri fiyatı yukarı taşıyabilir. Germe tabelada LED markası seçimi sunulmaz. Işık rengi için beyaz, günışığı, amber, kırmızı, mavi ve yeşil seçenekleri vardır.
 
 LED markası seçenekleri
 
-Standart LED: Atölyemizin standart modülü; en uygun maliyetli seçenektir ve çoğu uygulama için yeterlidir.
-Epistar: Epistar çipli LED modül. Marka tercihi yapmak isteyenler için orta seviye bir seçenektir.
+Standart LED (Epistar çipli): Atölyemizin standart modülüdür ve zaten Epistar çiplidir; en uygun maliyetli seçenektir ve çoğu uygulama için yeterlidir.
+Epistar Lüks Seri: Epistar çipli üst seri LED modül. Daha tutarlı ışık tonu ve marka güvencesi isteyenler için orta seviye bir seçenektir.
 Samsung: Samsung çipli LED modül. Marka güvencesi isteyen müşteriler için tercih edilir; maliyeti yukarı taşır.
 
-Standart dışı marka seçimleri fiyatı yukarı yönlü değiştirir. Seçiminizi sihirbazda işaretler, şartnamede görürsünüz; sihirbaz her adımda en uygun seçeneği belirtir.
+Standart dışı marka seçimleri fiyatı yukarı yönlü değiştirir. Marka seçimi kutu harf, krom harf ve LED’li dekupe için sunulur; germe tabelada standart modül kullanılır ve marka seçimi yoktur. Seçiminizi sihirbazda işaretler, şartnamede görürsünüz; sihirbaz her adımda en uygun seçeneği belirtir.
 LED ışık rengi nasıl seçilir?
 
 RenkGörünümÖnerilen kullanım
@@ -525,7 +576,7 @@ Fiyatı belirleyen etkenler
 Harf sistemi: Baskı/folyo en ekonomik, kabartma düz harf ve dekupe orta, ışıklı kutu harf ve krom harf daha üst seviyedir.
 Pleksi kalınlığı: 2,8 mm en uygundur; kalınlık arttıkça fiyat oldukça yükselir.
 Yan yüzey ve derinlik: Pleksi ışıklı bant ve 8–10 cm derinlik maliyeti artırır.
-LED markası ve rengi: Standart LED en uygundur; Samsung ve Epistar fiyatı yukarı taşıyabilir.
+LED markası ve rengi: Standart LED (Epistar çipli) en uygundur; Epistar Lüks Seri ve Samsung fiyatı yukarı taşıyabilir.
 Zemin malzemesi ve kalınlığı: Dekota ekonomik, kompozit orta, aynalı malzemeler ve kalın levhalar üst seviyedir.
 İşin zorluğu: Köşe yuvarlatma, çok sayıda renk veya karmaşık logo işçilik süresini artırır.
 Montaj koşulları: Yükseklik, cephe malzemesi ve ulaşım zorluğu montaj maliyetini etkiler.
@@ -554,7 +605,7 @@ Harf sistemini seçin. Işıklı kutu harf, krom harf, kabartma düz harf, dekup
 Zemin malzemesini belirleyin. Kompozit, dekota, aynalı dekota veya zeminsiz uygulama.
 Pleksi kalınlığına karar verin. Kalın pleksi fiyatı oldukça artırır; ihtiyacınıza uygun en ince seviye genellikle yeterlidir.
 Yan yüzey ve derinliği seçin. Işıksız bant mı, pleksi ışıklı bant mı; 6, 7, 8 veya 10 cm.
-LED’i seçin. Marka (standart, Epistar, Samsung) ve renk.
+LED’i seçin. Marka (standart, Epistar Lüks Seri, Samsung) ve renk.
 Renkleri kartelayla teyit edin. Ekran renkleri yaklaşıktır; kesin rengi kartela üzerinde görün.
 Montaj ve elektrik noktasını planlayın. Keşifte belirlenir.
 Her şeyi yazılı alın. Şartname; malzeme, kalınlık, renk, ölçü ve notları tek sayfada toplar.
@@ -566,17 +617,20 @@ Ankara İskitler’deki atölyemizde kutu harf, germe tabela, totem ve kapı tab
 
 ## Genel sorular
 **Ankara’da tabela imalatı için nereye gelmeliyim?** Atölyemiz Ankara Altındağ İskitler, Sebze Bahçeleri Caddesi No: 107/22 adresindedir. Gelmeden önce 0531 520 90 01 numaralı telefondan bilgi alabilir veya WhatsApp’tan yazabilirsiniz.
-**Hangi tabela türlerini üretiyorsunuz?** Işıklı ve ışıksız pleksi kutu harf, krom harf, germe tabela, totem tabela, kapı ve ofis tabelaları üretiyoruz. Ayrıca CNC router kesim, CNC lazer kesim, dijital baskı ve tabela montajı yapıyoruz.
+**Hangi tabela türlerini üretiyorsunuz?** Işıklı ve ışıksız pleksi kutu harf, krom harf, germe tabela, totem tabela, kapı ve ofis tabelaları ile kayan yazı LED panel üretiyoruz. Ayrıca CNC router kesim, CNC lazer kesim, dijital baskı ve tabela montajı yapıyoruz.
 **Online tabela sihirbazı ücretli mi?** Hayır, tabela sihirbazı ücretsizdir. Ürünü, ölçüyü, malzemeyi ve renkleri seçip önizlemede görür, sonunda şartnameyi WhatsApp, PNG veya PDF olarak paylaşabilirsiniz.
 **Tabela fiyatı nasıl belirleniyor?** Fiyat; ölçü, harf sistemi, pleksi kalınlığı, yan yüzey ve derinlik, LED markası, zemin malzemesi ve montaj koşullarına göre değişir. Sihirbaz her seçeneğin fiyat etkisini gösterir; kesin fiyat şartname ve ölçü/keşif sonrası verilir.
 **Reklamcılara fason üretim yapıyor musunuz?** Evet. Reklam ajansları ve tabelacılar için fason kutu harf, fason tabela imalatı, CNC router ve lazer kesim yapıyoruz. Şartname usulüyle sipariş alıyoruz.
 **Montaj hizmeti veriyor musunuz?** Evet, Ankara içinde tabela montajı yapıyoruz. Keşifte cephe ve elektrik durumuna göre en uygun sabitleme yöntemini planlıyoruz.
-**Pleksi kalınlığı ve LED markası fiyatı etkiler mi?** Evet. Kalın pleksi tercihleri fiyatı oldukça artırır; Samsung ve Epistar gibi standart dışı LED tercihleri de fiyatı yukarı taşıyabilir. Sihirbazda en uygun seçenek her adımda belirtilir.
-**Hangi tabelayı seçeceğimi bilmiyorum, ne yapmalıyım?** Sihirbazın Kolay modunu kullanın. Tabelanın nereye yapılacağını, geceleri ışık verip vermeyeceğini ve nasıl bir görünüm istediğinizi seçmeniz yeterli; ışıklı harf, dekupe, germe, krom, kabartma harf, totem veya kapı tabelasından size uygun olanı önerir. Kalınlık, derinlik ve LED gibi teknik ayrıntıları da sizin için otomatik belirler.
+**Pleksi kalınlığı ve LED markası fiyatı etkiler mi?** Evet. Kalın pleksi tercihleri fiyatı oldukça artırır; Epistar Lüks Seri veya Samsung gibi standart dışı LED tercihleri de fiyatı yukarı taşıyabilir. Sihirbazda en uygun seçenek her adımda belirtilir.
+**Hangi tabelayı seçeceğimi bilmiyorum, ne yapmalıyım?** Sihirbazın Kolay modunu kullanın. Tabelanın nereye yapılacağını, geceleri ışık verip vermeyeceğini ve nasıl bir görünüm istediğinizi seçmeniz yeterli; ışıklı harf, dekupe, germe, krom, kabartma harf, totem, kapı tabelası veya kayan yazı LED panelden size uygun olanı önerir. Kalınlık, derinlik ve LED gibi teknik ayrıntıları da sizin için otomatik belirler.
 **Kolay mod ile Detaylı mod arasındaki fark nedir?** Kolay modda yalnızca tür, ölçü, yazı, bütçe, renk ve ışık seçersiniz; malzeme ayrıntılarını sistem belirler. Detaylı modda zemin malzemesi, pleksi kalınlığı, yan yüzey, derinlik, LED markası gibi her şeyi kendiniz seçersiniz. İstediğiniz an iki mod arasında geçiş yapabilirsiniz.
 **Tabela sihirbazı ücretsiz mi?** Evet, tabela sihirbazı ücretsizdir ve üyelik gerektirmez. Seçimlerinizi önizlemede görür, şartnameyi dilediğiniz gibi paylaşırsınız.
 **Sihirbaz kesin fiyat gösteriyor mu?** Hayır. Sihirbaz her seçeneğin fiyat etkisini (En uygun, Hafif fark, Fiyatı artırır, Belirgin artış) gösterir ve genel bir fiyat seviyesi verir. Kesin fiyat ölçü ve keşif sonrası, şartnameye göre bildirilir.
 **Verilerim saklanıyor mu?** Tasarımınız yalnızca tarayıcınızda (bu cihazda) saklanır; sunucuya gönderilmez. Paylaşmak istediğinizde WhatsApp, PNG veya PDF ile siz iletirsiniz.
 **Şartnameyi nasıl paylaşırım?** Son adımda WhatsApp ile gönder, görseli paylaş/indir (PNG), yazdır/PDF, metni kopyala ve bağlantıyı kopyala seçenekleri bulunur. Bağlantıyı açan kişi aynı tasarımı görür.
+**Kayan yazı LED panelde neleri seçebilirim?** Kullanım yerini (dış/iç mekan), renk tipini (tek renk: kırmızı, yeşil, sarı, mavi, beyaz; ya da tam renkli RGB), piksel aralığını (P10, P8, P6, P5, P4, P3, P2.5) ve LED modül sayısına göre panel ebadını seçersiniz. Yanıp sönme animasyonunu açıp kapatabilir, çerçeve rengini, yüz sayısını ve kontrol yöntemini (USB / Wi-Fi) belirleyebilirsiniz. Önizleme yazıyı panelin gerçek çözünürlüğünde LED noktaları olarak gösterir.
+**P10, P5, P4 farkı nedir?** P değeri iki LED pikselinin merkezleri arasındaki mesafedir (mm). P küçüldükçe aynı alana daha çok LED sığar; çözünürlük ve fiyat artar, panelden en az ne kadar uzaktan bakılması gerektiği azalır. P10 uzaktan okunan cephelerde, P5–P2.5 vitrin içi ve yakından bakılan yerlerde tercih edilir.
+**LED markası seçimini nerede yapabilirim?** Kutu harf, krom harf ve LED’li dekupede LED markasını seçebilirsiniz: Standart (Epistar çipli), Epistar Lüks Seri veya Samsung. Germe tabelada ve kayan yazı LED panelde LED markası seçimi sunulmaz.
 **Her seçeneğe not ekleyebilir miyim?** Evet. Her seçenek grubunun altındaki “+ Not ekle” bağlantısıyla özel isteklerinizi (farklı kalınlık, renk, ölçü vb.) yazabilirsiniz; notlar şartnamede ilgili satırın altında görünür.
 **Telefondan kullanılabilir mi?** Evet. Sihirbaz mobil uyumludur; önizleme ekranın üstünde sabit kalır, seçenekler altta kaydırılır.

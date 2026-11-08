@@ -1,8 +1,9 @@
 // Kolay mod: kullanıcının sade seçimlerinden (tür, bütçe, renk, ışık) tüm teknik ayrıntıları üretir.
 import {
-  EASY_TYPES, EASY_COLORS, EASY_BG, LED_BRANDS, FRAME_COLORS, fmtMm,
+  EASY_TYPES, EASY_COLORS, EASY_BG, LED_BRANDS, FRAME_COLORS, LED_PANEL_ENVS, LED_PANEL_CONTROLS, fmtMm,
+  ledPitch,
 } from '../data/catalog.mjs';
-import { normalize, switchProduct } from './state.js';
+import { normalize, switchProduct, retargetLp } from './state.js';
 import { find } from './model.js';
 import { lum } from './render.js';
 
@@ -11,6 +12,12 @@ export const easyColor = (id) => find(EASY_COLORS, id);
 export const easyBg = (id) => find(EASY_BG, id);
 
 const LED = ['standart', 'epistar', 'samsung'];
+
+/** Kayan yazı LED panel: bütçeye göre piksel aralığı. Tek renk panel yalnızca P10 üretildiği için bütçe P'yi değiştirmez. */
+const LP_PITCH = {
+  dis: { tek: ['p10', 'p10', 'p10'], rgb: ['p10', 'p6', 'p4'] },
+  ic: { tek: ['p10', 'p10', 'p10'], rgb: ['p5', 'p4', 'p3'] },
+};
 
 /**
  * Kolay mod seçimlerinden (st.e) detaylı seçimleri üretir.
@@ -21,6 +28,9 @@ export function deriveEasy(input) {
   const e = st.e;
   const T = easyType(e.t);
   const b = e.b;
+  // "Tam renkli" yalnızca LED panelde, LED panelde de yalnızca LED'e uygun renkler seçilebilir
+  if (T.id !== 'ledpanel' && easyColor(e.c).ledOnly) e.c = T.defaults.c;
+  if (T.id === 'ledpanel' && !easyColor(e.c).led) e.c = T.defaults.c;
   const col = easyColor(e.c);
   const bg = easyBg(e.g);
 
@@ -35,7 +45,7 @@ export function deriveEasy(input) {
   s.zc = bg.id;
   s.cr = 'duz';
 
-  o.lb = LED[b];
+  o.lb = T.id === 'germe' ? 'standart' : LED[b]; // germe tabelada LED markası seçilmez
   o.lc = e.l;
 
   switch (T.id) {
@@ -84,6 +94,21 @@ export function deriveEasy(input) {
       s.fr = b === 2 ? 'eloksal' : 'beyaz';
       s.sd = 'tek';
       break;
+    case 'ledpanel': {
+      const type = e.c === 'rgb' ? 'rgb' : 'tek';
+      const keepW = s.w; const keepH = s.h;
+      const prevLp = s.lp;
+      let lp = {
+        ...prevLp, env: e.v, type, pitch: LP_PITCH[e.v][type][b],
+        col: type === 'rgb' ? (prevLp.type === 'rgb' ? prevLp.col : 'beyaz') : e.c,
+        ctl: b === 0 ? 'usb' : 'wifi',
+      };
+      // P değeri değiştiyse panelin yaklaşık fiziksel ölçüsü korunur
+      if (lp.pitch !== prevLp.pitch) lp = retargetLp(lp, keepW, keepH);
+      s.lp = lp;
+      s.sd = 'tek';
+      break;
+    }
     default:
       break;
   }
@@ -118,6 +143,9 @@ export function recommend({ where = 'cephe', light = 'fark', look = 'canli' } = 
   } else if (where === 'yol') {
     type = 'totem';
     why = 'Yol kenarında ve giriş alanlarında uzaktan fark edilmek için totem idealdir.';
+  } else if (where === 'led') {
+    type = 'ledpanel';
+    why = 'Duyuru ve kampanya yazılarını istediğiniz zaman değiştirmek, yazıyı kaydırmak veya yanıp söndürmek için kayan yazı LED panel idealdir.';
   } else if (where === 'pano') {
     type = 'germe';
     why = 'Geniş yüzeylerde baskılı, arkadan aydınlatmalı germe tabela hem etkili hem verimlidir.';
@@ -159,7 +187,11 @@ export function budgetSummary(st, b) {
     case 'kapi':
       return `${{ pleksi: 'Pleksi', dekota: 'Dekota', aynali: 'Aynalı dekota' }[o.km]} harf ${fmtMm(o.kk)} · kompozit zemin ${fmtMm(s.zt)}`;
     case 'germe':
-      return `${find(FRAME_COLORS, s.fr).name} çerçeve · ${led}`;
+      return `${find(FRAME_COLORS, s.fr).name} çerçeve · standart LED`;
+    case 'ledpanel': {
+      const lp = s.lp;
+      return `${find(LED_PANEL_ENVS, lp.env).name} · ${lp.type === 'rgb' ? 'tam renkli' : 'tek renk'} ${ledPitch(lp.pitch).name} · ${find(LED_PANEL_CONTROLS, lp.ctl).name}`;
+    }
     default:
       return '';
   }

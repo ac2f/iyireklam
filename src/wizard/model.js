@@ -3,6 +3,8 @@ import {
   COST_LEVELS, THICKNESS, DEPTHS, SIDE_COLORS, KROM_SIDES, LED_BRANDS, LED_COLORS, FRAME_COLORS,
   FONTS, GERME_COLORS, GERME_INK, CORNERS, LASER_MATERIALS, LASER_FINISH, FIX_TYPES,
   SERVICE_OPTIONS, PLEXI_COLORS, FOIL_COLORS, STRATEGIES, ZEMIN_MATERIALS, fmtMm, SMALL_TEXT_CM,
+  LED_PANEL_ENVS, LED_PANEL_TYPES, LED_PANEL_COLORS, LED_PANEL_RGB_COLORS, LED_PANEL_CONTROLS,
+  ledPanelInfo, fmtInt, ledPitchesFor,
 } from '../data/catalog.mjs';
 import { LETTER_MATS, getProduct, paletteFor, encodeState } from './state.js';
 
@@ -51,7 +53,8 @@ export const isLit = (st) =>
   st.s === 'kutu_isikli' ||
   (st.s === 'krom' && st.o.kl === 1 && st.o.kt !== 'tam') ||
   (st.s === 'dekupe' && st.o.df === 'led') ||
-  st.p === 'germe';
+  st.p === 'germe' ||
+  st.p === 'ledpanel';
 
 /** Küçük yazı kuralı yalnızca hacimli (kutu) harf sistemlerinde geçerlidir */
 export const BOX_STRATS = ['kutu_isikli', 'kutu_isiksiz', 'krom'];
@@ -73,6 +76,20 @@ export function smallPlan(st) {
 }
 
 export const plexiOf = (id) => find(PLEXI_COLORS, id);
+export const ledPanelColor = (lp) => find(lp.type === 'rgb' ? LED_PANEL_RGB_COLORS : LED_PANEL_COLORS, lp.col);
+
+/**
+ * Panel yüksekliğine (piksel) göre okunaklı satır sayısı: bir satırın okunur olması için en az ~9 piksel gerekir.
+ * Dönen uyarı metni boşsa sorun yoktur.
+ */
+export function ledReadWarning(st) {
+  if (st.p !== 'ledpanel') return '';
+  const info = ledPanelInfo(st.lp);
+  const n = activeLines(st).length;
+  const fit = Math.max(1, Math.floor(info.pxH / 9));
+  if (n <= fit) return '';
+  return `Panel yüksekliği ${fmtInt(info.pxH)} piksel; ${n} satır yazı okunaklı sığmaz (en fazla ${fit} satır önerilir). Yüksekliği artırın, daha küçük P (daha yüksek çözünürlük) seçin veya satır sayısını azaltın.`;
+}
 export const ledColor = (id) => find(LED_COLORS, id);
 
 /** Hangi gruplar hangi seçimlerde görünür: UI ve şartname aynı kuralı kullanır */
@@ -86,7 +103,7 @@ export function visible(st) {
     plexiFront: s === 'kutu_isikli' || s === 'kutu_isiksiz' || (s === 'krom' && st.o.kt !== 'tam') || (s === 'dekupe' && st.o.df !== 'bos'),
     sides: s === 'kutu_isikli' || s === 'kutu_isiksiz',
     depth: s === 'kutu_isikli' || s === 'kutu_isiksiz' || s === 'krom',
-    led: lit && p.id !== 'germe',
+    led: lit && p.id !== 'germe' && p.id !== 'ledpanel', // germe ve LED panelde LED markası seçilmez
     krom: s === 'krom',
     kromLit: s === 'krom' && st.o.kt !== 'tam',
     kabartma: s === 'kabartma',
@@ -94,6 +111,7 @@ export function visible(st) {
     lazer: s === 'lazer',
     baski: s === 'baski' && p.id !== 'germe',
     germe: p.id === 'germe',
+    ledpanel: p.id === 'ledpanel',
     fix: p.id === 'kapi',
   };
 }
@@ -174,8 +192,38 @@ export function buildRows(st, meta) {
     add({ g: 'Germe', k: 'sistem', label: 'Uygulama', value: 'Dijital baskılı germe kumaş (arkadan LED aydınlatmalı)', cost: 0 });
   }
 
+  // --- Kayan yazı LED panel
+  if (v.ledpanel) {
+    const lp = st.lp;
+    const info = ledPanelInfo(lp);
+    const pt = info.pitch;
+    const env = find(LED_PANEL_ENVS, lp.env);
+    const type = find(LED_PANEL_TYPES, lp.type);
+    add({ g: 'Panel', k: 'lp_mekan', label: 'Kullanım yeri', value: lp.env === 'dis' ? 'Dış mekan (IP65, güneşte okunur parlaklık)' : 'İç mekan', cost: env.cost, tipList: LED_PANEL_ENVS, tipKey: 'name' });
+    add({ g: 'Panel', k: 'lp_tip', label: 'Renk tipi', value: type.name, cost: type.cost, tipList: LED_PANEL_TYPES, tipKey: 'name' });
+    const col = ledPanelColor(lp);
+    add({
+      g: 'Panel', k: 'lp_renk', label: lp.type === 'rgb' ? 'Örnek yazı rengi' : 'Işık rengi',
+      value: lp.type === 'rgb' ? `${col.name} — tam renkli panelde yazı rengi yazılımdan istediğiniz an değiştirilir` : col.name,
+    });
+    add({
+      g: 'Panel', k: 'lp_piksel', label: 'Piksel aralığı', value: `${pt.name} (${String(pt.p).replace('.', ',')} mm piksel aralığı)`,
+      cost: pt.cost, tipList: ledPitchesCost(lp), tipKey: 'name',
+    });
+    add({ g: 'Panel', k: 'lp_modul', label: 'Modül sayısı', value: `${lp.cols} × ${lp.rows} = ${info.modules} modül (her biri ${pt.mod[0] / 10} × ${pt.mod[1] / 10} cm, ${pt.px[0]} × ${pt.px[1]} piksel)`.replace(/(\d)\.(\d)/g, '$1,$2') });
+    add({ g: 'Panel', k: 'lp_cozunurluk', label: 'Toplam çözünürlük', value: `${fmtInt(info.pxW)} × ${fmtInt(info.pxH)} piksel (${fmtInt(info.pixels)} piksel)` });
+    add({ g: 'Panel', k: 'lp_parlaklik', label: 'Parlaklık / koruma', value: `${info.bright} · ${lp.env === 'dis' ? 'IP65' : 'yalnızca iç mekan'}` });
+    add({ g: 'Panel', k: 'lp_mesafe', label: 'En yakın izleme mesafesi', value: `≈ ${String(info.minDist).replace('.', ',')} m` });
+    add({ g: 'Özellikler', k: 'lp_animasyon', label: 'Yanıp sönme animasyonu', value: lp.blink ? 'Açık — yazı yanıp söner' : 'Kapalı' });
+    const fr = find(FRAME_COLORS, st.fr);
+    add({ g: 'Özellikler', k: 'cerceve', label: 'Çerçeve (kasa) rengi', value: fr.name, cost: fr.cost, tipList: FRAME_COLORS, tipKey: 'name' });
+    add({ g: 'Özellikler', k: 'yuz', label: 'Yüz sayısı', value: st.sd === 'cift' ? 'Çift taraflı' : 'Tek taraflı', cost: st.sd === 'cift' ? 2 : 0, tipList: [{ name: 'Tek taraflı', cost: 0 }, { name: 'Çift taraflı', cost: 2 }], tipKey: 'name' });
+    const ctl = find(LED_PANEL_CONTROLS, lp.ctl);
+    add({ g: 'Özellikler', k: 'lp_kontrol', label: 'Kontrol', value: ctl.name, cost: ctl.cost, tipList: LED_PANEL_CONTROLS, tipKey: 'name' });
+  }
+
   // --- Harf sistemi
-  if (!v.germe) {
+  if (!v.germe && !v.ledpanel) {
     const strat = STRATEGIES[st.s];
     add({
       g: 'Harf', k: 'sistem', label: 'Harf sistemi', value: strat.name, cost: strat.cost,
@@ -258,8 +306,11 @@ export function buildRows(st, meta) {
 
   // --- Aydınlatma
   if (v.led || v.germe) {
-    const lb = find(LED_BRANDS, o.lb);
-    add({ g: 'Aydınlatma', k: 'led_marka', label: 'LED markası', value: lb.name, cost: lb.cost, tipList: LED_BRANDS, tipKey: 'name' });
+    // Germe tabelada LED markası seçilmez (standart modül); yalnızca ışık rengi belirtilir
+    if (v.led) {
+      const lb = find(LED_BRANDS, o.lb);
+      add({ g: 'Aydınlatma', k: 'led_marka', label: 'LED markası', value: lb.name, cost: lb.cost, tipList: LED_BRANDS, tipKey: 'name' });
+    }
     add({ g: 'Aydınlatma', k: 'led_renk', label: 'LED rengi', value: find(LED_COLORS, o.lc).name });
   }
 
@@ -285,6 +336,11 @@ export function buildRows(st, meta) {
 
 function fmt(n) {
   return String(Math.round(n * 10) / 10).replace('.', ',');
+}
+
+/** "En uygun alternatif" ipucu için seçili kullanım yeri/renk tipinde üretilen P değerleri */
+function ledPitchesCost(lp) {
+  return ledPitchesFor(lp.env, lp.type).map((x) => ({ name: `${x.name}`, cost: x.cost }));
 }
 
 export function summarize(st, meta = {}) {
